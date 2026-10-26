@@ -1,0 +1,10 @@
+{
+  "name": "env-doctor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Diagnose a repo's dev environment from its own manifests. Tell, don't touch.",
+  "bin": { "env-doctor": "./env-doctor.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}

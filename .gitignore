@@ -1,0 +1,11 @@
+node_modules/
+.env
+!days/day-01-env-doctor/fixtures/broken-repo/.env
+!days/day-01-env-doctor/fixtures/clean-repo/.env
+.DS_Store
+dist/
+__pycache__/
+.venv/
+*.log
+docs/
+days/*/LINKEDIN-POST.md
