@@ -60,11 +60,15 @@ await check("buildDigest: oldest waiter first, floors the days, counts open, rot
   assert.deepEqual(d.rows.map((r) => r.reviewer), ["carol", "alice"]);
   assert.equal(d.staleCount, 2);
   assert.equal(d.totalOpen, 5);
+  // the author is never their own rotating reviewer: #41 % 3 → carol, but carol wrote it → pool shrinks
+  const own = buildDigest([{ ...prs.find((p) => p.number === 41)!, user: { login: "carol" } }], now, 3, TEAM);
+  assert.equal(own.rows[0].reviewer, "bob"); // 41 % 2 = 1 → [alice, bob][1]
+  assert.match(buildDigest(Array(100).fill(prs[0]), now, 3).markdown, /\(100\+ open\)/); // full page ≠ exact count
 });
 await check("markdown: header, both rows, reviewer tags, pipes in titles escaped", () => {
   const md = buildDigest(prs, now, 3, TEAM).markdown;
   assert.match(md, /## ⏳ stale-PR digest — 2 of 5 open PRs waiting > 3 days/);
-  assert.match(md, /\[#41 Fix auth flow \\| retry on 401\]/);
+  assert.ok(md.includes("[#41 Fix auth flow \\| retry on 401]")); // plain includes: in a regex, `\\|` is alternation and matched unescaped titles too
   assert.match(md, /@carol/);
   assert.match(md, /@alice/);
   assert.ok(!md.includes("\n#")); // single H2, no raw newlines breaking the table
@@ -89,9 +93,10 @@ await check("exitCode: only --enforce + stale fails; informational runs stay gre
 });
 
 // --- end-to-end with a fake API that records every write ---
+const sinces: string[] = [];
 const fakeApi = (commentMap: Record<number, Comment[]>, posts: [number, string][]): Api => ({
   listPRs: async () => prs,
-  listComments: async (pr) => commentMap[pr] ?? [],
+  listComments: async (pr, since) => { sinces.push(since); return commentMap[pr] ?? []; },
   postComment: async (pr, body) => { posts.push([pr, body]); },
 });
 const io = () => {
@@ -122,6 +127,7 @@ await check("run() --post: pings only PRs without a fresh marker, exactly one PO
   assert.match(posts[0][1], /@carol/);
   assert.match(posts[0][1], /<!-- stale-pr-ping 2026-10-27 -->/);
   assert.match(o.lines.join("\n"), /1 ping\(s\) posted/);
+  assert.equal(sinces.at(-1), "2026-10-24T12:00:00.000Z"); // comment window = now − threshold
 });
 await check("run() --enforce: stale inventory fails the run (CI-gate use)", async () => {
   const o = io();
@@ -142,11 +148,12 @@ await check("createApi: auth header only with token, repo path interpolation", a
     return { ok: true, status: 200, json: async () => [] } as Response;
   }) as typeof fetch;
   await createApi({ repo: "acme/api", token: "t1", baseUrl: "https://api.github.com/", fetchImpl: fakeFetch }).listPRs();
-  await createApi({ repo: "acme/api", fetchImpl: fakeFetch }).listComments(41);
+  await createApi({ repo: "acme/api", fetchImpl: fakeFetch }).listComments(41, "2026-10-24T12:00:00.000Z");
   assert.equal(calls[0].url, "https://api.github.com/repos/acme/api/pulls?state=open&sort=updated&direction=asc&per_page=100");
   assert.equal(calls[0].headers.Authorization, "Bearer t1");
   assert.equal(calls[1].headers.Authorization, undefined); // anonymous read still works for public repos
-  assert.match(calls[1].url, /\/issues\/41\/comments\?per_page=100&sort=created&direction=desc/);
+  // per-issue comments ignore sort/direction (verified live) — `since` is what keeps a fresh marker on page 1
+  assert.match(calls[1].url, /\/issues\/41\/comments\?per_page=100&since=2026-10-24T12%3A00%3A00.000Z$/);
 });
 
 // --- CLI surface ---

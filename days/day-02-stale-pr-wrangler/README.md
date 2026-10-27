@@ -9,7 +9,7 @@ A zero-dependency TypeScript script + a 20-line workflow that, every morning, sh
 
 - lists all open PRs, flags every non-draft PR with **no activity for N days** (default 3)
 - prints the digest to stdout **and** the workflow-run summary (a markdown table)
-- with `--post`, comments a one-line nudge on each newly-stale PR tagging a **deterministically rotating reviewer** (`PR number % team`) — no state file, no database
+- with `--post`, comments a short nudge on each newly-stale PR tagging a **deterministically rotating reviewer** (`PR number % team`) — no state file, no database
 - pings each PR **at most once per window** (a dated HTML marker in its own comment says when it last pinged)
 - `--enforce` exits non-zero while anything is stale — the review-latency CI gate
 - **Read + comment only.** It never assigns reviewers, never touches branches, never merges.
@@ -30,7 +30,7 @@ In your repo (the actual "GitHub Action"): drop `stale-pr.ts` anywhere in the re
 Real run, 2026-10-27, read-only against denoland/deno (`--days 200`):
 
 ```text
-stale-pr — denoland/deno (threshold: 200 days, 100 open)
+stale-pr — denoland/deno (threshold: 200 days, 100+ open)
  ⏳ #30376 · feat: unstable feature async-dns-resolver — waiting 440 days → nudge: nobody configured
  ⏳ #30221 · feat: Replace spawn_blocking with spawn_blocking_o — waiting 440 days → nudge: nobody configured
  ⏳ #30085 · fix(permissions): check before and after dns resol — waiting 229 days (asked: bartlomieju, littledivy) → nudge: nobody configured
@@ -49,8 +49,8 @@ Exit codes: `0` fine (stale PRs don't fail a cron by default) · `1` API failure
 |----------|------|-----|
 | "Waiting" | non-draft PR with `updated_at` older than the threshold | any push, edit or comment refreshes it — the PR is only stale when *nobody did anything* |
 | Fetch order | `sort=updated&direction=asc` — oldest activity on page 1 | on a 1000-PR repo, staleness lives at the far end of the default sort; page 1 must be that end |
-| Rotation | `PR number % team size` | deterministic, spreads load, zero state to drift |
-| Ping cadence | own comment marker `<!-- stale-pr-ping YYYY-MM-DD -->`, re-arms after one window | works whether or not a comment bumps `updated_at`; no DB, no cache |
+| Rotation | `PR number % team size` (author excluded from the pool) | deterministic, spreads load, zero state to drift; never asks someone to review their own PR |
+| Ping cadence | own comment marker `<!-- stale-pr-ping YYYY-MM-DD -->`, re-arms after one window; comments fetched with `since=<now − window>` | no DB, no cache; `since` because the per-issue comments endpoint ignores `sort`, so a recent marker on a 500-comment PR would otherwise sit on page 5 |
 | Unparsable date | treated as not stale | never ping on bad data — false negatives are safe, false pings are spam |
 
 ## Validate it works
@@ -67,7 +67,7 @@ No Slack/email, no auto-assignment or requested-reviewer **writes**, no review-s
 
 ## Files
 
-- `stale-pr.ts` — the tool (249 lines, stdlib only — native `fetch`)
+- `stale-pr.ts` — the tool (256 lines, stdlib only — native `fetch`)
 - `workflow-example.yml` — the copy-paste scheduled workflow (this file is the "Action")
 - `self-check.ts` — the one runnable check
 - `fixtures/` — realistic GitHub REST payloads (PR list + comment threads)

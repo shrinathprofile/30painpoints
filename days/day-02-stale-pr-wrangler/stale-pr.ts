@@ -28,7 +28,7 @@ export type Comment = { body: string; created_at: string };
 
 export type Api = {
   listPRs(): Promise<PR[]>;
-  listComments(pr: number): Promise<Comment[]>;
+  listComments(pr: number, since: string): Promise<Comment[]>;
   postComment(pr: number, body: string): Promise<void>;
 };
 
@@ -91,7 +91,8 @@ export function buildDigest(
       days: Math.floor(daysSince(p.updated_at, now)),
       author: p.user?.login ?? "?",
       asked: (p.requested_reviewers ?? []).map((r) => r.login),
-      reviewer: pickReviewer(p.number, reviewers),
+      // never nudge the author to review their own PR
+      reviewer: pickReviewer(p.number, reviewers.filter((r) => r.trim() !== p.user?.login)),
     }))
     .sort((a, b) => b.days - a.days); // oldest waiter first — the whole point
   return { rows, staleCount: rows.length, totalOpen: prs.length, markdown: renderMarkdown(rows, prs.length, threshold) };
@@ -99,9 +100,12 @@ export function buildDigest(
 
 const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\r?\n/g, " ").slice(0, 60);
 
+// ponytail: we fetch one page of 100, so a full page means "at least 100", not "exactly 100"
+export const openLabel = (n: number) => (n >= 100 ? `${n}+` : `${n}`);
+
 function renderMarkdown(rows: Row[], totalOpen: number, threshold: number): string {
-  if (!rows.length) return `## ✅ stale-PR digest — nothing waiting > ${threshold} days (${totalOpen} open)\n`;
-  const head = `## ⏳ stale-PR digest — ${rows.length} of ${totalOpen} open PRs waiting > ${threshold} days\n\n| Waiting | PR | Author | Asked | Today's nudge |\n|---|---|---|---|---|\n`;
+  if (!rows.length) return `## ✅ stale-PR digest — nothing waiting > ${threshold} days (${openLabel(totalOpen)} open)\n`;
+  const head = `## ⏳ stale-PR digest — ${rows.length} of ${openLabel(totalOpen)} open PRs waiting > ${threshold} days\n\n| Waiting | PR | Author | Asked | Today's nudge |\n|---|---|---|---|---|\n`;
   const body = rows
     .map((r) =>
       `| ${r.days}d | [#${r.pr.number} ${cell(r.pr.title)}](${r.pr.html_url}) | ${r.author} | ${r.asked.length ? r.asked.join(", ") : "—"} | ${r.reviewer ? `@${r.reviewer}` : "—"} |`,
@@ -144,7 +148,7 @@ export async function run(opts: RunOpts, api: Api, io: RunIo): Promise<number> {
   try {
     const prs = await api.listPRs();
     const d = buildDigest(prs, now, opts.threshold, opts.reviewers);
-    io.log(`stale-pr — ${opts.repo} (threshold: ${opts.threshold} days, ${d.totalOpen} open)`);
+    io.log(`stale-pr — ${opts.repo} (threshold: ${opts.threshold} days, ${openLabel(d.totalOpen)} open)`);
     if (!d.rows.length) io.log(` ✓ nothing waiting > ${opts.threshold} days`);
     for (const r of d.rows) {
       io.log(` ⏳ #${r.pr.number} · ${r.pr.title.slice(0, 50)} — waiting ${r.days} days${r.asked.length ? ` (asked: ${r.asked.join(", ")})` : ""} → nudge: ${r.reviewer ? `@${r.reviewer}` : "nobody configured"}`);
@@ -153,7 +157,9 @@ export async function run(opts: RunOpts, api: Api, io: RunIo): Promise<number> {
     let pings = 0;
     if (opts.post && d.rows.length) {
       for (const r of d.rows) {
-        const comments = await api.listComments(r.pr.number);
+        // only comments from inside the window can hold a marker that suppresses a ping
+        const since = new Date(now.getTime() - opts.threshold * DAY_MS).toISOString();
+        const comments = await api.listComments(r.pr.number, since);
         if (!needsPing(r.pr, comments, now, opts.threshold)) continue;
         await api.postComment(r.pr.number, renderPing(r.pr, r.reviewer, now));
         pings++;
@@ -193,8 +199,9 @@ export function createApi(cfg: {
   };
   return {
     listPRs: () => call<PR[]>(`/repos/${cfg.repo}/pulls?state=open&sort=updated&direction=asc&per_page=100`),
-    // newest comments first: our recent ping marker must be on page 1 even on 500-comment PRs
-    listComments: (pr) => call<Comment[]>(`/repos/${cfg.repo}/issues/${pr}/comments?per_page=100&sort=created&direction=desc`),
+    // `since`, not sort: the per-issue comments endpoint ignores sort/direction (always oldest-first),
+    // so on a 500-comment PR a recent marker would sit on page 5. `since` keeps it on page 1.
+    listComments: (pr, since) => call<Comment[]>(`/repos/${cfg.repo}/issues/${pr}/comments?per_page=100&since=${encodeURIComponent(since)}`),
     postComment: (pr, body) =>
       call<unknown>(`/repos/${cfg.repo}/issues/${pr}/comments`, { method: "POST", body: JSON.stringify({ body }) }),
   };
