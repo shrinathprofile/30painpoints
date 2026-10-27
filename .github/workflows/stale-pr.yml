@@ -1,0 +1,27 @@
+# Day 02 dogfood: the stale-PR wrangler watching its own repo.
+name: stale-PR digest
+
+on:
+  schedule:
+    - cron: "0 1 * * 1-5"   # 01:00 UTC Mon–Fri
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "staleness threshold in days"
+        default: "3"
+
+permissions:
+  contents: read
+  pull-requests: write       # --post comment pings
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22   # >= 22.18 for native TS type-stripping
+      - run: node days/day-02-stale-pr-wrangler/stale-pr.ts --post --days "${{ inputs.days || '3' }}" --reviewers "shrinathprofile"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
