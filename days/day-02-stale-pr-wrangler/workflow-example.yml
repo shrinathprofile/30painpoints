@@ -1,0 +1,26 @@
+# stale-PR digest — paste as .github/workflows/stale-pr.yml in the repo you want watched.
+# Put stale-pr.ts in that repo too (example assumes tools/stale-pr.ts).
+# The whole "GitHub Action" is this file: composite actions can't carry a cron trigger,
+# so the consumer's workflow IS the platform feature. Zero deps, nothing to install.
+name: stale-PR digest
+
+on:
+  schedule:
+    - cron: "0 1 * * 1-5"   # 01:00 UTC Mon–Fri — lands before standup
+  workflow_dispatch: {}      # "Run workflow" button = instant test
+
+permissions:
+  contents: read
+  pull-requests: write       # for --post comment pings; drop --post and this can be read-only
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22   # >= 22.18 for native TS type-stripping
+      - run: node tools/stale-pr.ts --post --days 3 --reviewers "alice,bob,carol"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # GITHUB_REPOSITORY + GITHUB_STEP_SUMMARY are automatic

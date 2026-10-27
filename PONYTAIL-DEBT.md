@@ -9,5 +9,10 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-01/env-doctor.ts `satisfiesRange` | PEP 440 exclusive ranges (`3.9-3.12`) unsupported | requires-python never uses them in the wild | first real-world sighting |
 | day-01/env-doctor.ts `scanRepo` | `engines.npm` unchecked | ~500ms spawn for a version nobody pins | user report |
 | day-01/env-doctor.ts header | single-file CLI, `parseArgs` over commander | one flag, one positional | a second subcommand |
+| day-02/stale-pr.ts `createApi` | one page of PRs (oldest-activity-first) | covers every team in the complaint | a repo with >100 simultaneously-stale PRs |
+| day-02/stale-pr.ts `lastPingDate` | any comment containing our exact HTML marker counts as ours | marker string is unguessable in practice | first spoofing report |
+| day-02/stale-pr.ts `createApi` | no retry on 403 secondary rate limits | scheduled daily run, ~5 calls | a run that dies to rate limiting |
+| day-02/stale-pr.ts `isStale` | approved-but-unmerged PRs read as "waiting" | still a stuck PR, nudge is fair | complaints about nudging approved PRs |
+| day-02/stale-pr.ts header | single-file CLI, `parseArgs` over commander | one positional + 4 flags | a second subcommand |
 
-5 markers, all low-severity, all with named triggers.
+10 markers, all low-severity, all with named triggers.

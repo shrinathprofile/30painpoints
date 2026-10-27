@@ -1,0 +1,47 @@
+[
+  {
+    "number": 44,
+    "title": "Bump dotenv from 16.4.5 to 16.4.7",
+    "draft": false,
+    "updated_at": "2026-10-27T06:00:00Z",
+    "html_url": "https://github.com/acme/api/pull/44",
+    "user": { "login": "dependabot[bot]" },
+    "requested_reviewers": []
+  },
+  {
+    "number": 43,
+    "title": "[WIP] new billing flow",
+    "draft": true,
+    "updated_at": "2026-10-17T00:00:00Z",
+    "html_url": "https://github.com/acme/api/pull/43",
+    "user": { "login": "eve" },
+    "requested_reviewers": [{ "login": "alice" }]
+  },
+  {
+    "number": 42,
+    "title": "Migrate sessions to Redis",
+    "draft": false,
+    "updated_at": "2026-10-21T06:00:00Z",
+    "html_url": "https://github.com/acme/api/pull/42",
+    "user": { "login": "bob" },
+    "requested_reviewers": [{ "login": "alice" }]
+  },
+  {
+    "number": 41,
+    "title": "Fix auth flow | retry on 401",
+    "draft": false,
+    "updated_at": "2026-10-18T06:00:00Z",
+    "html_url": "https://github.com/acme/api/pull/41",
+    "user": { "login": "dana" },
+    "requested_reviewers": []
+  },
+  {
+    "number": 40,
+    "title": "Docs: fix typo in README",
+    "draft": false,
+    "updated_at": "2026-10-24T18:00:00Z",
+    "html_url": "https://github.com/acme/api/pull/40",
+    "user": { "login": "frank" },
+    "requested_reviewers": []
+  }
+]

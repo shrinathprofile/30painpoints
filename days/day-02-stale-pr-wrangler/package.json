@@ -1,0 +1,10 @@
+{
+  "name": "stale-pr-wrangler",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Daily digest of a repo's oldest waiting PRs, with rotating-reviewer nudges. Read + comment, never assign.",
+  "bin": { "stale-pr": "./stale-pr.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}
