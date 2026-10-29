@@ -16,7 +16,7 @@ Four markers (see BUILD-LOG): parseArgs ceiling, untested win32 DNS, apparent-by
 ## Numbers
 - Time spent: ~2h (light day box, stretched by the killall fix + validation matrix)
 - Token spend (est.): ~140k across brief + build + validation + docs + post
-- Self-check passing: yes — 15/15, plus the real-run matrix in the build log (dry-run host, real-npm `--go` 30 MB, real pnpm prune, real DNS, exit codes 0/2)
+- Self-check passing: yes — 18/18 (15 at ship + 3 post-ship regressions), plus the real-run matrix in the build log (dry-run host, real-npm `--go` 30 MB, real pnpm prune, real DNS, exit codes 0/2)
 
 ## Tomorrow
 Day 04 (docs-drift linter, 🔵 build day): Python + FastAPI — different ecosystem, same discipline. Concrete carry-overs: inject the world (FastAPI's route table is the provider — read it from the imported app, don't parse source), and validate against a real drifted repo, not just fixtures.
@@ -24,3 +24,4 @@ Day 04 (docs-drift linter, 🔵 build day): Python + FastAPI — different ecosy
 ## Honest failures
 - The first version of the tool exited 1 on a successful macOS DNS flush because `killall -HUP mDNSResponder` can't work without root. Every self-check passed. Shipped only because the real-run habit from days 01–02 (run the destructive path for real before calling it done) caught it in a sandbox.
 - My own test assertions were wrong twice (a byte total, a rounding rule) while the tool was right both times. The adversarial pass that catches AI-authored bugs must review the *assertions*, not only the code under test — a wrong assertion is a bug wearing a green checkmark.
+- Post-ship validation found three raw-stack crashes the 15 green checks never could: usage errors exited 1 (the "clear failed" code) instead of 2, an unreadable file in a cache (root-owned `~/.npm` after `sudo npm i`) crashed even the dry-run, and one EACCES `rm` aborted the rest of `--go` mid-run. The fake world's `dirSize` and `rm` can't throw, so nothing tested throwing. Plus the win32 PM spawn would have failed on `.cmd` shims. All fixed, each with a check verified red against the shipped code first.

@@ -138,4 +138,11 @@ check("run through a symlink (npm bin / npx / npm link) still runs main()", () =
   assert.match(r.stdout, /4 error\(s\)/);
 });
 
+// regression (found in day-03 post-ship validation): parseArgs threw → raw stack, exit 1
+check("CLI: unknown flag → usage error exit 2, no stack", () => {
+  const r = spawnSync(process.execPath, [join(here, "env-doctor.ts"), "--bogus"], { encoding: "utf8" });
+  assert.equal(r.status, 2);
+  assert.doesNotMatch(r.stderr, /\n\s+at /, "no stack trace");
+});
+
 console.log(`\nself-check: ${n} checks passed (${probe.node} / python ${probe.python})`);

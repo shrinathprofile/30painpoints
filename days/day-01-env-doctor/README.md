@@ -62,7 +62,7 @@ Exit codes: `0` clean · `1` findings · `2` bad path.
 ## Validate it works
 
 ```bash
-npm run check    # 18 assert-based checks incl. fixture end-to-end + symlinked-bin run (deterministic via injected probe)
+npm run check    # 19 assert-based checks incl. fixture end-to-end + symlinked-bin run (deterministic via injected probe)
 ```
 
 The self-check injects a fixed runtime probe (`{node, python}`) instead of reading the machine, so it passes identically everywhere.

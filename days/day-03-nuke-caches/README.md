@@ -71,9 +71,9 @@ Discovery instead of hardcoded paths is the "regardless of OS" part: this machin
 ## Validate it works
 
 ```bash
-npm run check    # 15 assert-based checks: plan/discovery/miss table, --go with a fake world
-                 # that records every destructive call, dry-run-touches-nothing, CLI edges,
-                 # and the day-01 symlink-bin regression
+npm run check    # 18 assert-based checks: plan/discovery/miss table, --go with a fake world
+                 # that records every destructive call, dry-run-touches-nothing, CLI edges (usage errors → 2, EACCES
+                 # never crashes the plan or skips later clears), and the day-01 symlink-bin regression
 ```
 
 Self-checks are deterministic (world injected, `NO_COLOR` forced). Real-run validation before shipping: dry-run on this machine (npm 12.5 GB, pnpm store discovered), full `--go` with the **real** npm against a disposable cache dir (30 MB cleared, re-measured), real `pnpm store prune` against a disposable store, real DNS flush — details in the [build log](BUILD-LOG.md).
@@ -84,6 +84,6 @@ No browser-cache clearing (sandboxed, per-browser rabbit hole), no Windows servi
 
 ## Files
 
-- `nuke-caches.ts` — the tool (273 lines, stdlib only)
+- `nuke-caches.ts` — the tool (291 lines, stdlib only)
 - `self-check.ts` — the one runnable check
 - `fixtures/demo-project/` — a project with planted Vite/webpack cache junk

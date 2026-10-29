@@ -164,6 +164,12 @@ await check("CLI: missing repo and bad --days are usage errors (exit 2), not cra
   assert.match(cli([]).stderr, /--repo owner\/name/);
   assert.equal(cli(["--repo", "acme/api", "--days", "x"]).status, 2);
   assert.equal(cli(["--repo", "acme/api", "--days", "0"]).status, 2);
+  // regression (found in day-03 post-ship validation): parseArgs threw → raw stack, exit 1
+  for (const argv of [["--bogus"], ["--repo"], ["extra"]]) {
+    const r = cli(argv);
+    assert.equal(r.status, 2, argv.join(" "));
+    assert.doesNotMatch(r.stderr, /\n\s+at /, "no stack trace");
+  }
 });
 await check("CLI: --help works through a symlink (npm bin / npx) — day-01's silent-exit bug, pre-empted", () => {
   const link = join(mkdtempSync(join(tmpdir(), "stale-pr-")), "stale-pr");

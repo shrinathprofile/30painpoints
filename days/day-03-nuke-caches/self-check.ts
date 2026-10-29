@@ -9,7 +9,7 @@ process.env.NO_COLOR = "1";
 
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync as exists, mkdtempSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync as exists, mkdtempSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -254,6 +254,41 @@ check("CLI: bad --dir → exit 2", () => {
   const r = spawnSync(process.execPath, [join(here, "nuke-caches.ts"), "--dir", "/definitely/not/here"], { encoding: "utf8" });
   assert.equal(r.status, 2);
   assert.match(r.stderr, /path not found/);
+});
+
+// regressions: found by post-ship validation — each crashed with a raw stack and exit 1
+check("CLI: unknown flag / missing --dir value / stray positional → exit 2, no stack", () => {
+  for (const argv of [["--bogus"], ["--dir"], ["extra"]]) {
+    const r = spawnSync(process.execPath, [join(here, "nuke-caches.ts"), ...argv], { encoding: "utf8" });
+    assert.equal(r.status, 2, argv.join(" "));
+    assert.doesNotMatch(r.stderr, /\n\s+at /, "no stack trace");
+  }
+});
+
+check("run --go: a target that throws (EACCES on rm) → reported failed, later targets still run", () => {
+  const f = fakeWorld({ dirs: ["/p/node_modules/.vite"], sizes: { "/p/node_modules/.vite": [10] } });
+  f.world.rm = () => { throw new Error("EACCES: permission denied, unlink 'f'"); };
+  const lines: string[] = [];
+  const code = run(true, f.world, { log: (s) => lines.push(s) });
+  assert.equal(code, 1);
+  const out = lines.join("\n");
+  assert.match(out, /Vite optimize cache\s+failed: EACCES/);
+  assert.match(out, /DNS resolver\s+flushed/); // the target after it still ran
+  assert.match(out, /1 failed/);
+});
+
+check("CLI: unreadable dir inside a cache (root-owned npm files) → plan still renders, exit 0", () => {
+  const dir = freshProject({ "node_modules/.cache/ok.bin": 1024, "node_modules/.cache/locked/f": 5 });
+  chmodSync(join(dir, "node_modules/.cache/locked"), 0o000);
+  try {
+    const r = spawnSync(process.execPath, [join(here, "nuke-caches.ts"), "--dir", dir], {
+      encoding: "utf8", env: { ...process.env, PATH: "/usr/bin:/bin" },
+    });
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /webpack\/babel cache\s+1\.0 KB/); // readable bytes counted, locked skipped
+  } finally {
+    chmodSync(join(dir, "node_modules/.cache/locked"), 0o755);
+  }
 });
 
 check("CLI: dry-run on a real sandbox project, PATH stripped of package managers", () => {

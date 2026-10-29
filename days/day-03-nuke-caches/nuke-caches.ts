@@ -191,7 +191,11 @@ export function run(go: boolean, w: World, io: RunIo): number {
     io.log(`\n${hits.length} of ${plan.length} targets · ${formatBytes(reclaimable)} reclaimable — rerun with --go to clear`);
     return 0;
   }
-  const results = hits.map((t) => clear(t, w));
+  // one target throwing (EACCES on a root-owned file) must not skip the rest or the summary
+  const results = hits.map((t): Cleared => {
+    try { return clear(t, w); }
+    catch (e) { return { target: t, reclaimed: 0, error: (e as Error).message }; }
+  });
   io.log("");
   let freed = 0;
   for (const r of results) {
@@ -213,13 +217,17 @@ export function run(go: boolean, w: World, io: RunIo): number {
 // ponytail: apparent bytes, symlinks skipped, hardlink dedup not done (du dedupes inodes) —
 // totals can exceed `du`'s; the before/after delta stays truthful either way.
 // Trigger: a user report of a wildly-off total vs du.
+// Unreadable entries (root-owned files left by `sudo npm i`, races with a running clean)
+// are skipped, not fatal — the plan undercounts rather than crashing.
 function realDirSize(p: string): number {
   let total = 0;
   const walk = (d: string) => {
-    for (const e of readdirSync(d, { withFileTypes: true })) {
+    let entries;
+    try { entries = readdirSync(d, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
       const child = join(d, e.name);
       if (e.isDirectory()) walk(child);
-      else if (e.isFile()) total += statSync(child).size;
+      else if (e.isFile()) try { total += statSync(child).size; } catch { /* vanished or unreadable */ }
     }
   };
   if (existsSync(p)) walk(p);
@@ -227,7 +235,9 @@ function realDirSize(p: string): number {
 }
 
 function realSh(bin: string, args: string[]): ShResult {
-  const r = spawnSync(bin, args, { encoding: "utf8" });
+  // win32: npm/pnpm/yarn are .cmd shims, which spawn refuses without a shell (args are
+  // fixed constants from the registry, never user input). ponytail: untested, same trigger as dnsFlush.
+  const r = spawnSync(bin, args, { encoding: "utf8", shell: process.platform === "win32" });
   return { status: r.status ?? 1, stdout: r.stdout ?? "", stderr: r.stderr ?? "" };
 }
 
@@ -246,13 +256,21 @@ export function realWorld(projectDir: string): World {
 // ---------- CLI ----------
 
 function main(): void {
-  const { values } = parseArgs({
-    options: {
-      help: { type: "boolean", short: "h" },
-      go: { type: "boolean" },     // actually clear (default: dry-run plan)
-      dir: { type: "string" },     // project dir for bundler caches (default: .)
-    },
-  });
+  let values;
+  try {
+    ({ values } = parseArgs({
+      options: {
+        help: { type: "boolean", short: "h" },
+        go: { type: "boolean" },     // actually clear (default: dry-run plan)
+        dir: { type: "string" },     // project dir for bundler caches (default: .)
+      },
+    }));
+  } catch (e) {
+    // unknown flag / missing --dir value / stray positional is a usage error (2), not a failed clear (1)
+    console.error(`nuke-caches: ${(e as Error).message}\nrun with --help for usage`);
+    process.exitCode = 2;
+    return;
+  }
   if (values.help) {
     console.log(`usage: nuke-caches [--dir <project>] [--go]
   plan by default: what's on this machine, bytes reclaimable per target.

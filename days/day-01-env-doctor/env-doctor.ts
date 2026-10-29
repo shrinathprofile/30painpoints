@@ -227,10 +227,18 @@ function print(findings: Finding[], dir: string): void {
 }
 
 function main(): void {
-  const { values, positionals } = parseArgs({
-    allowPositionals: true,
-    options: { help: { type: "boolean", short: "h" } },
-  });
+  let values, positionals;
+  try {
+    ({ values, positionals } = parseArgs({
+      allowPositionals: true,
+      options: { help: { type: "boolean", short: "h" } },
+    }));
+  } catch (e) {
+    // unknown flag is a usage error (2), not "the environment has errors" (1)
+    console.error(`env-doctor: ${(e as Error).message}\nrun with --help for usage`);
+    process.exitCode = 2;
+    return;
+  }
   if (values.help) {
     console.log("usage: env-doctor [path]   # diagnose a repo's environment (default: .)");
     return;

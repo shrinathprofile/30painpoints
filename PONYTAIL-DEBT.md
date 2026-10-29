@@ -15,7 +15,7 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-02/stale-pr.ts `isStale` | approved-but-unmerged PRs read as "waiting" | still a stuck PR, nudge is fair | complaints about nudging approved PRs |
 | day-02/stale-pr.ts header | single-file CLI, `parseArgs` over commander | one positional + 4 flags | a second subcommand |
 | day-03/nuke-caches.ts header | single-file CLI, `parseArgs` over commander | two flags + one positional | a second subcommand |
-| day-03/nuke-caches.ts `dnsFlush` | win32 branch (`ipconfig /flushdns`) untested | documented one-liner, no Windows box to verify | a Windows user report |
+| day-03/nuke-caches.ts `dnsFlush` + `realSh` | win32 branch (`ipconfig /flushdns`, `shell` for `.cmd` PM shims) untested | documented one-liner, no Windows box to verify | a Windows user report |
 | day-03/nuke-caches.ts `realDirSize` | apparent bytes, symlinks skipped, no hardlink dedup | before/after deltas stay truthful | a wildly-off-total report vs `du` |
 | day-03/nuke-caches.ts registry | pnpm hard-nuke not offered (`store prune` only) | prune is the safe official op | users explicitly asking to rm the whole store |
 

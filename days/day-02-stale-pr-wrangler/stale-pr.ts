@@ -210,16 +210,24 @@ export function createApi(cfg: {
 // ---------- CLI ----------
 
 function main(): void {
-  const { values } = parseArgs({
-    options: {
-      help: { type: "boolean", short: "h" },
-      repo: { type: "string" },        // default: $GITHUB_REPOSITORY (set by Actions)
-      days: { type: "string" },        // staleness threshold, default 3
-      reviewers: { type: "string" },   // comma-separated logins, rotation pool
-      post: { type: "boolean" },       // actually comment (default: dry-run)
-      enforce: { type: "boolean" },    // exit 1 while anything is stale
-    },
-  });
+  let values;
+  try {
+    ({ values } = parseArgs({
+      options: {
+        help: { type: "boolean", short: "h" },
+        repo: { type: "string" },        // default: $GITHUB_REPOSITORY (set by Actions)
+        days: { type: "string" },        // staleness threshold, default 3
+        reviewers: { type: "string" },   // comma-separated logins, rotation pool
+        post: { type: "boolean" },       // actually comment (default: dry-run)
+        enforce: { type: "boolean" },    // exit 1 while anything is stale
+      },
+    }));
+  } catch (e) {
+    // unknown flag / missing value / stray positional is a usage error (2), not an API failure (1)
+    console.error(`stale-pr: ${(e as Error).message}\nrun with --help for usage`);
+    process.exitCode = 2;
+    return;
+  }
   if (values.help) {
     console.log(`usage: stale-pr [--repo owner/name] [--days N] [--reviewers a,b,c] [--post] [--enforce]
   env: GITHUB_TOKEN (private repos + --post), GITHUB_REPOSITORY, GITHUB_API_URL, GITHUB_STEP_SUMMARY`);
