@@ -1,0 +1,10 @@
+{
+  "name": "nuke-caches",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Find every dev cache on the machine (npm/pnpm/yarn, Vite/webpack, DNS), show the bytes, clear them in one command. Plan by default.",
+  "bin": { "nuke-caches": "./nuke-caches.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}

@@ -1,4 +1,5 @@
 node_modules/
+!days/day-03-nuke-caches/fixtures/demo-project/node_modules/
 .env
 !days/day-01-env-doctor/fixtures/broken-repo/.env
 !days/day-01-env-doctor/fixtures/clean-repo/.env

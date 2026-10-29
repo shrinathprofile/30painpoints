@@ -21,3 +21,10 @@
 - Idempotency without state: stamp your own outputs (dated `<!-- marker -->` in each comment) and read them back. No DB, no cache, no Actions artifacts — state that isn't stored can't drift.
 - Inherited harnesses carry inherited assumptions: day-01's sync `check()` would false-pass async assertions; await-ify before reuse.
 - Reusable: `run(opts, api, io)` + recording fake API + injected clock. Second consumer (D05 GitHub-Action day) triggers `packages/gh-harness` extraction.
+
+### D03 — Permission boundaries are provider-side behavior; discover, don't hardcode
+- `killall -HUP mDNSResponder` exits 1 for non-root users (mDNSResponder belongs to root) — the third face of D02's lesson, now in local-command form. Fake worlds answer 0 for anything you didn't script to fail. Fix pattern: mark best-effort commands `required: false` in the registry — a demoted failure becomes a printed note, never a failed target.
+- Ask the tool, not the filesystem-of-your-memory: `pnpm store path` returned `store/v10` on this machine — a versioned path every hardcoded "known location" gets wrong on the next major. One subprocess buys never-wrong discovery; undiscoverable → skip with a reason.
+- Destructive-CLI trust boundary (inversion of D01's tell-don't-touch): plan by default showing exact paths + bytes, act on explicit `--go`, PM-owned clean commands for PM caches, `rm` restricted to documented-disposable dirs, bytes reclaimed re-measured after each clear.
+- Test assertions written by the code's author inherit the code's arithmetic: two wrong assertions (byte total, rounding rule) failed against a correct tool. Review assertions as hard as code — a wrong assertion is a bug wearing a green checkmark.
+- Reusable: recording fake world (`sh`/`dirSize`/`rm` scripted + every destructive call recorded) + PATH-stripped spawns for deterministic CLI tests. Copy-idiom stays: the zero-dep harness extraction trigger fired (3rd unchanged consumer) and was overruled — the copy IS the interface; extract only when a day must *import* another day's logic.
