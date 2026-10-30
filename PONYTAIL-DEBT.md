@@ -18,5 +18,9 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-03/nuke-caches.ts `dnsFlush` + `realSh` | win32 branch (`ipconfig /flushdns`, `shell` for `.cmd` PM shims) untested | documented one-liner, no Windows box to verify | a Windows user report |
 | day-03/nuke-caches.ts `realDirSize` | apparent bytes, symlinks skipped, no hardlink dedup | before/after deltas stay truthful | a wildly-off-total report vs `du` |
 | day-03/nuke-caches.ts registry | pnpm hard-nuke not offered (`store prune` only) | prune is the safe official op | users explicitly asking to rm the whole store |
+| day-04/docs_drift.py header | single-file stdlib CLI, argparse over click | one positional + one optional | a second subcommand or a second provider (non-FastAPI) |
+| day-04/docs_drift.py `diff` | only paths/methods/params compared; schema, response-model and description drift invisible | param contracts are what break integrations | a user report asking for schema drift |
+| day-04/docs_drift.py `load_documented_spec` | YAML accepted only if pyyaml already in the app's env | JSON is FastAPI's native export | a real repo whose only spec is YAML |
+| day-04/docs_drift.py `load_documented_spec` | Swagger 2.0 rejected, not translated (basePath/definitions) | OpenAPI 3 is the standard FastAPI emits | a user report with a Swagger 2.0 spec |
 
-14 markers, all low-severity, all with named triggers.
+18 markers, all low-severity, all with named triggers.

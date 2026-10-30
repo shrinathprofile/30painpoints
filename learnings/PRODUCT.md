@@ -22,3 +22,9 @@
 - Decision: a morning digest (oldest waiters, named rotation) + one nudge per window, read + comment only. No auto-assignment, no Slack escalation — bots that *force* process get muted; bots that *surface* age get answered.
 - Rule extracted: when the complaint is "nobody notices", the MVP is a visible queue + a named owner per day, not workflow enforcement.
 - Verdict lands: denoland/deno run (PRs waiting 440 days) is the post's proof — a stranger's repo, real numbers, no setup.
+
+### D04 — When the complaint is "things silently drift", the product is the gate
+- Signal: "How are DevOps teams keeping API documentation up to date?" recurs across 4 subreddits for years — not "docs are hard to write" but "nothing fails when they go stale". FastAPI users even believe it can't happen to them (auto-generated docs), because the *interactive* docs can't rot; the spec they hand to consumers can.
+- Decision: lint and fail — no spec regeneration, no editing, no hosted UI. The MVP is a CI exit code plus a copy-paste fix command; the scope cut (the tool never writes) is the same trust boundary as D01's diagnose-don't-touch, now on the write side.
+- Rule extracted: for drift complaints, ship enforcement, not repair — the fix is one `app.openapi()` re-export away and the user must be the one to run it.
+- Verdict lands: watch Day-4 post comments for "can it regenerate the spec for me?" — that's v2 demand signal, not scope regret (same watch as D01).

@@ -46,6 +46,8 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 
 - [Day 01 — env-doctor](days/day-01-env-doctor/) · 504-upvote complaint about env setup dread → a CLI that diagnoses a repo's environment in one command
 - [Day 02 — stale-PR wrangler](days/day-02-stale-pr-wrangler/) · 571-point r/ExperiencedDevs answer on review latency at 15-20 engineers → a scheduled digest of a repo's oldest waiting PRs, with rotating-reviewer nudges
+- [Day 03 — nuke-caches](days/day-03-nuke-caches/) · 186-point wish in r/webdev's "tool you wish existed" thread → one zero-dependency command that finds every dev cache, shows the bytes, and clears them
+- [Day 04 — docs-drift](days/day-04-docs-drift/) · the years-running r/devops question "how do you keep API docs up to date?" → a stdlib-only linter that fails CI when the committed OpenAPI spec disagrees with the FastAPI app
 
 ---
 
