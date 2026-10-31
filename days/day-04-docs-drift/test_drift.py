@@ -156,6 +156,9 @@ def test_cli_usage_errors_exit_2_with_one_line_no_stack():
     with open(os.path.join(HERE, ".swagger2.json"), "w") as f:
         json.dump({"swagger": "2.0", "paths": {}}, f)
     cases.append(CLI(FIX_APP, os.path.join(HERE, ".swagger2.json")))
+    with open(os.path.join(HERE, ".paths-list.json"), "w") as f:
+        json.dump({"openapi": "3.1.0", "paths": []}, f)
+    cases.append(CLI(FIX_APP, os.path.join(HERE, ".paths-list.json")))
     cases.append(CLI("--bogus-flag"))
     for r in cases:
         assert r.returncode == 2, (r.args, r.stderr)
@@ -164,22 +167,34 @@ def test_cli_usage_errors_exit_2_with_one_line_no_stack():
     assert "cannot read spec" in cases[1].stderr
     assert "not valid JSON" in cases[3].stderr
     assert "Swagger" in cases[4].stderr and "re-export" in cases[4].stderr
-    for junk in (".bad.json", ".swagger2.json"):
+    assert '"paths" as list' in cases[5].stderr
+    for junk in (".bad.json", ".swagger2.json", ".paths-list.json"):
         os.unlink(os.path.join(HERE, junk))
 
 
 def test_app_raising_at_import_is_usage_error_not_drift():
     # regression (found on a real repo): an app that raises TypeError while FastAPI
     # registers its routes printed a stack and exited 1 — CI would read that as drift
-    boom = os.path.join(HERE, ".boom_app.py")
-    with open(boom, "w") as f:
-        f.write("raise TypeError('Too few arguments for typing.Generator')\n")
-    try:
-        r = CLI(".boom_app:app", FIX("openapi-synced.json"))
-        assert r.returncode == 2 and "cannot import" in r.stderr and "TypeError" in r.stderr
-        assert "Traceback" not in r.stderr
-    finally:
-        os.unlink(boom)
+    # (module name must be importable: a leading "." made importlib raise its own TypeError
+    # before the file ran, so this check once passed without ever executing the boom)
+    cases = {
+        "probe_boom_import": ("raise TypeError('Too few arguments for typing.Generator')\n",
+                              "Too few arguments"),
+        "probe_boom_exit": ("import sys\nsys.exit(1)\n", "SystemExit"),  # config guards do this
+        "probe_boom_openapi": ("from fastapi import FastAPI\napp = FastAPI()\n"
+                               "def boom(): raise ValueError('schema gen failed')\n"
+                               "app.openapi = boom\n", "schema gen failed"),  # lazy schema build
+    }
+    for mod, (src, needle) in cases.items():
+        path = os.path.join(HERE, f"{mod}.py")
+        with open(path, "w") as f:
+            f.write(src)
+        try:
+            r = CLI(f"{mod}:app", FIX("openapi-synced.json"))
+            assert r.returncode == 2 and needle in r.stderr, (mod, r.returncode, r.stderr)
+            assert "Traceback" not in r.stderr
+        finally:
+            os.unlink(path)
 
 
 def test_cli_yaml_needs_pyaml_or_fails_clean():

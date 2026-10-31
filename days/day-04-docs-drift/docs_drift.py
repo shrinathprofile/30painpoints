@@ -111,7 +111,7 @@ def load_live_spec(ref: str) -> dict:
     sys.path.insert(0, os.getcwd())  # same as uvicorn's --app-dir . default
     try:
         app = getattr(importlib.import_module(module_name), attr)
-    except Exception as e:  # user code can raise anything at import; none of it is drift
+    except (Exception, SystemExit) as e:  # user code can raise anything at import (sys.exit too); none of it is drift
         # (found the hard way: a real repo's app raised TypeError during FastAPI route
         # registration under newer typing-extensions — a raw stack + exit 1 would have
         # read as "docs drifted" in CI)
@@ -120,7 +120,10 @@ def load_live_spec(ref: str) -> dict:
     openapi = getattr(app, "openapi", None)
     if not callable(openapi):
         raise UsageError(f'"{ref}" has no .openapi() — is it a FastAPI (Starlette) app?')
-    spec = openapi()
+    try:
+        spec = openapi()  # FastAPI builds the schema lazily — model/schema errors surface here, not at import
+    except Exception as e:
+        raise UsageError(f'"{ref}".openapi() failed ({e.__class__.__name__}: {e}) — the app cannot produce its own spec')
     if not isinstance(spec, dict):
         raise UsageError(f'"{ref}".openapi() returned {type(spec).__name__}, not an OpenAPI document')
     return spec
@@ -149,6 +152,8 @@ def load_documented_spec(path: str) -> dict:
             raise UsageError(f"{path} is not valid JSON: line {e.lineno}, {e.msg}")
     if not isinstance(spec, dict):
         raise UsageError(f"{path} isn't an OpenAPI document (top level is {type(spec).__name__})")
+    if not isinstance(spec.get("paths", {}), (dict, type(None))):  # a list here would read as "everything undocumented"
+        raise UsageError(f'{path} has "paths" as {type(spec["paths"]).__name__}, not an object')
     if "swagger" in spec and "openapi" not in spec:
         # ponytail: Swagger 2.0 rejected, not mangled — basePath/definitions would need translation
         raise UsageError(f"{path} is Swagger {spec['swagger']}, not OpenAPI 3; re-export from the app")

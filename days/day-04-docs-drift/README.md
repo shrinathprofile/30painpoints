@@ -48,7 +48,7 @@ docs-drift — fixtures.demo_api:app vs fixtures/openapi-drifted.json
 
 The tool never edits the spec — it prints the exact re-export command, you run it when you agree (diagnose and tell, don't touch).
 
-Validated read-only against a real codebase: **TobikoData/sqlmesh** at HEAD — in sync, 25 endpoints, exit 0, against all three of their committed specs (including one exported last September). Details in the [build log](BUILD-LOG.md), including the real-repo crash that taught the exit-code rule: *a linter whose "cannot check" looks like "drift found" is a CI footgun.*
+Validated read-only against a real codebase: **TobikoData/sqlmesh** at HEAD — in sync, 25 endpoints, exit 0, against both committed specs and the versions they had in Sep 2025. Pointed at their Nov-2024 spec, it catches real, unplanted drift: `GET /api/commands/test` still documents `verbose`, which the app renamed to `verbosity` in Mar 2025 (sqlmesh #3982). Details in the [build log](BUILD-LOG.md), including the real-repo crash that taught the exit-code rule: *a linter whose "cannot check" looks like "drift found" is a CI footgun.*
 
 ## Validate it works
 
@@ -66,7 +66,7 @@ No spec editing or auto-regeneration (lint and fail; the fix command is printed,
 
 ## Files
 
-- `docs_drift.py` — the tool (209 lines, stdlib only)
+- `docs_drift.py` — the tool (214 lines, stdlib only)
 - `test_drift.py` — the one runnable check (plain asserts; pytest-collectable)
 - `fixtures/demo_api.py` + `fixtures/openapi-{synced,drifted}.json` — the app under docs and its two specs
 - `Dockerfile` — the self-proving container
