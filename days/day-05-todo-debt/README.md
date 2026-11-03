@@ -64,11 +64,11 @@ Exit codes: `0` clean/informational · `1` net-new debt in `--base` mode (or `--
 ## Validate it works
 
 ```bash
-npm run check    # 24 assert-based checks: marker/diff/blame tables, scripted-world run() paths
+npm run check    # 28 assert-based checks: marker/diff/blame tables, scripted-world run() paths
                  # (posting, exit trichotomy), real-git end-to-end (ratchet fires, repay passes)
 ```
 
-Real-world validation before shipping: full index on this repo (53 `ponytail:` items, ages 3–8d, matching `PONYTAIL-DEBT.md`'s 18 code markers + prose mentions), drift vs `HEAD~1`/`HEAD~2` (net 0 / net +14 → exit 1), exit-code matrix pipe-free, and adversarial probes: CRLF files, no-trailing-newline files, spaces and ünicode in paths, a 100%-rename carrying debt (no trip), a whitespace-only reformat (net 0), empty repo, unborn HEAD, a gitlink entry.
+Real-world validation before shipping: full index on this repo (53 `ponytail:` items, ages 3–8d, matching `PONYTAIL-DEBT.md`'s 18 code markers + prose mentions), drift vs `HEAD~1`/`HEAD~2` (net 0 / net +14 → exit 1), exit-code matrix pipe-free, and adversarial probes: CRLF files, no-trailing-newline files, spaces and ünicode in paths, a 100%-rename carrying debt (no trip), a whitespace-only reformat (net 0), empty repo, unborn HEAD, a gitlink entry. Post-ship re-run found four more (ünicode paths dropped from the index, `color.diff=always` faking a green ratchet, `@todo` never matching, `--post` without a token not failing fast) — see the [build log](BUILD-LOG.md#post-ship-validation-re-run).
 
 ## Deliberately not built
 
@@ -76,7 +76,7 @@ No issue-tracker sync (TODO→issue is a write into someone else's system), no d
 
 ## Files
 
-- `todo-debt.ts` — the tool (363 lines, stdlib only)
+- `todo-debt.ts` — the tool (373 lines, stdlib only)
 - `workflow-example.yml` — the copy-paste PR ratchet (this file is the "Action")
-- `self-check.ts` — the one runnable check (24 checks)
+- `self-check.ts` — the one runnable check (28 checks)
 - `fixtures/` — realistic `--line-porcelain` and `--unified=0` captures the parser tests run against

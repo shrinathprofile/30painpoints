@@ -29,6 +29,10 @@ await check("markers match as whole words, case exactly as given", () => {
   assert.ok(!"PRETODO".match(re));       // no boundary before TODO
   assert.ok(!"todo lowercase".match(re)); // case is the convention, not the dictionary
 });
+await check("markers with non-word edges (@todo) still match — \b never did", () => {
+  assert.deepEqual(scanText(" * @todo split this\n", markerRegex(["@todo"])), [{ line: 1, marker: "@todo", note: "split this" }]);
+  assert.ok(!"a@todos".match(markerRegex(["@todo"])), "still whole-word on the word side");
+});
 await check("scanText: line numbers, note extraction, binary skip", () => {
   assert.deepEqual(
     scanText("const a = 1;\n// TODO: fix the retry | fail path\n// HACK(alice) no colon\n", DEFAULT),
@@ -93,6 +97,10 @@ await check("parseDiff: git's TAB suffix on spaced header paths is stripped", ()
   const d = parseDiff('diff --git a/my file.ts b/my file.ts\n--- a/my file.ts\t\n+++ b/my file.ts\t\n@@ -1,0 +2,2 @@\n+\n+// TODO moved\n', DEFAULT);
   assert.deepEqual(d.added, [{ file: "my file.ts", line: 3, marker: "TODO", note: "moved" }]);
 });
+await check("parseDiff: C-quoted header paths (tab/quote in name) are unquoted", () => {
+  const d = parseDiff('diff --git "a/q\\"x.ts" "b/q\\"x.ts"\n--- /dev/null\n+++ "b/q\\"x.ts"\n@@ -0,0 +1 @@\n+// TODO quoted\n', DEFAULT);
+  assert.deepEqual(d.added, [{ file: 'q"x.ts', line: 1, marker: "TODO", note: "quoted" }]);
+});
 await check("parseDiff: @@ trailing context is not content; +++ prefixed line is", () => {
   const no = parseDiff("diff --git a/x b/x\n--- a/x\n+++ b/x\n@@ -10 +10 @@ // TODO inside hunk header\n+const clean = 1;\n", DEFAULT);
   assert.equal(no.added.length + no.removed.length, 0);
@@ -118,7 +126,7 @@ function fakeWorld(opts: {
   const summaries: string[] = [];
   const git = (args: string[]): GitResult => {
     if (args[0] === "rev-parse") return { ok: opts.repo !== false, stdout: opts.repo === false ? "" : "true\n", stderr: opts.repo === false ? "fatal: not a git repository" : "" };
-    if (args[0] === "ls-files") return { ok: true, stdout: Object.keys(opts.files).join("\n") + "\n", stderr: "" };
+    if (args[0] === "ls-files") return { ok: true, stdout: Object.keys(opts.files).join("\0") + "\0", stderr: "" };
     if (args[0] === "blame") {
       const f = args[args.length - 1];
       return opts.blames?.[f] !== undefined
@@ -237,6 +245,14 @@ await check("CLI: empty directory is not a repo → exit 2 with one line", () =>
   assert.match(r.stdout, /not a git repository/, "cannot-check goes through the log channel, single stream like day-02");
   assert.doesNotMatch(r.stderr, /\n\s+at /, "no stack trace");
 });
+await check("CLI: --post without GITHUB_TOKEN → exit 2 BEFORE any drift report", () => {
+  const env = { ...process.env, GITHUB_REPOSITORY: "o/r" };
+  delete env.GITHUB_TOKEN;
+  const r = spawnSync(process.execPath, [join(here, "todo-debt.ts"), here, "--base", "HEAD", "--post", "--pr", "3"], { encoding: "utf8", env });
+  assert.equal(r.status, 2);
+  assert.match(r.stdout, /--post needs a PR number .* and GITHUB_TOKEN/);
+  assert.doesNotMatch(r.stdout, /todo-debt drift/, "fail-fast: nothing diffed, nothing half-delivered");
+});
 
 // --- end-to-end against real git (the provider itself; dates pinned via env) ---
 function git(dir: string, args: string[], date?: string) {
@@ -301,6 +317,26 @@ await check("real git: staged-but-uncommitted TODO shows as uncommitted, not as 
   const r = cli([dir]);
   assert.equal(r.status, 0);
   assert.match(r.stdout, /uncommitted\s+TODO\s+a\.ts:2/);
+});
+
+await check("real git: ünicode/tab/quote paths are indexed; color.diff=always can't fake a green ratchet", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "todo-debt-repo-"));
+  git(dir, ["init", "-q"]);
+  writeFileSync(join(dir, "base.ts"), "x\n");
+  git(dir, ["add", "-A"]);
+  git(dir, ["commit", "-q", "-m", "base"]);
+  for (const f of ["ünï.ts", "ta\tb.ts", 'q"x.ts']) writeFileSync(join(dir, f), `// TODO in ${f}\n`);
+  git(dir, ["add", "-A"]);
+  git(dir, ["commit", "-q", "-m", "head"]);
+  git(dir, ["config", "color.diff", "always"]);
+  git(dir, ["config", "diff.noprefix", "true"]);
+  const idx = cli([dir]);
+  assert.match(idx.stdout, / 3 item\(s\) · 3 file\(s\)/, "default ls-files C-quotes these names → read fails → silently dropped");
+  assert.doesNotMatch(idx.stdout, /skipped/);
+  const drift = cli([dir, "--base", "HEAD~1"]);
+  assert.equal(drift.status, 1, "colored diff must not parse as net 0");
+  assert.match(drift.stdout, /\+ q"x\.ts:1/);
+  assert.match(drift.stdout, /\+ ünï\.ts:1/);
 });
 
 console.log(`\nself-check: ${n} checks passed (${NOW.toISOString().slice(0, 10)} fixed clock)`);

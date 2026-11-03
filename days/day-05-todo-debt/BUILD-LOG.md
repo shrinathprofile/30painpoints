@@ -38,7 +38,7 @@
 - `ponytail:` one blame spawn per file-with-hits — trigger: a perf report on a huge repo
 
 ## The one check
-`self-check.ts` — 24 assert-based checks: marker word-boundary table, porcelain parsing against a realistic fixture, diff state-machine traps (path-marker, `+++` content, spaced-path TAB suffix), scripted-world run() paths (trichotomy, posting, repaid-flip), and real-git end-to-end with pinned commit dates (ratchet fires on net +1, passes on repay, custom markers, staged-but-uncommitted shown honestly). `npm run check`.
+`self-check.ts` — 28 assert-based checks (24 at ship + 4 post-ship regressions): marker word-boundary table, porcelain parsing against a realistic fixture, diff state-machine traps (path-marker, `+++` content, spaced-path TAB suffix), scripted-world run() paths (trichotomy, posting, repaid-flip), and real-git end-to-end with pinned commit dates (ratchet fires on net +1, passes on repay, custom markers, staged-but-uncommitted shown honestly). `npm run check`.
 
 ## Post-ship adversarial pass (day-01 pattern)
 Probed with inputs real repos contain — CRLF, no trailing newline, spaces and ünicode in paths, 100%-rename carrying debt, whitespace-only reformat, empty repo, unborn HEAD, gitlink (submodule) entries:
@@ -51,3 +51,12 @@ Probed with inputs real repos contain — CRLF, no trailing newline, spaces and 
 - Index `--markers ponytail`: 53 items, 21 files, ages 3–8d — the ledger's 18 code markers plus their prose mentions, cross-checkable against `PONYTAIL-DEBT.md`.
 - Drift vs `HEAD~2` (day-04's commit): net +14 → exit 1, pipe-free. The tool correctly failed the commit that added its own inspiration's debt.
 - Drift vs `HEAD~1`: net 0 → exit 0. Exit matrix: drift 1 · clean 0 · bad ref 2 · usage 2 · path-missing 2.
+
+## Post-ship validation (re-run)
+Ship-day probes covered ünicode paths in the *diff*, not the *index*, and nobody tried a user's own git config. Four leaks, each reproduced in a scratch repo first, each with a regression check (24 → 28):
+- **Index silently dropped paths with ünicode / tab / quote characters.** Plain `git ls-files` C-quotes them (`"\303\274n\303\257.ts"`), the read fails, and the file lands in "skipped or unblamable": 3 of 4 TODO files vanished. Now `ls-files -z`.
+- **`color.diff=always` in the user's gitconfig → false green.** Every diff line arrived wrapped in ANSI codes, nothing parsed, net 0, exit 0: the worst failure a ratchet can have. The diff call now pins `--no-color --no-ext-diff --src-prefix=a/ --dst-prefix=b/` (that last pair also beats `diff.noprefix`).
+- **`--markers @todo` never matched.** `\b` needs a word character on the marker's own edge, and `@` isn't one. Lookarounds `(?<!\w)…(?!\w)` keep the same semantics for TODO and fix `@todo` (JSDoc/PHPDoc's convention).
+- **`--post` without `GITHUB_TOKEN` passed the fail-fast check.** The message named the token, the check never tested it: drift printed, then a 404, then exit 2. That's the half-delivered run the check exists to prevent. The API client is now built only when a token exists, so the existing guard catches it before any diffing.
+- Cosmetic, fixed in passing: C-quoted diff header paths (`"b/q\"x.ts"`) are unquoted for display.
+- Re-confirmed: shallow clone → exit 2; a subdirectory as root → indexes that subtree; `actions/checkout@v7` and `setup-node@v7` exist (v7.0.1 / v7.1.0); real-repo drift vs `HEAD~2` is still net +14 → exit 1.

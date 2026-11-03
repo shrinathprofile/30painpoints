@@ -31,7 +31,8 @@ const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
  *  ponytail: a marker word in prose indexes too ("TODO-debt indexer" in a doc) —
  *  grep has the same eyes; a code-only allowlist waits for a user who needs it. */
 export function markerRegex(markers: string[]): RegExp {
-  return new RegExp(`\\b(?:${markers.map(escapeRe).join("|")})\\b`);
+  // lookarounds, not \b: \b needs a word char on the marker's own edge, so "@todo" never matched
+  return new RegExp(`(?<!\\w)(?:${markers.map(escapeRe).join("|")})(?!\\w)`);
 }
 
 /** Marker hits in one file's text. Binary content (NUL byte) has no debt. */
@@ -92,8 +93,8 @@ export function parseDiff(text: string, re: RegExp): { added: DiffHit[]; removed
   for (const raw of text.split("\n")) {
     if (raw.startsWith("diff --git ")) inHunk = false; // next file section — no hunks yet
     // trimEnd: git suffixes a TAB onto header paths containing spaces ("+++ b/my file.ts\t")
-    else if (!inHunk && raw.startsWith("--- ")) minusFile = raw.slice(4).replace(/^a\//, "").trimEnd();
-    else if (!inHunk && raw.startsWith("+++ ")) plusFile = raw.slice(4).replace(/^b\//, "").trimEnd();
+    else if (!inHunk && raw.startsWith("--- ")) minusFile = headerPath(raw).replace(/^a\//, "");
+    else if (!inHunk && raw.startsWith("+++ ")) plusFile = headerPath(raw).replace(/^b\//, "");
     else if (raw.startsWith("@@")) {
       const h = raw.match(/^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/); // trailing context after @@ is never content
       if (h) { minusAt = Number(h[1]); plusAt = Number(h[2]); inHunk = true; }
@@ -110,6 +111,14 @@ export function parseDiff(text: string, re: RegExp): { added: DiffHit[]; removed
     }
   }
   return { added, removed };
+}
+
+/** "+++ b/x" → "b/x". git C-quotes paths with tabs/quotes/backslashes ("b/q\"x.ts") even
+ *  with core.quotepath=false; those escapes are JSON-compatible (octal only appears with quotepath on). */
+function headerPath(raw: string): string {
+  const p = raw.slice(4).trimEnd();
+  if (!p.startsWith('"')) return p;
+  try { return JSON.parse(p) as string; } catch { return p; }
 }
 
 export const netDebt = (added: number, removed: number) => added - removed;
@@ -211,7 +220,8 @@ export async function run(opts: RunOpts, world: World): Promise<number> {
       world.log("todo-debt: --post needs a PR number (--pr or GITHUB_REF=refs/pull/N/…) and GITHUB_TOKEN");
       return 2;
     }
-    const d = world.git(["-c", "core.quotepath=false", "diff", "--unified=0", `${opts.base}...HEAD`]);
+    const d = world.git(["-c", "core.quotepath=false", "diff", "--unified=0", "--no-color", "--no-ext-diff", "--src-prefix=a/", "--dst-prefix=b/", `${opts.base}...HEAD`]);
+    // pinned flags: a user's color.diff=always made every line unparseable → net 0 → a false green
     if (!d.ok) {
       world.log(`todo-debt: cannot diff ${opts.base}...HEAD — ${firstLine(d.stderr) || "git failed"}`);
       return 2;
@@ -244,13 +254,13 @@ export async function run(opts: RunOpts, world: World): Promise<number> {
 
   // index mode — informational: existing debt never fails CI (that's how tools
   // get ignored); only the --base ratchet above exits 1 (day-04 lesson)
-  const ls = world.git(["ls-files"]);
+  const ls = world.git(["ls-files", "-z"]); // -z: raw paths — default output C-quotes ünicode/tab/quote names, which then fail to read
   if (!ls.ok) {
     world.log(`todo-debt: git ls-files failed — ${firstLine(ls.stderr) || "git failed"}`);
     return 2;
   }
   const now = world.now();
-  const files = ls.stdout.split("\n").filter(Boolean);
+  const files = ls.stdout.split("\0").filter(Boolean);
   const rows: Row[] = [];
   let unblamable = 0;
   for (const f of files) {
@@ -341,7 +351,7 @@ function main(): void {
       post: !!values.post,
       pr: Number.isInteger(pr) && pr > 0 ? pr : null,
       repo: process.env.GITHUB_REPOSITORY ?? null,
-      api: values.post ? createApi({ repo: process.env.GITHUB_REPOSITORY ?? "", token: process.env.GITHUB_TOKEN, baseUrl: process.env.GITHUB_API_URL }) : undefined,
+      api: values.post && process.env.GITHUB_TOKEN ? createApi({ repo: process.env.GITHUB_REPOSITORY ?? "", token: process.env.GITHUB_TOKEN, baseUrl: process.env.GITHUB_API_URL }) : undefined,
     },
     {
       git: (args) => {
