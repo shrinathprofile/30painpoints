@@ -22,5 +22,10 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-04/docs_drift.py `diff` | only paths/methods/params compared; schema, response-model and description drift invisible | param contracts are what break integrations | a user report asking for schema drift |
 | day-04/docs_drift.py `load_documented_spec` | YAML accepted only if pyyaml already in the app's env | JSON is FastAPI's native export | a real repo whose only spec is YAML |
 | day-04/docs_drift.py `load_documented_spec` | Swagger 2.0 rejected, not translated (basePath/definitions) | OpenAPI 3 is the standard FastAPI emits | a user report with a Swagger 2.0 spec |
+| day-05/todo-debt.ts header | single-file CLI, `parseArgs` over commander | one positional + 4 flags | a second subcommand or a second VCS provider |
+| day-05/todo-debt.ts `indexMarkdown` | summary table caps at 50 rows | console prints everything; summaries are for skimming | a summary someone needs to scroll |
+| day-05/todo-debt.ts `createApi` | one page of PR comments (100) searched for our marker | update-in-place keeps our report near the top | a PR whose report lands off page 1 |
+| day-05/todo-debt.ts `markerRegex` | marker words match in prose too (a doc mentioning "TODO-debt indexer" indexes) | grep has the same eyes | a user needing a code-only allowlist |
+| day-05/todo-debt.ts `run` | one blame spawn per file-with-hits | fine at every sane repo size | a perf report on a huge repo |
 
-18 markers, all low-severity, all with named triggers.
+23 markers, all low-severity, all with named triggers.

@@ -48,6 +48,7 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 - [Day 02 — stale-PR wrangler](days/day-02-stale-pr-wrangler/) · 571-point r/ExperiencedDevs answer on review latency at 15-20 engineers → a scheduled digest of a repo's oldest waiting PRs, with rotating-reviewer nudges
 - [Day 03 — nuke-caches](days/day-03-nuke-caches/) · 186-point wish in r/webdev's "tool you wish existed" thread → one zero-dependency command that finds every dev cache, shows the bytes, and clears them
 - [Day 04 — docs-drift](days/day-04-docs-drift/) · the years-running r/devops question "how do you keep API docs up to date?" → a stdlib-only linter that fails CI when the committed OpenAPI spec disagrees with the FastAPI app
+- [Day 05 — todo-debt](days/day-05-todo-debt/) · the dead TODO-collector mourned in r/webdev's wish-thread → a blame-aged debt index + a PR ratchet that fails CI when a change adds net-new TODO/FIXME/HACK (this repo's own `ponytail:` ledger is its demo)
 
 ---
 

@@ -1,0 +1,31 @@
+# todo-debt ratchet — paste as .github/workflows/todo-debt.yml in the repo you want watched.
+# Put todo-debt.ts in that repo too (example assumes tools/todo-debt.ts).
+# The whole "GitHub Action" is this file: PR-triggered, zero deps, nothing to install.
+# This series runs itself with --markers TODO,FIXME,HACK,ponytail (its own debt discipline).
+name: todo-debt ratchet
+
+on:
+  pull_request: {}          # every push to the PR re-runs the ratchet
+  workflow_dispatch: {}     # "Run workflow" button = the full index, informational
+
+permissions:
+  contents: read
+  pull-requests: write      # for --post; drop the ratchet step's --post and this can be read-only
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0    # the base...HEAD diff needs history (shallow → exit 2, "cannot check")
+          # on pull_request, checkout HEAD is the merge commit — exactly what --base diffs against
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22  # >= 22.18 for native TS type-stripping
+      - run: node tools/todo-debt.ts .   # always: full debt index → the run's step summary
+      - run: node tools/todo-debt.ts . --base "${{ github.event.pull_request.base.sha }}" --post
+        if: github.event_name == 'pull_request'   # dispatch has no PR to post to
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # GITHUB_REPOSITORY / GITHUB_REF / GITHUB_STEP_SUMMARY are automatic
+      # exit 1 = the PR adds net-new debt → the check fails, the report is already on the PR

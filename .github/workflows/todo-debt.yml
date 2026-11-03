@@ -1,0 +1,28 @@
+# Day 05 dogfood: the todo-debt ratchet watching its own repo.
+# Runs its own discipline on every PR: --markers ponytail (this series' ledger
+# convention) plus the defaults. Net-new unmarked debt fails the check.
+name: todo-debt ratchet
+
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write       # --post comment report
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0     # base...HEAD needs history
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: node days/day-05-todo-debt/todo-debt.ts . --markers TODO,FIXME,HACK,ponytail
+      - run: node days/day-05-todo-debt/todo-debt.ts . --markers TODO,FIXME,HACK,ponytail --base "${{ github.event.pull_request.base.sha }}" --post
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,35 @@
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 1 1 1
+author Bob Old
+author-mail <bob@example.com>
+author-time 1700000000
+author-tz +0000
+committer Bob Old
+committer-mail <bob@example.com>
+committer-time 1700000000
+committer-tz +0000
+summary init
+previous 0000000000000000000000000000000000000000 src/a.ts
+boundary
+	const a = 1;
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 2 2 1
+author Alice Dev
+author-mail <alice@example.com>
+author-time 1790000000
+author-tz +0000
+committer Alice Dev
+committer-mail <alice@example.com>
+committer-time 1790000000
+committer-tz +0000
+summary add todo
+	// TODO fix this before v2
+cccccccccccccccccccccccccccccccccccccccc 3 3 1
+author Not Committed Yet
+author-mail <not@committed>
+author-time 1793707100
+author-tz +0000
+committer Not Committed Yet
+committer-mail <not@committed>
+committer-time 1793707100
+committer-tz +0000
+summary uncommitted
+	# FIXME staged but not committed

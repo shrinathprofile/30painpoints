@@ -1,0 +1,10 @@
+{
+  "name": "todo-debt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Index TODO/FIXME/HACK debt with author + age from git blame; ratchet PRs that add net-new.",
+  "bin": { "todo-debt": "./todo-debt.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}
