@@ -15,6 +15,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"unicode/utf8"
 )
 
 // ---------- level normalization ----------
@@ -453,5 +454,148 @@ func TestSubprocessStdinAndCleanStdout(t *testing.T) {
 	}
 	if !strings.Contains(errb.String(), "loglens —") {
 		t.Errorf("footer must live on stderr: %q", errb.String())
+	}
+}
+
+// ---------- post-ship adversarial pass: one regression per finding ----------
+
+func TestPostShipFlagEqualsAfterFile(t *testing.T) {
+	// F1: "-level=error" after the file name was hoisted as a positional —
+	// "one file at a time", exit 2, on the exact syntax Go's flag docs show
+	got := reorderArgs([]string{"app.log", "-level=error", "extra"})
+	wantArgs := []string{"-level=error", "app.log", "extra"}
+	if len(got) != len(wantArgs) {
+		t.Fatalf("reorderArgs = %v, want %v", got, wantArgs)
+	}
+	for i := range wantArgs {
+		if got[i] != wantArgs[i] {
+			t.Fatalf("reorderArgs = %v, want %v", got, wantArgs)
+		}
+	}
+	if code, out, _ := runCLI(t, "fixtures/app.jsonl", "-level=error"); code != 0 || !strings.Contains(out, "db query failed") {
+		t.Errorf("=-syntax after the file: code=%d", code)
+	}
+}
+
+func TestPostShipNoColonZone(t *testing.T) {
+	// F2: Python %z / Java Z emit "+0530"; without the colon every such line
+	// went inert and -level/-since became cannot-checks
+	tm, ok := parseTimeStamp("2026-11-04 10:00:00+0530")
+	if !ok || tm.UTC().Hour() != 4 || tm.UTC().Minute() != 30 {
+		t.Errorf("+0530 must parse to 04:30Z, got %v %v", tm, ok)
+	}
+	rec, anchored := parsePlainLine("2026-11-04 10:00:00+0530 ERROR first")
+	if !anchored || rec.Level != "ERROR" || !rec.HasTime {
+		t.Errorf("no-colon zone line must anchor: %+v %v", rec, anchored)
+	}
+	// apache's own colon-less "-0700" still parses on the first pass
+	if _, ok := parseTimeStamp("04/Nov/2026:10:01:11 -0700"); !ok {
+		t.Error("apache zone layout regressed")
+	}
+}
+
+func TestPostShipSniffSmallAndBOM(t *testing.T) {
+	// F3: one log-shaped JSON line IS a JSON log (tail -n 1 | loglens -)
+	if f := sniffFormat([]string{`{"level":"error","msg":"boom"}`}); f != fmtJSON {
+		t.Errorf("single log-shaped JSON line: got %v, want json", f)
+	}
+	// a data blob with no time and no level must not capture a plain file
+	if f := sniffFormat([]string{"plain line", `{"a":1}`, "another plain line", "and one more"}); f != fmtPlain {
+		t.Errorf("stray non-log JSON blob: got %v, want plain", f)
+	}
+	// a log-shaped blob in a minority still must not capture
+	if f := sniffFormat([]string{"p1", "p2", "p3", `{"level":"error"}`, "p4", "p5"}); f != fmtPlain {
+		t.Errorf("minority log-blob: got %v, want plain", f)
+	}
+	// a BOM on line 1 hides the only JSON votes from the sniffer
+	if f := sniffFormat([]string{"\ufeff{\"level\":\"error\",\"msg\":\"a\"}", `{"level":"info","msg":"b"}`}); f != fmtJSON {
+		t.Errorf("BOM'd 2-line JSON log: got %v, want json", f)
+	}
+}
+
+func TestPostShipMixedFilePlainFallback(t *testing.T) {
+	// F4: in a mixed file, a plain ERROR line between JSON records glued onto
+	// the JSON record above it — and died with it under any filter
+	lines := []string{
+		`{"time":"2026-11-04T09:00:00Z","level":"error","msg":"json early error"}`,
+		"2026-11-04 09:30:00Z ERROR plain error swallowed",
+		`{"time":"2026-11-04T10:00:00Z","level":"info","msg":"late info"}`,
+	}
+	recs, _ := parseLines(fmtJSON, lines)
+	if len(recs) != 3 {
+		t.Fatalf("mixed file: 3 records, got %d: %+v", len(recs), recs)
+	}
+	if recs[1].Level != "ERROR" || recs[1].Msg != "plain error swallowed" {
+		t.Errorf("plain line must be its own record: %+v", recs[1])
+	}
+	// end-to-end: a window that excludes the JSON parent must not swallow it
+	dir := t.TempDir()
+	p := filepath.Join(dir, "mixed.log")
+	os.WriteFile(p, []byte(strings.Join(lines, "\n")+"\n"), 0o644)
+	lo := "2026-11-04T09:15:00Z"
+	code, out, errs := runCLI(t, p, "-since", lo)
+	if code != 0 || !strings.Contains(out, "plain error swallowed") {
+		t.Errorf("plain record swallowed by filtered parent: code=%d out=%q err=%q", code, out, errs)
+	}
+}
+
+func TestPostShipStringEpoch(t *testing.T) {
+	// F5: "ts":"1793750400" (stringified epoch, Bunyan lineage) was invisible
+	rec, ok := parseJSONLine(`{"ts":"1793750400","level":"error","msg":"e"}`)
+	if !ok || !rec.HasTime || !rec.Time.Equal(time.Date(2026, 11, 4, 0, 0, 0, 0, time.UTC)) {
+		t.Errorf("string epoch: %+v ok=%v", rec, ok)
+	}
+}
+
+func TestPostShipNewlineInMsgStaysOneLine(t *testing.T) {
+	// F6: an escaped \n inside a JSON msg produced a bare phantom stdout line
+	dir := t.TempDir()
+	p := filepath.Join(dir, "nl.log")
+	os.WriteFile(p, []byte(`{"level":"error","msg":"line1\nline2"}`+"\n"+
+		`{"level":"error","msg":"other"}`+"\n"), 0o644)
+	_, out, _ := runCLI(t, p)
+	if got := strings.Count(out, "\n"); got != 2 {
+		t.Errorf("2 records must print exactly 2 stdout lines, got %d: %q", got, out)
+	}
+}
+
+func TestPostShipTruncationIsRuneSafe(t *testing.T) {
+	// F7: byte-slicing cut a multi-byte rune in half — invalid UTF-8 stdout
+	long := strings.Repeat("a", 158) + "ééé"
+	if !utf8.ValidString(trunc(long, 160)) {
+		t.Error("trunc must never emit invalid UTF-8")
+	}
+	if !strings.Contains(trunc(long, 160), "…") {
+		t.Error("trunc at the cap must mark the cut")
+	}
+}
+
+func TestPostShipLevelInURLIsNotALevel(t *testing.T) {
+	// F9: "?level=debug" in a URL made a continuation line self-anchor as DEBUG
+	if rec, ok := parsePlainLine("GET /settings?level=debug returned 500"); ok || rec.Level != "" {
+		t.Errorf("level= inside a URL must not anchor: %+v %v", rec, ok)
+	}
+	// real logfmt still parses
+	if rec, ok := parsePlainLine(`level=error msg="x"`); !ok || rec.Level != "ERROR" {
+		t.Errorf("logfmt at line start must still anchor: %+v %v", rec, ok)
+	}
+}
+
+func TestPostShipShortApacheAndDocker(t *testing.T) {
+	// F10: 5-field CLF (no bytes column) demoted whole files to plain-inert
+	if rec, ok := parseApacheLine(`h - - [04/Nov/2026:10:00:00 -0700] "GET /x HTTP/1.0" 500`); !ok || rec.Level != "ERROR" {
+		t.Errorf("bytes-less CLF: %+v %v", rec, ok)
+	}
+	// F11: docker json-file lines carry msg under "log"
+	if rec, ok := parseJSONLine(`{"log":"boom\n","stream":"stderr","time":"2026-11-04T10:00:00Z"}`); !ok || rec.Msg != "boom\n" || !rec.HasTime {
+		t.Errorf("docker json-file: msg=%q ok=%v", rec.Msg, ok)
+	}
+}
+
+func TestPostShipNumericLevelFlag(t *testing.T) {
+	// trivia fix: the parsers accept syslog/python numeric levels; the flag
+	// was the one place that rejected "-level 3" (syslog severity 3 = ERROR)
+	if code, _, errs := runCLI(t, "fixtures/app.jsonl", "-level", "3"); code != 0 || strings.Contains(errs, "unknown level") {
+		t.Errorf("numeric level flag: code=%d err=%q", code, errs)
 	}
 }

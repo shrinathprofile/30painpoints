@@ -77,6 +77,10 @@ var timeLayouts = []string{
 	"Jan _2 15:04:05",            // syslog, year-less
 }
 
+// noColonZone: Python's %z and Java's Z emit "+0530" without the colon.
+// Normalized only on a retry: apache's own "-0700" already parsed above.
+var noColonZone = regexp.MustCompile(`([+-]\d{2})(\d{2})$`)
+
 func parseTimeStamp(s string) (time.Time, bool) {
 	s = strings.TrimSpace(s)
 	if s == "" {
@@ -85,6 +89,13 @@ func parseTimeStamp(s string) (time.Time, bool) {
 	for _, l := range timeLayouts {
 		if t, err := time.Parse(l, s); err == nil {
 			return t, true
+		}
+	}
+	if z := noColonZone.ReplaceAllString(s, "$1:$2"); z != s {
+		for _, l := range timeLayouts {
+			if t, err := time.Parse(l, z); err == nil {
+				return t, true
+			}
 		}
 	}
 	return time.Time{}, false
@@ -134,10 +145,12 @@ func (f format) String() string {
 	}
 }
 
-// sniffFormat: first 50 non-empty lines vote — but only lines that anchor in
-// SOME format get a vote. A JSON log whose errors carry stack traces is half
-// non-JSON lines; counting those against JSON rejected the tool's own core
-// case. Continuation lines (stacks, junk) are continuations in every format.
+// sniffFormat: first 50 non-empty lines vote — but only LOG-SHAPED lines get
+// a vote (a JSON object counts only if it carries a time or a level). Stack
+// traces and junk are continuations in every format and never vote, so a JSON
+// log half-full of stack lines still detects as JSON. A single log-shaped
+// JSON line is enough (tail -n 1 | loglens - is a real workflow); a stray
+// data blob that carries no time and no level cannot capture a plain file.
 func sniffFormat(lines []string) format {
 	var j, a int
 	seen := 0
@@ -145,18 +158,21 @@ func sniffFormat(lines []string) format {
 		if seen >= 50 {
 			break
 		}
+		if seen == 0 {
+			s = strings.TrimPrefix(s, "\ufeff") // BOM hides line 1's vote otherwise (parseLines strips it too)
+		}
 		if s = strings.TrimSpace(s); s == "" {
 			continue
 		}
 		seen++
-		if _, ok := parseJSONLine(s); ok {
+		if rec, ok := parseJSONLine(s); ok && (rec.HasTime || rec.Level != "") {
 			j++
 		} else if _, ok := parseApacheLine(s); ok {
 			a++
 		}
 	}
 	switch {
-	case j > 1 && j >= a: // >1: one stray JSON blob must not capture a plain file
+	case j > 0 && j >= a && (j*2 >= seen || j >= 2):
 		return fmtJSON
 	case a > 1 && a > j:
 		return fmtApache
@@ -169,7 +185,7 @@ func sniffFormat(lines []string) format {
 
 var jsonTimeKeys = []string{"time", "ts", "timestamp", "@timestamp", "datetime"}
 var jsonLevelKeys = []string{"level", "severity", "lvl"}
-var jsonMsgKeys = []string{"message", "msg"}
+var jsonMsgKeys = []string{"message", "msg", "log"} // "log": docker json-file lines
 
 func parseJSONLine(s string) (Record, bool) {
 	if !strings.HasPrefix(strings.TrimSpace(s), "{") {
@@ -195,7 +211,11 @@ func parseJSONLine(s string) (Record, bool) {
 	for _, k := range jsonTimeKeys {
 		switch x := obj[k].(type) {
 		case string:
+			// a stringified epoch ("ts":"1793750400") is a real encoder habit
+			// (Node/Bunyan lineage) — try layout, then epoch digits
 			if t, ok := parseTimeStamp(x); ok {
+				rec.Time, rec.HasTime = t, true
+			} else if t, ok := parseEpoch(strings.TrimSpace(x)); ok {
 				rec.Time, rec.HasTime = t, true
 			}
 		case json.Number:
@@ -227,7 +247,10 @@ func parseJSONLine(s string) (Record, bool) {
 }
 
 // 127.0.0.1 - frank [10/Oct/2026:13:55:36 -0700] "GET /api HTTP/1.1" 500 123
-var apacheRe = regexp.MustCompile(`^\S+ \S+ \S+ \[([^\]]+)\] "([^"]*)" (\d{3}) (?:\d+|-)`)
+// bytes field optional: 5-field short logs (no bytes) are common.
+// ponytail: escaped quotes inside the request field are NOT parsed — they
+// demote the line to a continuation; trigger: a user with such access logs.
+var apacheRe = regexp.MustCompile(`^\S+ \S+ \S+ \[([^\]]+)\] "([^"]*)" (\d{3})(?: (?:\d+|-))?`)
 
 func parseApacheLine(s string) (Record, bool) {
 	m := apacheRe.FindStringSubmatch(s)
@@ -257,7 +280,7 @@ var (
 	plainTimeRe = regexp.MustCompile(`^\[?((?:\d{4}-\d{2}-\d{2}[T ][\d:.,]+(?:Z|[+-]\d{2}:?\d{2})?)|(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}))\]?`)
 	plainKvTime = regexp.MustCompile(`^(?:time|ts|timestamp)=`)
 	plainLevel  = regexp.MustCompile(`^\s*\[?(TRACE|DEBUG|INFO|NOTICE|WARN|WARNING|ERROR|ERR|FATAL|CRIT|CRITICAL|PANIC)\]?[:\s]`)
-	plainKv     = regexp.MustCompile(`\b(?:level|lvl)=([A-Za-z]+)`)
+	plainKv     = regexp.MustCompile(`(?:^|\s)(?:level|lvl)=([A-Za-z]+)`) // start/whitespace only: "?level=debug" in a URL is not a level
 	plainMsg    = regexp.MustCompile(`\bmsg="([^"]*)"`)
 )
 
@@ -333,6 +356,16 @@ func parseLines(f format, lines []string) ([]Record, stats) {
 			continue
 		}
 		rec, anchored := parseLine(f, s)
+		if !anchored && f != fmtPlain {
+			// mixed files: services interleave structured and unstructured
+			// output. A line the primary format rejects still anchors as plain
+			// when it carries a timestamp or level — otherwise a filtered-out
+			// JSON record would silently swallow the plain error below it
+			// (post-ship finding F4). Stack lines anchor nowhere, by design.
+			if pr, ok := parsePlainLine(s); ok {
+				rec, anchored = pr, true
+			}
+		}
 		if !anchored {
 			if len(recs) > 0 {
 				recs[len(recs)-1].Extra = append(recs[len(recs)-1].Extra, s)
@@ -505,9 +538,12 @@ func writeRecord(w io.Writer, g group) {
 }
 
 func trunc(s string, n int) string {
-	s = strings.ReplaceAll(s, "\t", " ")
-	if len(s) > n {
-		return s[:n-1] + "…"
+	// an escaped newline in a JSON msg must not become two stdout lines, and
+	// truncation must not cut a multi-byte rune in half (invalid UTF-8 out)
+	s = strings.ReplaceAll(strings.ReplaceAll(s, "\t", " "), "\n", "\\n")
+	r := []rune(s)
+	if len(r) > n {
+		return string(r[:n-1]) + "…"
 	}
 	return s
 }
@@ -527,6 +563,12 @@ func reorderArgs(args []string) []string {
 	for i := 0; i < len(args); i++ {
 		a := args[i]
 		name := strings.TrimLeft(a, "-")
+		// "-level=error" names the flag before the "=" — TrimLeft alone sees
+		// "level=error", misses the map, and the flag becomes a positional
+		// (post-ship finding F1: the hoister defeated itself on = syntax)
+		if i := strings.IndexByte(name, '='); i >= 0 {
+			name = name[:i]
+		}
 		if strings.HasPrefix(a, "-") && a != "-" && (takesValue[name] || zeroAry[name]) {
 			flags = append(flags, a)
 			if takesValue[name] && !strings.Contains(a, "=") && i+1 < len(args) {
@@ -573,7 +615,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 	switch {
 	case path == "-":
 		if fi, err := os.Stdin.Stat(); err != nil || fi.Mode()&os.ModeCharDevice != 0 {
-			fmt.Fprintln(stderr, "loglens: no file given and stdin is a terminal — pass a file or pipe into me")
+			fmt.Fprintln(stderr, "loglens: no file given and stdin is a terminal or not a pipe — pass a file or pipe into me")
 			return 2
 		}
 		in = os.Stdin
@@ -603,7 +645,14 @@ func run(args []string, stdout, stderr io.Writer) int {
 		for _, l := range strings.Split(*levelList, ",") {
 			nl := normLevel(l)
 			if nl == "" {
-				fmt.Fprintf(stderr, "loglens: unknown level %q (trace,debug,info,notice,warn,error,fatal)\n", strings.TrimSpace(l))
+				// the log parsers accept numeric levels (syslog/python); the
+				// flag should not be the one place that rejects them
+				if f, err := strconv.ParseFloat(strings.TrimSpace(l), 64); err == nil {
+					nl = levelFromNumber(f)
+				}
+			}
+			if nl == "" {
+				fmt.Fprintf(stderr, "loglens: unknown level %q (trace,debug,info,notice,warn,error,fatal or a numeric level)\n", strings.TrimSpace(l))
 				return 2
 			}
 			flt.levels[nl] = true

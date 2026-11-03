@@ -63,8 +63,9 @@ At scale: a 200k-line synthetic app log with 5,000 identical crashes collapses t
 
 | Decision | Rule | Why |
 |----------|------|-----|
-| Format | first 50 lines vote — but only lines that anchor in *some* format get a vote | a JSON log whose errors carry stack traces is half non-JSON lines; counting those against JSON rejected the tool's own core case on day one |
+| Format | first 50 lines vote — but only *log-shaped* lines vote (a JSON object counts only with a time or a level), and continuations never vote | a JSON log whose errors carry stack traces is half non-JSON lines; counting those against JSON rejected the tool's own core case on day one. Meanwhile one log-shaped line is enough (`tail -n 1 \| loglens -`), while a stray `{"a":1}` blob can't capture a plain file |
 | Records vs lines | a line anchors by leading timestamp or level word; everything else attaches to the record above | stack traces are continuations in every format — that's the thing grep cannot model |
+| Mixed files | a line the primary format rejects retries as a plain anchor before becoming a continuation | services interleave structured and unstructured output; a filtered-out JSON record must not silently swallow the plain error below it |
 | Levels | JSON: `level`/`severity`/`lvl` (string or numeric — syslog 0-7, python 10-50); apache: 5xx/4xx; plain: leading level word or `level=` key | normalize, never invent: a line with no level counts as level-less in the footer, it doesn't guess INFO |
 | Time window anchor | durations count back from the file's **newest** timestamp | `-since 30m` on a 3-day-old incident log must mean the log's last half hour, not an empty window |
 | Duplicate collapse | consecutive records with identical level + message + continuation lines fold to `×N` with a time range | the 500-line wall of one crash is one record; the *same* crash at a different time keeps its place — context is information |
@@ -75,12 +76,14 @@ At scale: a 200k-line synthetic app log with 5,000 identical crashes collapses t
 ## Validate it works
 
 ```bash
-go test    # 19 checks: parser tables (timestamps, epochs incl. ns-precision, levels),
-           # sniff+parse on the fixtures, filter/collapse counting, run() exit
-           # trichotomy in-process, subprocess matrix on the real binary
+go test    # 29 checks: parser tables (timestamps incl. +0530 no-colon zones, epochs incl.
+           # ns-precision, levels), sniff+parse on the fixtures, filter/collapse counting,
+           # run() exit trichotomy in-process, subprocess matrix on the real binary,
+           # + 10 post-ship regressions (flag= syntax, small-file sniff, mixed-file
+           # fallback, string epochs, rune-safe truncation, …)
 ```
 
-Real-world validation before shipping: this machine's npm debug logs (read honestly as plain-inert — npm's counter-prefixed levels are a documented non-goal), 10.6 MB `/var/log/install.log` (42,622 records, 0.4s, `-since 24h` window with real +10:30 zones), a 200k-line JSON flood (5,000 crashes → 1 group), pipe-clean stdout, and the full exit-code matrix pipe-free.
+Real-world validation before shipping: this machine's npm debug logs (read honestly as plain-inert — npm's counter-prefixed levels are a documented non-goal), 10.6 MB `/var/log/install.log` (42,622 records, 0.4s, `-since 24h` window with real +10:30 zones), a 200k-line JSON flood (5,000 crashes → 1 group), pipe-clean stdout, and the full exit-code matrix pipe-free. Post-ship, a fresh-context adversarial reviewer attacked the binary with real-world log trivia (`-flag=value` after the file, Python `%z` zones, `tail -1` pipes, mixed files, stringified epochs, `\n` inside JSON msgs, URLs containing `level=`): 11 findings, 0 crashes, 10 fixed with a regression check each — see the [build log](BUILD-LOG.md).
 
 ## Deliberately not built
 
@@ -88,6 +91,6 @@ No ingestion agents, no storage/indexing, no UI, no fuzzy duplicate grouping (sa
 
 ## Files
 
-- `loglens.go` — the tool (718 lines, stdlib only)
-- `loglens_test.go` — the one runnable check (19 tests, stdlib `testing`)
-- `fixtures/` — `app.log` (JSON+stacks+duplicates), `access.log` (apache CLF), `plain.log` (python/logfmt/log4j/syslog styles)
+- `loglens.go` — the tool (767 lines, stdlib only)
+- `loglens_test.go` — the one runnable check (29 tests, stdlib `testing`)
+- `fixtures/` — `app.jsonl` (JSON+stacks+duplicates), `access.clf` (apache CLF), `plain.txt` (python/logfmt/log4j/syslog styles)

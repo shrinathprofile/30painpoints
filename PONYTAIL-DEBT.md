@@ -33,5 +33,6 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-06/loglens.go `stackCap` | stack dumps capped at 10 continuation lines | the complaint is drowning, not missing data | a user needing the full trace |
 | day-06/loglens.go `reorderArgs` | flag arity map listed by hand | three flags; a missed one stays Go-convention | a second flag day |
 | day-06/loglens.go `parsePlainLine` | npm's counter-prefixed levels unrecognized (file reads plain-inert) | npm's format is its own dialect; shown, never guessed | someone asking for npm logs |
+| day-06/loglens.go `apacheRe` | escaped quotes inside the request field are not parsed (line demotes to continuation) | rare producer; the rest of CLF is rigid | a user with such access logs |
 
-29 markers, all low-severity, all with named triggers.
+30 markers, all low-severity, all with named triggers.

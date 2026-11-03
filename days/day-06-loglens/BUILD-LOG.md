@@ -52,3 +52,24 @@
 - `/var/log/install.log`, 10.6 MB of real macOS log: 42,622 records in 0.42s; `-since 24h` window resolved against the file's real +10:30 zone; `-level` correctly refused as cannot-check (that log carries no levels).
 - 200k-line synthetic JSON flood (5,000 identical crashes with stacks): all 5,000 collapse to one group, 3 lines of stdout, 0.38s.
 - Exit matrix, pipe-free: match 0 · no-match 1 · missing file 2 · unknown level 2 · bad -since 2 · unknown flag 2 · help 0 · empty stdin 1.
+
+## Post-ship adversarial pass (day-01 pattern, fresh-context reviewer)
+A second ZCode agent with no author bias attacked the shipped binary in a scratch dir, every finding reproduced twice: **11 findings, 0 crashes, exit trichotomy held on every single run** (all the 2s were the *message* being wrong, never the class). Ten fixed, each with a regression check (19 → 29 tests); one kept as a documented ceiling.
+
+Fixed — the five wrong-result class first:
+- **F1** `-level=error` after the file: `reorderArgs` looked up `"level=error"` in its arity map, missed, and the flag became a second positional — "one file at a time", exit 2. The flag-hoister defeated itself on the exact syntax Go's own flag docs show. Fix: name split on `=`.
+- **F2** `+0530` zones (Python `%z`, Java `Z`, ISO basic) matched the time regex but no layout, so *every line in a file* went inert and `-level`/`-since` became cannot-checks. Fix: retry with the zone colonized; apache's own `-0700` parses on the first pass, untouched.
+- **F3** a 1-line JSON log (the `tail -n 1 | loglens -` workflow) failed the `j > 1` sniff guard, and the sniffer was BOM-blind (parseLines strips the BOM; sniff voted on the raw line). Fix: only *log-shaped* JSON lines vote (must carry time or level — `{"a":1}` blobs can't capture plain files), `j*2 >= seen || j >= 2`, BOM stripped in the sniff too.
+- **F4** mixed JSON+plain files: a plain ERROR line between JSON records glued onto the JSON record above it, and died with it under any filter — absent from output *and* from every footer stat. Fix: a line the primary format rejects retries as a plain anchor before becoming a continuation.
+- **F5** stringified epochs (`"ts":"1793750400"`, Bunyan lineage) were invisible — `parseEpoch` only ran for JSON numbers. Fix: string time keys try layout, then epoch digits.
+- **F6** an escaped `\n` inside a JSON msg printed a bare phantom stdout line. Fix: display escapes newlines.
+- **F7** byte-sliced truncation could cut a multi-byte rune in half — invalid UTF-8 on stdout. Fix: rune-safe trunc.
+- **F9** `?level=debug` inside a URL self-anchored a continuation line as a DEBUG record. Fix: `level=` counts only at start or after whitespace.
+- **F10** 5-field short CLF lines (no bytes column) demoted whole access logs to plain-inert. Fix: bytes field optional.
+- **F11** docker json-file lines carry the message under `"log"` — now in the msg keys (`{"log":"boom\n","stream":"stderr",…}` parses; the newline is real message data).
+- Trivia in passing: `/dev/null` stdin message no longer claims "terminal"; `-level 3` (numeric syslog severity) now accepted at the flag like the parsers accept it.
+
+Kept as documented ceiling:
+- **F8** two consecutive records differing only past char 160 render as identical truncated lines with no `×N` — the fingerprint is exact by design, the display truncates; grep the shown line number for the full record. Plus apache requests with escaped quotes stay continuations (new `ponytail:` marker, ledger 29 → 30).
+
+Verified-correct highlights from the same pass (the list that ships the tool): exit trichotomy on every run; CRLF, BOM, NUL, a `/dev/urandom` file, a 10MB single line, no-trailing-newline; ns through 1,2,4,5,7-digit fractions; exact window math in +05:30 and −0700 zones incl. newest-at-top anchoring; dup-keys last-wins, emoji, unicode escapes; `×N` ranges in the record's own zone; 15-line stack capped at 10 with the `+5 more` note; color only on TTY with `NO_COLOR` respected; footer always on stderr.
