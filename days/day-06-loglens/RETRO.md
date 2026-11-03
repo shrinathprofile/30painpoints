@@ -17,7 +17,7 @@ Seven markers (see BUILD-LOG): in-memory whole-file, syslog year-0, exact-text c
 ## Numbers
 - Time spent: ~3h (🔵 build-day box)
 - Token spend (est.): ~1.9M total — ≈350k brief+build+checks+docs, ~1.5M the adversarial reviewer. The validator out-spent the builder ~4:1 and it was worth every token: 11 findings for the price of one fresh pair of eyes.
-- Self-check passing: yes — 29/29 (19 at ship + 10 post-ship regressions); exit matrix pipe-free: match 0 · no-match 1 · missing/bad-level/bad-since/unknown-flag 2 · help 0; real runs: npm logs (honest plain-inert), 10.6 MB install.log → 42,622 records in 0.42s with a +10:30-zone window, 200k-line flood → 5,000 crashes collapsed to 1 group
+- Self-check passing: yes — 33/33 (19 at ship + 10 post-ship + 4 from validation pass 2); exit matrix pipe-free: match 0 · no-match 1 · missing/bad-level/bad-since/unknown-flag 2 · help 0; real runs: npm logs (honest plain-inert), 10.6 MB install.log → 42,622 records in 0.42s with a +10:30-zone window, 200k-line flood → 5,000 crashes collapsed to 1 group
 
 ## Tomorrow
 Day 07 (viewport-wall, 🟢 light day + weekly carousel): React + Vite device-grid with synchronized scroll. Carry-overs: the "vote among candidates that can vote" rule (applies to which viewports render vs error), and Sunday's weekly extras — `/ponytail-audit` over six shipped tools, ledger regeneration (now 30 markers), metrics update.

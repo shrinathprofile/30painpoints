@@ -12,8 +12,8 @@ Exit codes follow grep, so existing pipelines swap over unchanged: `0` matched �
 ## Run it
 
 ```bash
-# needs any recent Go (built here on 1.27) — or nothing at all: the 4MB static
-# binary in this folder runs on a bare machine
+# needs any recent Go (built here on 1.27) — or nothing at all: the ~4MB binary
+# (`go build`; gitignored) runs on a bare machine
 go run loglens.go app.log -level error,warn        # errors and warns, stacks attached
 go run loglens.go app.log -since 30m -level error  # last 30 minutes OF THE LOG
 go run loglens.go access.log -level error          # apache: 5xx are errors, 4xx warns
@@ -66,7 +66,7 @@ At scale: a 200k-line synthetic app log with 5,000 identical crashes collapses t
 | Format | first 50 lines vote — but only *log-shaped* lines vote (a JSON object counts only with a time or a level), and continuations never vote | a JSON log whose errors carry stack traces is half non-JSON lines; counting those against JSON rejected the tool's own core case on day one. Meanwhile one log-shaped line is enough (`tail -n 1 \| loglens -`), while a stray `{"a":1}` blob can't capture a plain file |
 | Records vs lines | a line anchors by leading timestamp or level word; everything else attaches to the record above | stack traces are continuations in every format — that's the thing grep cannot model |
 | Mixed files | a line the primary format rejects retries as a plain anchor before becoming a continuation | services interleave structured and unstructured output; a filtered-out JSON record must not silently swallow the plain error below it |
-| Levels | JSON: `level`/`severity`/`lvl` (string or numeric — syslog 0-7, python 10-50); apache: 5xx/4xx; plain: leading level word or `level=` key | normalize, never invent: a line with no level counts as level-less in the footer, it doesn't guess INFO |
+| Levels | JSON: `level`/`severity`/`lvl` (string or numeric — syslog 0-7, pino/bunyan 10-60); apache: 5xx/4xx; plain: leading level word or `level=` key | normalize, never invent: a line with no level counts as level-less in the footer, it doesn't guess INFO |
 | Time window anchor | durations count back from the file's **newest** timestamp | `-since 30m` on a 3-day-old incident log must mean the log's last half hour, not an empty window |
 | Duplicate collapse | consecutive records with identical level + message + continuation lines fold to `×N` with a time range | the 500-line wall of one crash is one record; the *same* crash at a different time keeps its place — context is information |
 | Drops | every filtered record counted in the footer (`filtered`/`timeless`/`level-less`) | day-05 carry-over: a drop you can't account for is a silent lie |
@@ -76,7 +76,7 @@ At scale: a 200k-line synthetic app log with 5,000 identical crashes collapses t
 ## Validate it works
 
 ```bash
-go test    # 29 checks: parser tables (timestamps incl. +0530 no-colon zones, epochs incl.
+go test    # 33 checks: parser tables (timestamps incl. +0530 no-colon zones, epochs incl.
            # ns-precision, levels), sniff+parse on the fixtures, filter/collapse counting,
            # run() exit trichotomy in-process, subprocess matrix on the real binary,
            # + 10 post-ship regressions (flag= syntax, small-file sniff, mixed-file
@@ -91,6 +91,6 @@ No ingestion agents, no storage/indexing, no UI, no fuzzy duplicate grouping (sa
 
 ## Files
 
-- `loglens.go` — the tool (767 lines, stdlib only)
-- `loglens_test.go` — the one runnable check (29 tests, stdlib `testing`)
+- `loglens.go` — the tool (782 lines, stdlib only)
+- `loglens_test.go` — the one runnable check (33 tests, stdlib `testing`)
 - `fixtures/` — `app.jsonl` (JSON+stacks+duplicates), `access.clf` (apache CLF), `plain.txt` (python/logfmt/log4j/syslog styles)

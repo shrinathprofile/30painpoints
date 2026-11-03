@@ -51,16 +51,19 @@ var levelNames = map[string]string{
 
 func normLevel(s string) string { return levelNames[strings.ToLower(strings.TrimSpace(s))] }
 
-// levelFromNumber: 0-7 syslog, 10-50 python logging's ladder. Anything else is not a level.
+// levelFromNumber: 0-7 syslog, 10-60 pino/bunyan's ladder. Anything else is not a level.
+// pino/bunyan, not python: they are the encoders that emit a numeric "level"
+// by default (python's JSON formatters emit levelname strings) — reading pino
+// on python's ladder showed warns as ERROR and hid real errors as FATAL.
 func levelFromNumber(n float64) string {
 	syslog := []string{"FATAL", "FATAL", "FATAL", "ERROR", "WARN", "NOTICE", "INFO", "DEBUG"}
-	python := map[int]string{10: "DEBUG", 20: "INFO", 30: "WARN", 40: "ERROR", 50: "FATAL"}
+	pino := map[int]string{10: "TRACE", 20: "DEBUG", 30: "INFO", 40: "WARN", 50: "ERROR", 60: "FATAL"}
 	i := int(n)
 	switch {
 	case n >= 0 && n < 8 && n == float64(i):
 		return syslog[i]
-	case n >= 10 && n <= 50 && n == float64(i):
-		return python[i]
+	case n >= 10 && n <= 60 && n == float64(i):
+		return pino[i]
 	}
 	return ""
 }
@@ -121,7 +124,17 @@ func parseEpoch(s string) (time.Time, bool) {
 	if err != nil {
 		return time.Time{}, false
 	}
-	return time.Unix(int64(f), 0).UTC(), true // float seconds: sub-second digits are a courtesy
+	// same magnitude ladder as the int path: zap's EpochMillisTimeEncoder emits
+	// float ms (1793750400123.456), which read as seconds lands in year 58811
+	switch {
+	case f > 1e17:
+		return time.Unix(0, int64(f)).UTC(), true
+	case f > 1e14:
+		return time.Unix(0, int64(f*1e3)).UTC(), true
+	case f > 1e11:
+		return time.Unix(0, int64(f*1e6)).UTC(), true
+	}
+	return time.Unix(0, int64(f*1e9)).UTC(), true
 }
 
 // ---------- format detection ----------
@@ -174,7 +187,7 @@ func sniffFormat(lines []string) format {
 	switch {
 	case j > 0 && j >= a && (j*2 >= seen || j >= 2):
 		return fmtJSON
-	case a > 1 && a > j:
+	case a > 0 && a > j && (a*2 >= seen || a >= 2): // same rule as JSON: tail -n 1 of an access log
 		return fmtApache
 	default:
 		return fmtPlain
@@ -464,7 +477,9 @@ func collapse(recs []Record) []group {
 			// is a different crash until a user asks for fuzzy grouping
 			if g.rec.Level == r.Level && g.rec.Msg == r.Msg && strings.Join(g.rec.Extra, "\x00") == strings.Join(r.Extra, "\x00") {
 				g.n++
-				g.last = r.Time
+				if r.HasTime { // a timeless repeat must not print "(… 00:00:00)"
+					g.last = r.Time
+				}
 				continue
 			}
 		}

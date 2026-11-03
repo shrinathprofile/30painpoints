@@ -73,3 +73,13 @@ Kept as documented ceiling:
 - **F8** two consecutive records differing only past char 160 render as identical truncated lines with no `×N` — the fingerprint is exact by design, the display truncates; grep the shown line number for the full record. Plus apache requests with escaped quotes stay continuations (new `ponytail:` marker, ledger 29 → 30).
 
 Verified-correct highlights from the same pass (the list that ships the tool): exit trichotomy on every run; CRLF, BOM, NUL, a `/dev/urandom` file, a 10MB single line, no-trailing-newline; ns through 1,2,4,5,7-digit fractions; exact window math in +05:30 and −0700 zones incl. newest-at-top anchoring; dup-keys last-wins, emoji, unicode escapes; `×N` ranges in the record's own zone; 15-line stack capped at 10 with the `+5 more` note; color only on TTY with `NO_COLOR` respected; footer always on stderr.
+
+## Validation pass 2 (2026-11-04, fresh-context re-check)
+Re-ran everything from a clean checkout: `gofmt`/`go vet` clean, 29/29 green, README sample outputs byte-identical to a fresh build, ledger count (30, 7 day-06) consistent. Then a second adversarial probe: **4 wrong-result findings, all fixed with a regression check (29 → 33 tests)**, README output still byte-identical.
+- **V1** numeric JSON levels read on python's 10-50 ladder — but pino/bunyan are the encoders that actually emit `"level":50` by default (python's JSON formatters emit `levelname` strings). A pino log under `-level error` showed the *warn* (40) as ERROR, hid the real error (50) as FATAL, and dropped fatal (60) as level-less — exit 0. Fix: pino ladder 10 trace … 60 fatal. Fixture `app.jsonl` line 17 `lvl:40` → `lvl:50` (it was written as an error).
+- **V2** float epochs were always seconds — zap's `EpochMillisTimeEncoder` (`1793750400123.456`) landed in year 58811 and `-since` resolved a nonsense window. Fix: floats take the same s/ms/µs/ns magnitude ladder as ints.
+- **V3** a 1-line access log (`tail -n 1 access.log | loglens -`) failed apache's `a > 1` guard → plain-inert → `-level` cannot-check. F3's fix was applied to JSON only. Fix: apache takes the same share rule.
+- **V4** a duplicate whose repeat carries no timestamp printed `×2 (… 00:00:00)`. Fix: only timed repeats move the range end.
+- Housekeeping: the local `loglens` binary was built *before* the post-ship fixes (F1/F2 reproduced on it); rebuilt. README no longer calls it "static" — on macOS Go links libSystem dynamically.
+- Not fixed, honest exit 2 (format gaps, not wrong results): nginx `error.log` (`2026/11/04 … [error]` — slash dates, lowercase bracketed level) and klog (`E1104 10:00:00.123456 …`, every Kubernetes component) both read as plain-inert.
+

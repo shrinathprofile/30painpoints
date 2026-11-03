@@ -39,7 +39,7 @@ func TestLevelFromNumber(t *testing.T) {
 		want string
 	}{
 		{0, "FATAL"}, {3, "ERROR"}, {4, "WARN"}, {7, "DEBUG"}, // syslog severities
-		{10, "DEBUG"}, {20, "INFO"}, {30, "WARN"}, {40, "ERROR"}, {50, "FATAL"}, // python logging
+		{10, "TRACE"}, {20, "DEBUG"}, {30, "INFO"}, {40, "WARN"}, {50, "ERROR"}, {60, "FATAL"}, // pino/bunyan
 		{8, ""}, {9, ""}, {25, ""}, {3.5, ""}, // not a level in either ladder
 	}
 	for _, c := range cases {
@@ -98,11 +98,11 @@ func TestParseJSONLine(t *testing.T) {
 		!rec.Time.Equal(time.Date(2026, 11, 4, 10, 4, 11, 0, time.UTC)) {
 		t.Errorf("basic JSON record: %+v ok=%v", rec, ok)
 	}
-	// epoch-ms ts + python numeric lvl + "message" key
-	rec, _ = parseJSONLine(`{"ts":1793750400123,"lvl":40,"message":"payments worker crashed"}`)
+	// epoch-ms ts + pino numeric lvl + "message" key
+	rec, _ = parseJSONLine(`{"ts":1793750400123,"lvl":50,"message":"payments worker crashed"}`)
 	if rec.Level != "ERROR" || rec.Msg != "payments worker crashed" ||
 		!rec.Time.Equal(time.Date(2026, 11, 4, 0, 0, 0, 123000000, time.UTC)) {
-		t.Errorf("epoch/py-level JSON record: %+v", rec)
+		t.Errorf("epoch/pino-level JSON record: %+v", rec)
 	}
 	// syslog numeric severity, severity key with alias
 	rec, _ = parseJSONLine(`{"time":"2026-11-04T10:16:00Z","level":3,"msg":"upstream 502"}`)
@@ -593,9 +593,50 @@ func TestPostShipShortApacheAndDocker(t *testing.T) {
 }
 
 func TestPostShipNumericLevelFlag(t *testing.T) {
-	// trivia fix: the parsers accept syslog/python numeric levels; the flag
+	// trivia fix: the parsers accept syslog/pino numeric levels; the flag
 	// was the one place that rejected "-level 3" (syslog severity 3 = ERROR)
 	if code, _, errs := runCLI(t, "fixtures/app.jsonl", "-level", "3"); code != 0 || strings.Contains(errs, "unknown level") {
 		t.Errorf("numeric level flag: code=%d err=%q", code, errs)
+	}
+}
+
+// ---------- validation pass 2 (2026-11-04) ----------
+
+func TestValidationPinoLevels(t *testing.T) {
+	// pino/bunyan: 30 info, 40 warn, 50 error, 60 fatal — -level error must
+	// show the error, not the warn, and fatal must not go level-less
+	for in, want := range map[string]string{
+		`{"level":40,"time":1793750401000,"msg":"slow"}`:    "WARN",
+		`{"level":50,"time":1793750402000,"msg":"db down"}`: "ERROR",
+		`{"level":60,"time":1793750403000,"msg":"exiting"}`: "FATAL",
+	} {
+		if rec, _ := parseJSONLine(in); rec.Level != want {
+			t.Errorf("%s: level %q, want %q", in, rec.Level, want)
+		}
+	}
+}
+
+func TestValidationFloatMillisEpoch(t *testing.T) {
+	// zap EpochMillisTimeEncoder: float ms, not float seconds
+	tm, ok := parseEpoch("1793750400123.5")
+	if !ok || tm.Year() != 2026 || tm.Nanosecond()/1e6 != 123 {
+		t.Errorf("float ms epoch: %v ok=%v", tm, ok)
+	}
+	if tm, _ := parseEpoch("1793750400.5"); tm.Year() != 2026 || tm.Nanosecond() != 5e8 {
+		t.Errorf("float s epoch: %v", tm)
+	}
+}
+
+func TestValidationOneLineApacheSniff(t *testing.T) {
+	if f := sniffFormat([]string{`1.2.3.4 - - [04/Nov/2026:10:00:00 +0000] "GET / HTTP/1.1" 500 12`}); f != fmtApache {
+		t.Errorf("tail -n 1 of an access log sniffed as %v", f)
+	}
+}
+
+func TestValidationTimelessRepeatRange(t *testing.T) {
+	var b bytes.Buffer
+	writeRecord(&b, collapse([]Record{mkRec("ERROR", "boom", "2026-11-04T10:00:00Z"), mkRec("ERROR", "boom", "")})[0])
+	if strings.Contains(b.String(), "00:00:00") {
+		t.Errorf("timeless repeat printed a zero time: %q", b.String())
 	}
 }
