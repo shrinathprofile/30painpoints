@@ -1,0 +1,13 @@
+127.0.0.1 - frank [04/Nov/2026:10:00:01 -0700] "GET /apollo.gif HTTP/1.0" 200 1043
+127.0.0.1 - frank [04/Nov/2026:10:00:04 -0700] "GET /favicon.ico HTTP/1.0" 404 231
+leela - - [04/Nov/2026:10:01:11 -0700] "GET /shutdown HTTP/1.0" 500 0
+leela - - [04/Nov/2026:10:01:12 -0700] "GET /shutdown HTTP/1.0" 500 0
+leela - - [04/Nov/2026:10:01:13 -0700] "GET /shutdown HTTP/1.0" 500 0
+bender - - [04/Nov/2026:10:02:00 -0700] "POST /upload HTTP/1.0" 503 152
+fry - - [04/Nov/2026:10:02:30 -0700] "GET /stats.json HTTP/1.0" 200 -
+zoidberg - - [04/Nov/2026:10:03:00 -0700] "GET /healthz HTTP/1.0" 200 2
+amy - - [04/Nov/2026:10:03:41 -0700] "DELETE /session/9 HTTP/1.0" 500 0
+amy - - [04/Nov/2026:10:03:42 -0700] "DELETE /session/9 HTTP/1.0" 500 0
+hermes - - [04/Nov/2026:10:04:10 -0700] "GET /reports.csv HTTP/1.0" 404 512
+nibbler - - [04/Nov/2026:10:05:00 -0700] "GET /feed HTTP/1.0" 304 -
+lrrr - - [04/Nov/2026:10:05:44 -0700] "POST /payments/4411 HTTP/1.0" 502 877

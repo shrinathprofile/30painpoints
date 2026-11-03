@@ -27,5 +27,11 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-05/todo-debt.ts `createApi` | one page of PR comments (100) searched for our marker | update-in-place keeps our report near the top | a PR whose report lands off page 1 |
 | day-05/todo-debt.ts `markerRegex` | marker words match in prose too (a doc mentioning "TODO-debt indexer" indexes) | grep has the same eyes | a user needing a code-only allowlist |
 | day-05/todo-debt.ts `run` | one blame spawn per file-with-hits | fine at every sane repo size | a perf report on a huge repo |
+| day-06/loglens.go header | single-file CLI, stdlib only, whole file buffered in memory | `-since` anchors to the newest timestamp, which needs the end of the file | logs too big for RAM |
+| day-06/loglens.go `timeLayouts` | syslog year-less stamps keep year 0 | can't guess a year honestly | an absolute-window user with mixed syslog |
+| day-06/loglens.go `collapse` | fingerprint is exact text, no id/number normalization | same crash + different request id = different crash | a user asking for fuzzy grouping |
+| day-06/loglens.go `stackCap` | stack dumps capped at 10 continuation lines | the complaint is drowning, not missing data | a user needing the full trace |
+| day-06/loglens.go `reorderArgs` | flag arity map listed by hand | three flags; a missed one stays Go-convention | a second flag day |
+| day-06/loglens.go `parsePlainLine` | npm's counter-prefixed levels unrecognized (file reads plain-inert) | npm's format is its own dialect; shown, never guessed | someone asking for npm logs |
 
-23 markers, all low-severity, all with named triggers.
+29 markers, all low-severity, all with named triggers.

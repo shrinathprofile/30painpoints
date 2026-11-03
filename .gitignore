@@ -10,3 +10,4 @@ __pycache__/
 *.log
 docs/
 days/*/LINKEDIN-POST.md
+days/day-06-loglens/loglens

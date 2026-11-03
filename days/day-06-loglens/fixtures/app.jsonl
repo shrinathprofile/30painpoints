@@ -1,0 +1,25 @@
+starting up worker pid=4242
+{"time":"2026-11-04T10:00:01Z","level":"info","msg":"service start","port":8080}
+{"time":"2026-11-04T10:00:03Z","level":"debug","msg":"cache warm","keys":512}
+{"time":"2026-11-04T10:04:11Z","level":"error","msg":"db query failed","query":"SELECT 1"}
+goroutine 1 [running]:
+main.queryDB()
+	/usr/src/app/main.go:42 +0xf8
+{"time":"2026-11-04T10:04:12Z","level":"error","msg":"db query failed","query":"SELECT 1"}
+goroutine 1 [running]:
+main.queryDB()
+	/usr/src/app/main.go:42 +0xf8
+{"time":"2026-11-04T10:04:13Z","level":"error","msg":"db query failed","query":"SELECT 1"}
+goroutine 1 [running]:
+main.queryDB()
+	/usr/src/app/main.go:42 +0xf8
+{"time":"2026-11-04T10:05:00Z","level":"warn","msg":"retry scheduled","attempt":1}
+{"ts":1793790000000,"lvl":40,"message":"payments worker crashed"}
+{"time":"2026-11-04T10:09:44Z","level":"error","msg":"db query failed","query":"SELECT 1"}
+goroutine 1 [running]:
+main.queryDB()
+	/usr/src/app/main.go:42 +0xf8
+{"level":"warn","msg":"heartbeat missed"}
+{"time":"2026-11-04T10:14:02Z","severity":"warning","message":"disk usage 91%"}
+{"time":"2026-11-04T10:14:59Z","level":"info","msg":"healthcheck ok"}
+{"time":"2026-11-04T10:16:00Z","level":3,"msg":"upstream returned 502 (syslog sev 3)"}

@@ -1,0 +1,17 @@
+2026-11-04 10:00:01,123 INFO scheduler online workers=8
+2026-11-04 10:00:02,001 ERROR payment failed
+Traceback (most recent call last):
+  File "pay.py", line 10, in charge
+    card = tokenize(tok)
+TimeoutError: upstream did not respond in 5s
+2026-11-04 10:00:02,140 ERROR payment failed
+Traceback (most recent call last):
+  File "pay.py", line 10, in charge
+    card = tokenize(tok)
+TimeoutError: upstream did not respond in 5s
+time=2026-11-04T10:03:00Z level=warn msg="retry queue depth 41" attempt=2
+time=2026-11-04T10:03:05Z level=error msg="retry abandoned" job=4471
+[2026-11-04 10:04:00Z] NOTICE log rotation scheduled
+2026-11-04 10:04:20Z metrics mention error_rate=0.3 in prose
+2026-11-04 10:04:30Z WARNING memory at 82%
+Nov  4 09:59:58 web1 sshd[4242]: Accepted publickey for deploy
