@@ -34,5 +34,7 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-06/loglens.go `reorderArgs` | flag arity map listed by hand | three flags; a missed one stays Go-convention | a second flag day |
 | day-06/loglens.go `parsePlainLine` | npm's counter-prefixed levels unrecognized (file reads plain-inert) | npm's format is its own dialect; shown, never guessed | someone asking for npm logs |
 | day-06/loglens.go `apacheRe` | escaped quotes inside the request field are not parsed (line demotes to continuation) | rare producer; the rest of CLF is rigid | a user with such access logs |
+| day-07/app `lib.ts` FRAME_H | fixed 40,000px frame height — pages taller are cut off at the bottom | inner page height is unknowable cross-origin; the tall-frame trick needs a fixed height | a real page whose tail matters |
+| day-07/app `App.tsx` footer | blank-frame cause not detected (refused-embedding vs unreachable) | no cross-browser signal the parent can read; a guessed badge would sometimes point at the wrong cause | a reliable cross-browser detection API |
 
-30 markers, all low-severity, all with named triggers.
+32 markers, all low-severity, all with named triggers.

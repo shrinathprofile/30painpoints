@@ -28,3 +28,9 @@
 - Decision: lint and fail — no spec regeneration, no editing, no hosted UI. The MVP is a CI exit code plus a copy-paste fix command; the scope cut (the tool never writes) is the same trust boundary as D01's diagnose-don't-touch, now on the write side.
 - Rule extracted: for drift complaints, ship enforcement, not repair — the fix is one `app.openapi()` re-export away and the user must be the one to run it.
 - Verdict lands: watch Day-4 post comments for "can it regenerate the spec for me?" — that's v2 demand signal, not scope regret (same watch as D01).
+
+### D07 — When the complaint names an expensive category, ship the slice the platform gives free
+- Signal: "cross device testing is so much harder than I expected" — a decade of threads whose answers split into "open 6 windows" (free) and BrowserStack/Sizzy/Polypane (paid). Nobody's mid-tier need (see five widths at once, free, now) was served.
+- Decision: ship exactly that slice — one engine, five widths, synced scroll — and name the cut IN the product's own footer ("responsive layout testing, not cross-browser engine testing"). The honest ceiling list (blocked frames, tall-page cutoff, pixel-sync) is part of the UI, not buried in docs.
+- Rule extracted: for every "the real tool costs $X" complaint, ask what the browser/platform already does free (iframes + overflow + CSS zoom here) — the free slice with honest ceilings beats a fake mini-version of the paid lab.
+- Verdict lands: watch Day-7 post comments for "can it screenshot/emulate Safari?" — that's the paid-tier demand signal, not scope regret (same watch as D01/D04).

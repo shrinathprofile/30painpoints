@@ -27,3 +27,9 @@
 - Did: validated read-only against TobikoData/sqlmesh (25 endpoints, in sync, exit 0 — on all three of their committed specs, including one from last September). The real run also produced the day's bug: their old code crashed at import and the tool exited 1, the drift code.
 - Rule (D02 repeated): run it on a name the audience recognizes — "in sync on sqlmesh" says more about the tool than any fixture, and the streak sentence ("day 1 npm's bin link, day 2 GitHub's default sort, day 3 root's mDNSResponder, day 4 a broken import reading as drift") turns four bugs into one compounding judgment signal.
 - Rule: when the evidence thread can't be re-fetched (Reddit bot wall), the post leans on the series' own numbers instead — never invent upvote counts; the honesty IS the brand.
+
+### D07 — A deployed live link is the strongest launch asset so far
+- Did: shipped the series' first deployed tool (GitHub Pages, orphan gh-pages branch from dist, verified on the live URL before posting). The demo needs zero setup: click the link, type any site, see five widths. Self-demoing hash links (`#https://…`) make shared URLs render the wall pre-loaded.
+- Rule: on visual days, the live link leads the post assets and goes in the first comment with the repo — "try it now" beats "here's a screenshot". Verify the deployed artifact (not the dev server) before claiming it live — deployed-base-path bugs (asset 404s) only exist in production builds.
+- Caught-mistake beat (the series' signature, D01): the selfcheck that was green in Node but false in the browser — "my own test suite certified behavior the real browser doesn't have" is the day's honest-AI-moment line.
+- Meta: the root README index had silently missed day-06 (the D04 failure repeated). Fixed both lines with an annotation — the miss itself became index copy; the check changes from "add today" to "verify every prior day".
