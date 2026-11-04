@@ -7,6 +7,8 @@
 
 One page that renders any URL in **five device-width columns at once — 320 · 390 · 412 · 768 · 1280 — with synchronized scrolling**, so a responsive layout break is something you *see*, not something you imagine from five resized windows. Type a URL, press Enter, scroll anywhere: every width moves together. Zoom (25–100%) fits the whole wall on one screen.
 
+**Live: [shrinathprofile.github.io/30painpoints](https://shrinathprofile.github.io/30painpoints/)** — deployed build, verified on the live URL (exact widths + sync).
+
 No accounts, no screenshots, no upload: your browser renders the sites, locally, same as visiting them.
 
 ## Run it
