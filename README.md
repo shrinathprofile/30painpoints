@@ -49,6 +49,8 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 - [Day 03 — nuke-caches](days/day-03-nuke-caches/) · 186-point wish in r/webdev's "tool you wish existed" thread → one zero-dependency command that finds every dev cache, shows the bytes, and clears them
 - [Day 04 — docs-drift](days/day-04-docs-drift/) · the years-running r/devops question "how do you keep API docs up to date?" → a stdlib-only linter that fails CI when the committed OpenAPI spec disagrees with the FastAPI app
 - [Day 05 — todo-debt](days/day-05-todo-debt/) · the dead TODO-collector mourned in r/webdev's wish-thread → a blame-aged debt index + a PR ratchet that fails CI when a change adds net-new TODO/FIXME/HACK (this repo's own `ponytail:` ledger is its demo)
+- [Day 06 — loglens](days/day-06-loglens/) · "fresher struggling with logs while debugging" + 5 sibling r/devops threads → a zero-dependency Go CLI that reads log *records* grep can't see: format-detecting, stack-attaching, duplicate-collapsing, with grep-compatible exit codes *(index line added a day late — day-06 shipped without it; caught during day-07's index check)*
+- [Day 07 — viewport-wall](days/day-07-viewport-wall/) · a decade of "cross device testing is so much harder than I expected" threads → one page rendering any URL at 320/390/412/768/1280 simultaneously, synced scrolling, honest about every ceiling (blocked frames, engine-vs-width, page-length cut)
 
 ---
 
