@@ -36,5 +36,7 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-06/loglens.go `apacheRe` | escaped quotes inside the request field are not parsed (line demotes to continuation) | rare producer; the rest of CLF is rigid | a user with such access logs |
 | day-07/app `lib.ts` FRAME_H | fixed 40,000px frame height — pages taller are cut off at the bottom | inner page height is unknowable cross-origin; the tall-frame trick needs a fixed height | a real page whose tail matters |
 | day-07/app `App.tsx` footer | blank-frame cause not detected (refused-embedding vs unreachable) | no cross-browser signal the parent can read; a guessed badge would sometimes point at the wrong cause | a reliable cross-browser detection API |
+| day-08/standup-prep.ts `MAX_FETCH` | fetch capped at newest 1000 commits — an older window is silently short (the run prints a note when the cap is hit) | streaming `git log` complicates the injected-world seam for a case no sane repo hits | a real repo printing the cap note |
+| day-08/standup-prep.ts `--me` two-pass | email-when-it-matches else name — a window MIXING old and new identities (pre/post-rebase emails) loses the old-email side | per-commit authorship needs mailmap (`%aN`/`%aE` + a real .mailmap), not heuristics | a user report of missing own commits with both identities in one window |
 
-32 markers, all low-severity, all with named triggers.
+34 markers, all low-severity, all with named triggers.

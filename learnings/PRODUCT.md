@@ -34,3 +34,9 @@
 - Decision: ship exactly that slice — one engine, five widths, synced scroll — and name the cut IN the product's own footer ("responsive layout testing, not cross-browser engine testing"). The honest ceiling list (blocked frames, tall-page cutoff, pixel-sync) is part of the UI, not buried in docs.
 - Rule extracted: for every "the real tool costs $X" complaint, ask what the browser/platform already does free (iframes + overflow + CSS zoom here) — the free slice with honest ceilings beats a fake mini-version of the paid lab.
 - Verdict lands: watch Day-7 post comments for "can it screenshot/emulate Safari?" — that's the paid-tier demand signal, not scope regret (same watch as D01/D04).
+
+### D08 — The tool edits; it never authors
+- Signal: 717 upvotes / 312 comments on the daily-standup thread — and the same genre of threads across r/remotework where people can smell AI-written updates ("nobody reads the bot blurbs").
+- Decision: the LLM is polish-only and OFF by default; the base draft is 100% git-provable, printed FIRST, and survives any LLM failure (exit 2 names the reason, draft intact). "Today's plan and blockers" is deliberately absent — git cannot prove it, so the tool refuses to fabricate it. That refusal is the product's trust boundary, the same family as D01's diagnose-don't-touch.
+- Rule extracted: when the complaint is "writing this is dread", the MVP is a provable draft the user finishes in 30 seconds — not generation. The LLM is invited to the editing table, never the author's chair.
+- Verdict lands: watch Day-8 post comments for "can it write the blockers too?" — that's the v2 demand signal AND the line to hold (git can't know blockers; inventing them is how AI standups become noise).
