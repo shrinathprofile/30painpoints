@@ -67,4 +67,4 @@
 - `App.tsx` footer — blank-frame cause not detected (no cross-browser signal); honest note instead · trigger: a reliable cross-browser detection API existing
 
 ## The one check
-`node selfcheck.ts` — 16 executed asserts: URL trust boundary (http(s)-only iframe srcs; `javascript:`/`data:`/`ftp:` refused; localhost→http so dev servers aren't TLS-dead; `localhost.evil.com` NOT treated as local) + layout invariants (device widths strictly ascending, zooms in (0,1]). Hand-traced twice per case before running; 16/16 executed green.
+`node selfcheck.ts` — 21 executed asserts (16 at first ship, +5 from the adversarial fixes): URL trust boundary (http(s)-only iframe srcs; `javascript:`/`data:`/`mailto:`/`ftp:` refused; spaces/newlines refused; credentials stripped; localhost→http so dev servers aren't TLS-dead; `localhost.evil.com` NOT treated as local) + layout invariants (device widths strictly ascending, zooms in (0,1]). 21/21 executed green.
