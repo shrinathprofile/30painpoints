@@ -1,0 +1,10 @@
+{
+  "name": "standup-prep",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Drafts your 30-second standup from git commits — with an optional LLM tone pass. You still edit it.",
+  "bin": { "standup-prep": "./standup-prep.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}

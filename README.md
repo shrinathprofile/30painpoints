@@ -51,6 +51,7 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 - [Day 05 — todo-debt](days/day-05-todo-debt/) · the dead TODO-collector mourned in r/webdev's wish-thread → a blame-aged debt index + a PR ratchet that fails CI when a change adds net-new TODO/FIXME/HACK (this repo's own `ponytail:` ledger is its demo)
 - [Day 06 — loglens](days/day-06-loglens/) · "fresher struggling with logs while debugging" + 5 sibling r/devops threads → a zero-dependency Go CLI that reads log *records* grep can't see: format-detecting, stack-attaching, duplicate-collapsing, with grep-compatible exit codes *(index line added a day late — day-06 shipped without it; caught during day-07's index check)*
 - [Day 07 — viewport-wall](days/day-07-viewport-wall/) · a decade of "cross device testing is so much harder than I expected" threads → one page rendering any URL at 320/390/412/768/1280 simultaneously, synced scrolling, honest about every ceiling (blocked frames, engine-vs-width, page-length cut)
+- [Day 08 — standup-prep](days/day-08-standup-prep/) · 717 upvotes for hating to compose daily standups → a zero-dependency CLI that drafts the 30-second update from real commits, with an optional LLM tone pass that can polish but never invent (exit 0/1/2: draft / honest empty / cannot check)
 
 ---
 
