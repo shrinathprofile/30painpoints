@@ -72,10 +72,11 @@ Findings list verbatim-in-spirit; fix order mandatory wrong-result first. F1 had
 Post-fix re-smoke: linkedin30 9 commits ✓, career-ops 413 ✓ exit 0, pinned-clock rerun ✓ (the one "exit 1 mystery" was my own shell cwd drifting into the day folder — MODULE_NOT_FOUND from a doubled relative path, not the tool).
 
 ## Rung 4 — pass-2 fresh re-verify
-Fresh copy of all three files to a clean dir → **41/41 checks green from clean state** · invisible-byte scan (NUL/BOM) clean on both sources · tab-indent 0 · `node --experimental-strip-types --check` syntax OK (this stack's fmt/vet — no toolchain by design, zero-dep). README byte-identity captured at README time below.
+Fresh copy of all three files to a clean dir → **41/41 checks green from clean state** · invisible-byte scan (NUL/BOM) clean on both sources · tab-indent 0 · `node --experimental-strip-types --check` syntax OK (this stack's fmt/vet — no toolchain by design, zero-dep). README byte-identity re-checked on validation pass (2026-11-05): header + bullets identical; only the line-1 future-commit count drifted 1 → 3 as later commits landed — README wording corrected to say so.
 
 ## Shortcuts marked
-<Each `ponytail:` comment added today, one line: what + ceiling + upgrade trigger. Goes into the debt ledger at week's end.>
+- `standup-prep.ts` `MAX_FETCH` — fetch capped at newest 1000 commits; note prints when hit · trigger: a real repo printing the cap note
+- `standup-prep.ts` `--me` two-pass — email-when-it-matches else name; mixed old/new-email windows lose the old side · trigger: a user report of missing own commits with both identities in one window
 
 ## The one check
-<What self-check/test protects the core logic. One line.>
+`node self-check.ts` — 41 executed asserts (28 at Rung 1, 29 after self-review catch #3, 41 after the F1–F13 adversarial regressions): parser fixtures, scripted-world `run()` paths, CLI subprocess matrix, real-git end-to-end, TZ-gap windows. 41/41 executed green (re-run 2026-11-05).

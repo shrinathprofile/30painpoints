@@ -28,7 +28,7 @@ node standup-prep.ts --llm            # + one tone pass (needs STANDUP_LLM_KEY o
 
 ## What it looks like
 
-Real run on this series' own repo, pinned clock (`STANDUP_PREP_FAKE_NOW=1793767000` — the repro knob; every number below re-derives byte-for-byte):
+Real run on this series' own repo, pinned clock (`STANDUP_PREP_FAKE_NOW=1793767000 node standup-prep.ts --days 3` — the repro knob; the header and bullets re-derive byte-for-byte, while the first-line "dated after now" count grows by one with every commit landed after the pinned clock — 1 at writing):
 
 ```text
 (1 commit dated after now excluded — clock skew or rewritten dates)
