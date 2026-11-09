@@ -10,7 +10,7 @@
 `src/lib.ts` is the series' timezone kernel: `fold()` (NFD + mark-strip + lowercase — "São Paulo"/"İstanbul" hit ASCII aliases; İ folds to i *through* the combining-dot), the epoch-shift `zoneOffsetMin`, walk-forward `dayStart`, and the separator-guarantee rule for share-URL state. D13 (meeting-cost, shareable via URL params) is the named next importer of the hash-state pattern; D23/D24/D26/D28 inherit nothing here but the PWA shell comes later anyway.
 
 ## Ponytail debt created
-3 markers (`daySlots` real-span DST-day ceiling, `CITY_ALIASES` hand-curated table, no date picker) — ledger 34 → 37, all with named triggers.
+4 markers (`daySlots` real-span DST-day ceiling, `CITY_ALIASES` hand-curated table, no date picker, `fmts` per-zone formatter cache) — ledger 34 → 38, all with named triggers.
 
 ## Numbers
 - Time spent: ~1h 45m (inside the 1–2h light-day box, incl. ~12m adversarial-agent wall time)

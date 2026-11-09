@@ -41,5 +41,6 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-09/app `lib.ts` `daySlots` | 48 real half-hour slots — on the anchor zone's 2 DST days/year the local day is 23/25h: fall-back days lose the last local hour, spring-forward bleeds into tomorrow (per-instant cell truth unaffected) | the complaint is "which band today", not transition-day planning | a user planning a meeting on a DST-transition date (adversarial F1) |
 | day-09/app `lib.ts` `CITY_ALIASES` | ~90 hand-curated city aliases, not a geocoding dataset — a missed city falls through to the searchable IANA list (refusal with guidance, never a wrong guess) | aliases cover the complaint thread's cities + majors | a report naming a missed city |
 | day-09/app `App.tsx` footer | no date picker — the grid anchors to today only | comparing a DST-transition date is a different question than "when can we meet today" | someone needing to compare transition dates side by side |
+| day-09/app `lib.ts` `fmts` | one `Intl.DateTimeFormat` per zone cached forever, never evicted | bounded by the ~420 IANA zones a browser knows | a zone count where the cache visibly matters (realistically never) |
 
-37 markers, all low-severity, all with named triggers.
+38 markers, all low-severity, all with named triggers.
