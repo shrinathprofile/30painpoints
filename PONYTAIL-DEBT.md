@@ -38,5 +38,8 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-07/app `App.tsx` footer | blank-frame cause not detected (refused-embedding vs unreachable) | no cross-browser signal the parent can read; a guessed badge would sometimes point at the wrong cause | a reliable cross-browser detection API |
 | day-08/standup-prep.ts `MAX_FETCH` | fetch capped at newest 1000 commits — an older window is silently short (the run prints a note when the cap is hit) | streaming `git log` complicates the injected-world seam for a case no sane repo hits | a real repo printing the cap note |
 | day-08/standup-prep.ts `--me` two-pass | email-when-it-matches else name — a window MIXING old and new identities (pre/post-rebase emails) loses the old-email side | per-commit authorship needs mailmap (`%aN`/`%aE` + a real .mailmap), not heuristics | a user report of missing own commits with both identities in one window |
+| day-09/app `lib.ts` `daySlots` | 48 real half-hour slots — on the anchor zone's 2 DST days/year the local day is 23/25h: fall-back days lose the last local hour, spring-forward bleeds into tomorrow (per-instant cell truth unaffected) | the complaint is "which band today", not transition-day planning | a user planning a meeting on a DST-transition date (adversarial F1) |
+| day-09/app `lib.ts` `CITY_ALIASES` | ~90 hand-curated city aliases, not a geocoding dataset — a missed city falls through to the searchable IANA list (refusal with guidance, never a wrong guess) | aliases cover the complaint thread's cities + majors | a report naming a missed city |
+| day-09/app `App.tsx` footer | no date picker — the grid anchors to today only | comparing a DST-transition date is a different question than "when can we meet today" | someone needing to compare transition dates side by side |
 
-34 markers, all low-severity, all with named triggers.
+37 markers, all low-severity, all with named triggers.
