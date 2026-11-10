@@ -85,6 +85,8 @@ _TAG = re.compile(r"<[^>]+>")                 # inline <00:00:05.000> tags, left
 # a cue line must START with a timestamp: "00:00:01,000 --> …" is a cue,
 # "we'll use the A --> B mapping" is speech that happens to contain an arrow
 _CUE = re.compile(r"^\s*(\d{1,2}:\d{2}(?::\d{2})?(?:[.,]\d{1,3})?)\s*-->")
+# ponytail: timestamps echoed unvalidated ([99:99] cited as-is) — citations stay honest to
+# the file. Trigger: a report where a garbage timestamp misled someone.
 _TS_LEAD = re.compile(r"^\[?(\d{1,2}:\d{2}(?::\d{2})?(?:\.\d{1,3})?)\]?\s*")
 _SPEAKER = re.compile(r"^([^\s:][^:]{0,40}?)\s*(?:\([^)]*\))?:\s*(.*)$")
 _SRT_SEQ = re.compile(r"^\d+$")
@@ -163,6 +165,9 @@ def sentences(line: Line) -> list[tuple[Line, str]]:
 
 
 # ---------- cue lists (hand-curated, D09-alias style; refusal > wrong guess) ----------
+# ponytail: cue-list precision ceiling — idioms/passives can false-positive ("dropping the
+# ball", "budget will be approved"); the LLM pass is the precision path. Trigger: a report
+# of a misleading cue hit.
 
 _DECISION = re.compile(
     r"\b(?:we(?:'re|'ll| are| will)?(?: going| gonna go| go)? with|let'?s go with|"

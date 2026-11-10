@@ -53,6 +53,7 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 - [Day 07 — viewport-wall](days/day-07-viewport-wall/) · a decade of "cross device testing is so much harder than I expected" threads → one page rendering any URL at 320/390/412/768/1280 simultaneously, synced scrolling, honest about every ceiling (blocked frames, engine-vs-width, page-length cut)
 - [Day 08 — standup-prep](days/day-08-standup-prep/) · 717 upvotes for hating to compose daily standups → a zero-dependency CLI that drafts the 30-second update from real commits, with an optional LLM tone pass that can polish but never invent (exit 0/1/2: draft / honest empty / cannot check)
 - [Day 09 — overlap planner](days/day-09-overlap-planner/) · "boss schedules meetings at 11pm my time because it works for HQ" (169 votes, r/digitalnomad) → a pinnable, account-free page: teammates' cities + hours in, one grid of everyone's clock with the fair meeting windows computed — zero date libraries, all `Intl.DateTimeFormat` per instant ([live](https://shrinathprofile.github.io/30painpoints/days/day-09-overlap-planner/#v%3D1%7CShri%7CAsia%252FKolkata%7C09%253A30%7C18%253A30%2CSam%7CEurope%252FLondon%7C09%253A00%7C17%253A00))
+- [Day 10 — decision-miner](days/day-10-decision-miner/) · "is there anyone else who forgets what was decided in the meetings?" (r/remotework; Otter/Fireflies paywalled) → transcript in, decisions/actions/owners out as Markdown, every line cited; an optional LLM pass where every claim must quote the transcript verbatim or it's dropped and counted
 
 ---
 

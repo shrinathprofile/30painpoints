@@ -85,5 +85,5 @@ No meeting-record bots, no live audio, no speaker diarization, no calendar/Slack
 
 - `decision_miner.py` — the tool (stdlib only): parser, cue miner, verified LLM pass, CLI
 - `server.py` — FastAPI drop zone (one endpoint + one inline page)
-- `self_check.py` — the one runnable check (40 checks)
+- `self_check.py` — the one runnable check (63 checks)
 - `fixtures/` — a hand-counted product sync (16 lines), a VTT export, an honest-empty, and a hostile transcript (BOM, control bytes)
