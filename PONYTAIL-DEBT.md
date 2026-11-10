@@ -42,5 +42,12 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-09/app `lib.ts` `CITY_ALIASES` | ~90 hand-curated city aliases, not a geocoding dataset — a missed city falls through to the searchable IANA list (refusal with guidance, never a wrong guess) | aliases cover the complaint thread's cities + majors | a report naming a missed city |
 | day-09/app `App.tsx` footer | no date picker — the grid anchors to today only | comparing a DST-transition date is a different question than "when can we meet today" | someone needing to compare transition dates side by side |
 | day-09/app `lib.ts` `fmts` | one `Intl.DateTimeFormat` per zone cached forever, never evicted | bounded by the ~420 IANA zones a browser knows | a zone count where the cache visibly matters (realistically never) |
+| day-10/decision_miner.py `_NAME_STOPWORDS` | curated speaker-label stop-set; a miss demotes the line to plain text | no wrong owner is possible, only a missed label | a report naming a mis-parsed speaker label |
+| day-10/decision_miner.py `mine` reversal | a reversal supersedes the MOST RECENT decision only — bare "instead" removed from cues entirely | most meetings flip the immediately-prior call | a wrong-link report where the flipped decision wasn't the latest |
+| day-10/decision_miner.py `_SENT_SPLIT` | naive sentence split — abbreviations (e.g. / etc.) split early | costs recall/precision only; the LLM pass reads nuance | a report showing real misses from bad splits |
+| day-10/decision_miner.py `_DUE_VOCAB` | hand-curated date phrases; event anchors ("before the cutover") are not dates | covers the complaint's real due shapes | a report of a missed real due phrase |
+| day-10/decision_miner.py `_owner_for` | a named committer who never speaks yields NO owner (refusal > guess) — "Sarah will send it" from a transcript where Sarah never talks is not mined | an unverified name as owner is worse than a missing action | reports of missed cross-team actions |
+| day-10/decision_miner.py cue lists | precision ceiling — idioms/passives can false-positive ("dropping the ball", "budget will be approved") | the LLM pass is the precision path; the core must never invent | a report of a misleading cue hit |
+| day-10/decision_miner.py `_TS_LEAD` | timestamps echoed unvalidated (`[99:99]` cited as-is) | garbage-in-garbage-out on the ts field; citations stay honest to the file | a report where a garbage timestamp misled someone |
 
-38 markers, all low-severity, all with named triggers.
+45 markers, all low-severity, all with named triggers.
