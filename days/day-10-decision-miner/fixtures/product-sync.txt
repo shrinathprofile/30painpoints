@@ -1,0 +1,16 @@
+[00:01:12] Maya: Quick agenda today — the DB migration, staging data, and the launch date.
+[00:02:03] Arjun: I looked at Postgres and MongoDB. Both work, but Postgres has the row-level locking we need.
+[00:03:40] Maya: Okay, we'll go with Postgres then, and Arjun will own the migration.
+[00:04:20] Ravi: Sorry, my dog is losing it, one sec.
+[00:05:15] Chloe: I'll draft the migration plan by Friday.
+[00:06:02] Ravi: Wait, actually — let's go with Supabase instead. It's Postgres plus the pooling layer for free.
+[00:07:30] Maya: Fine by me. Arjun, you still own it.
+[00:09:45] Chloe: What do we do with the staging data?
+[00:10:20] Arjun: We'll archive it before the cutover. I'll write the runbook by next week.
+[00:12:00] Ravi: Not sure if the CDN budget covers this. Need to figure out the caching story.
+[00:13:05] Chloe: Has anyone tried the new Thai place downstairs?
+[00:14:30] Maya: Can you two take that offline? Table it for the infra sync.
+[00:16:10] Arjun: I'll book the infra sync for Thursday.
+[00:18:02] Maya: Last thing — the launch date. We need to decide: ship on the 15th or push to December?
+[00:19:31] Maya: Okay. Final call: we're shipping on the 15th.
+[00:21:00] Chloe: I'll update the launch checklist today.
