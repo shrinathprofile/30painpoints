@@ -53,5 +53,9 @@ Regenerated weekly via /ponytail-debt. Every shortcut names its ceiling and upgr
 | day-11/proof-report.ts `tally` | docs = unique `.md`-suffixed paths only — `.mdx`/`.rst`/`.adoc` don't count | markdown is the series' doc format | a repo whose docs live in another suffix and a user who says so |
 | day-11/proof-report.ts `dequotePath` | non-fatal UTF-8 decode — malformed escaped bytes become U+FFFD | paths feed suffix tests and Set keys, never re-encoding | a need for byte-exact recovered paths |
 | day-11/proof-report.ts `renderReport` | landed-span rendered at minute precision — a sub-minute first→last span shows one time | cosmetic; localHM drops seconds | a user who schedules from the report |
+| day-31/job_radar.py `BOARDS` himalayas | first page only per run (~20 jobs, `limit=100` is capped by the API) — a day whose new postings overflow a page under-reports | a daily run needs a page's worth of new matches | cursor pagination (`nextCursor`) when a run reports the cap |
+| day-31/job_radar.py `clean` | malformed HTML keeps its raw text (strip silently gives up; the control-char pass still applies) | tags survive into output only when a feed ships broken markup | a rendered tag in real output |
+| day-31/job_radar.py `word_re` | keywords ending in punctuation ("c++") lose the trailing \b and never match | whole-word matching is the contract ("java" ≠ "javascript") | a user whose keyword ends in punctuation |
+| day-31/job_radar.py `fetch_source` | unknown transport errors collapse to `TypeName: reason` (60-char clip) | the class name names the failure honestly enough for a receipt line | a recurring unknown-error class worth its own wording |
 
-49 markers, all low-severity, all with named triggers (D11: +4, and 2 D08 rows re-referenced to the package their markers moved into).
+53 markers, all low-severity, all with named triggers (D31: +4).
