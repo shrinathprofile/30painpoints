@@ -1,0 +1,8 @@
+{
+  "name": "git-digest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The series' shared git-log porcelain kernel — extracted verbatim from day-08 on day-11. Pinned by the importers' self-checks, not its own suite.",
+  "engines": { "node": ">=22.18.0" }
+}

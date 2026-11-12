@@ -1,0 +1,10 @@
+{
+  "name": "proof-report",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Your day's output as receipts — commits → shareable proof-of-work report. Output, not online-status.",
+  "bin": { "proof-report": "./proof-report.ts" },
+  "engines": { "node": ">=22.18.0" },
+  "scripts": { "check": "node self-check.ts" }
+}

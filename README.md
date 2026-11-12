@@ -8,7 +8,7 @@ Built with [ZCode](https://zcode.dev) and the **ponytail** discipline (std-lib b
 
 ## How each day works
 
-Every day follows the same fixed protocol, and every day-folder is self-contained:
+Every day follows the same fixed protocol, and every day-folder is self-contained (days 01–10 entirely so; from day-11 the shared [`packages/git-digest`](packages/git-digest/) — extracted verbatim from day-08, pinned by its unchanged 41-check suite — is the one deliberate exception, the reuse it was built for):
 
 ```
 days/day-NN-slug/
@@ -54,6 +54,7 @@ One early-career engineer proving a point: with AI leverage and senior habits �
 - [Day 08 — standup-prep](days/day-08-standup-prep/) · 717 upvotes for hating to compose daily standups → a zero-dependency CLI that drafts the 30-second update from real commits, with an optional LLM tone pass that can polish but never invent (exit 0/1/2: draft / honest empty / cannot check)
 - [Day 09 — overlap planner](days/day-09-overlap-planner/) · "boss schedules meetings at 11pm my time because it works for HQ" (169 votes, r/digitalnomad) → a pinnable, account-free page: teammates' cities + hours in, one grid of everyone's clock with the fair meeting windows computed — zero date libraries, all `Intl.DateTimeFormat` per instant ([live](https://shrinathprofile.github.io/30painpoints/days/day-09-overlap-planner/#v%3D1%7CShri%7CAsia%252FKolkata%7C09%253A30%7C18%253A30%2CSam%7CEurope%252FLondon%7C09%253A00%7C17%253A00))
 - [Day 10 — decision-miner](days/day-10-decision-miner/) · "is there anyone else who forgets what was decided in the meetings?" (r/remotework; Otter/Fireflies paywalled) → transcript in, decisions/actions/owners out as Markdown, every line cited; an optional LLM pass where every claim must quote the transcript verbatim or it's dropped and counted
+- [Day 11 — proof-report](days/day-11-proof-report/) · 8.8K upvotes for "my company tracks whether you open Slack within 15 minutes of start" → a CLI that compiles your day's commits into a shareable receipts report (short-hash lines, +/− stats, docs, tickets) — output, not online-status; the day also extracted the series' first shared package, `packages/git-digest`, from day-08, proven by day-08's unchanged 41 checks
 
 ---
 
