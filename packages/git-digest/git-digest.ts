@@ -191,12 +191,12 @@ export function filterMine(commits: Commit[], id: { email: string | null; name: 
   // D11 F3 (adversarial): when no email matches and NO name is configured,
   // the searched email — not null — is the identity the header should name;
   // "no commits" that hides which filter ran reads as unfiltered.
-  const byName = id.name ? commits.filter((c) => c.author === id.name) : [];
-  return { commits: byName, identity: id.name ?? id.email };
-  // ponytail (carried from day-08): identity is email-when-it-matches else
-  // name — a history MIXING both (old email pre-rebase, new email post)
+  // ponytail: identity is email-when-it-matches else name (carried from
+  // day-08) — a history MIXING both (old email pre-rebase, new email post)
   // loses the old-email side. Trigger: a user report of missing own commits
   // with both identities in one window.
+  const byName = id.name ? commits.filter((c) => c.author === id.name) : [];
+  return { commits: byName, identity: id.name ?? id.email };
 }
 
 // JS owns the window: git's --since filters on COMMITTER date, day windows
