@@ -1,0 +1,55 @@
+{
+ "00-warning": "Remotive main domain moved to remotive.com ! Please make your API calls on remotive.com/api/remote-jobs instead of remot…",
+ "0-legal-notice": "Legal warning - Hey, thanks for using Remotive's API, we appreciate it! Please note that API documentation and access is…",
+ "job-count": 2,
+ "jobs": [
+  {
+   "id": 2091045,
+   "url": "https://remotive.com/remote-jobs/information-technology/tier-iii-service-desk-engineer-2091045",
+   "title": "Tier III Service Desk Engineer",
+   "company_name": "Unio Digital",
+   "company_logo": "https://remotive.com/job/2091045/logo",
+   "category": "Information Technology",
+   "tags": [
+    "azure",
+    "cisco",
+    "security",
+    "video",
+    "documentation",
+    "hardware",
+    "helpdesk",
+    "onboarding",
+    "MSP",
+    "ticketing",
+    "Microsoft 365",
+    "IT systems"
+   ],
+   "job_type": "full_time",
+   "publication_date": "2026-11-07T01:10:55",
+   "candidate_required_location": "Worldwide",
+   "salary": "",
+   "description": "<p class=\"MsoNormal\" style=\"margin: 0in 0in 8pt; line-height: 15.6933px; color: #000000;\">Unió Digital is an Arizona-bas…",
+   "company_logo_url": "https://remotive.com/job/2091045/logo"
+  },
+  {
+   "id": 2086540,
+   "url": "https://remotive.com/remote-jobs/sales/inside-sales-contractor-2086540",
+   "title": "Inside Sales Contractor",
+   "company_name": "Credit Wellness, LLC",
+   "company_logo": "https://remotive.com/job/2086540/logo",
+   "category": "Sales",
+   "tags": [
+    "CRM",
+    "google sheets",
+    "financial services",
+    "Inside Sales"
+   ],
+   "job_type": "full_time",
+   "publication_date": "2026-11-08T21:47:58",
+   "candidate_required_location": "Worldwide",
+   "salary": "OTE $25k - $35k",
+   "description": "<p dir=\"ltr\" style=\"line-height: 1.38; background-color: #ffffff; margin-top: 0pt; margin-bottom: 0pt; padding: 0pt 0pt …",
+   "company_logo_url": "https://remotive.com/job/2086540/logo"
+  }
+ ]
+}

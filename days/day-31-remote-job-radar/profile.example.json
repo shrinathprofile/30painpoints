@@ -1,0 +1,5 @@
+{
+  "keywords": ["engineer", "engineering", "developer", "python", "backend", "platform", "data", "analyst", "graduate"],
+  "exclude": ["senior", "staff", "principal", "lead", "manager", "director", "head of", "architect"],
+  "priority": "all"
+}

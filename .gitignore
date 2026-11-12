@@ -10,5 +10,7 @@ __pycache__/
 *.log
 docs/
 days/*/LINKEDIN-POST.md
+days/day-31-remote-job-radar/profile.json
+days/day-31-remote-job-radar/seen.sqlite3*
 days/day-06-loglens/loglens
 .playwright-mcp/

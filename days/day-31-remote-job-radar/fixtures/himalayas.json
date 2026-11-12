@@ -1,0 +1,173 @@
+{
+ "jobs": [
+  {
+   "title": "Business Administration Manager",
+   "excerpt": "Business Administration Manager (Remote) Rate : Based on competency and experience Remote, Full-time (Contractor)2.",
+   "companyName": "Together Light Inc",
+   "companySlug": "together-light-inc",
+   "companyLogo": "",
+   "employmentType": "Contractor",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Mid-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "India"
+   ],
+   "timezoneRestrictions": [
+    5.5
+   ],
+   "categories": [
+    "Business-Administrator",
+    "Business-Operations-Manager",
+    "Operations-Manager",
+    "Shared-Services-Manager",
+    "Virtual-Administrative-Manager"
+   ],
+   "parentCategories": [
+    "Operations"
+   ],
+   "description": "<h4>\n<strong>Business Administration Manager (Remote)</strong><br><strong>Rate : Based on competency and experience</str…",
+   "pubDate": 1794439546,
+   "expiryDate": 1799623545,
+   "applicationLink": "https://himalayas.app/companies/together-light-inc/jobs/business-administration-manager?utm_source=api",
+   "guid": "https://himalayas.app/companies/together-light-inc/jobs/business-administration-manager"
+  },
+  {
+   "title": "Product Manager",
+   "excerpt": "Viget is an independent digital agency that has been designing and building digital products and platforms since 1999.",
+   "companyName": "Viget",
+   "companySlug": "viget",
+   "companyLogo": "",
+   "employmentType": "Full Time",
+   "minSalary": 75000,
+   "maxSalary": 125000,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Mid-level"
+   ],
+   "currency": "USD",
+   "locationRestrictions": [
+    "United States"
+   ],
+   "timezoneRestrictions": [
+    -10,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    14
+   ],
+   "categories": [
+    "Product-Manager",
+    "Digital-Product-Manager",
+    "Technical-Product-Manager",
+    "Software-Product-Manager",
+    "Agency-Product-Management"
+   ],
+   "parentCategories": [
+    "Product"
+   ],
+   "description": "<div>\n<a href=\"https://himalayas.app/companies/viget\">Viget</a> is an independent digital agency that has been designing…",
+   "pubDate": 1794439774,
+   "expiryDate": 1799623774,
+   "applicationLink": "https://himalayas.app/companies/viget/jobs/product-manager?utm_source=api",
+   "guid": "https://himalayas.app/companies/viget/jobs/product-manager"
+  },
+  {
+   "title": "Cybersecurity Engineer",
+   "excerpt": "About XTELXTEL is a leader in advanced, AI-driven solutions for consumer goods companies, combining cutting- edge techno…",
+   "companyName": "XTEL",
+   "companySlug": "xtel",
+   "companyLogo": "https://cdn-images.himalayas.app/e1d1w8vd9ikym0lfwhqzm80w5qi4",
+   "employmentType": "Full Time",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Mid-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Albania",
+    "Andorra",
+    "Austria",
+    "Belarus",
+    "Belgium",
+    "Bosnia and Herzegovina",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czechia",
+    "Denmark",
+    "Estonia",
+    "Faroe Islands",
+    "Finland",
+    "France",
+    "Germany",
+    "Gibraltar",
+    "Greece",
+    "Guernsey",
+    "Holy See (Vatican City State)",
+    "Hungary",
+    "Iceland",
+    "Ireland",
+    "Isle of Man",
+    "Italy",
+    "Jersey",
+    "Kosovo",
+    "Latvia",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Moldova",
+    "Monaco",
+    "Montenegro",
+    "Netherlands",
+    "North Macedonia",
+    "Norway",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "San Marino",
+    "Serbia",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Svalbard and Jan Mayen",
+    "Sweden",
+    "Switzerland",
+    "Ukraine",
+    "United Kingdom",
+    "Åland Islands"
+   ],
+   "timezoneRestrictions": [
+    -1,
+    0,
+    1,
+    2,
+    3
+   ],
+   "categories": [
+    "Cybersecurity-Engineer",
+    "Cybersecurity-Specialist",
+    "Security-Engineer",
+    "DevSecOps-Engineer",
+    "Cloud-Security-Engineer"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<h3>About <a href=\"https://himalayas.app/companies/xtel\">XTEL</a>\n</h3><p><a href=\"https://himalayas.app/companies/xtel\"…",
+   "pubDate": 1794439774,
+   "expiryDate": 1799623773,
+   "applicationLink": "https://himalayas.app/companies/xtel/jobs/cybersecurity-engineer?utm_source=api",
+   "guid": "https://himalayas.app/companies/xtel/jobs/cybersecurity-engineer"
+  }
+ ]
+}

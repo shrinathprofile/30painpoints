@@ -1,0 +1,124 @@
+Company,Priority,Remote Model,Work From Anywhere,India / IST Friendly,Time Zone Needs,Careers Page,ats,slug
+GitLab,High,Remote-first (all-remote),Yes,Yes,Any (async-first),https://about.gitlab.com/jobs/,greenhouse,gitlab
+Automattic,High,Remote-first (all-remote),Yes,Yes,Any,https://automattic.com/careers/,,
+Canonical,High,Remote-first (all-remote),Yes,Yes,Any (async-heavy),https://canonical.com/careers,greenhouse,canonical
+Deel,High,Remote-first,Yes (role/TZ dependent),Yes (India entity),EMEA/LATAM for many roles,https://deel.com/careers,,
+Remote,High,Remote-first,Yes,Yes (India entity),Any,https://remote.com/careers,,
+Zapier,High,Remote-first (all-remote),Yes (38 hiring countries),Partial,Any (async-first),https://zapier.com/jobs,ashby,zapier
+Buffer,High,Remote-first (all-remote),Yes,"Yes (few, via contractor/EOR)",Any,https://buffer.com/journey,ashby,buffer
+Doist,High,Remote-first (all-async),Yes,Yes,Any (async),https://doist.com/careers,,
+Toggl,High,Remote-first,Yes,Yes,Any (async),https://toggl.com/jobs,,
+DuckDuckGo,High,Remote-first,Yes,Yes,Any (core overlap),https://duckduckgo.com/hiring,,
+Kinsta,High,Remote-first,Yes,Yes,Any (shift support),https://kinsta.com/careers,lever,kinsta
+Namecheap,High,Remote-first (mostly),Yes,Yes,Any,https://www.namecheap.com/careers/,,
+Hotjar (Contentsquare),High,Remote-first,Yes,Yes,Any (some overlap),https://www.hotjar.com/careers,,
+SafetyWing,High,Remote-first,Yes,Yes,Any (async),https://safetywing.com/join-us,,
+Supabase,High,Remote-first,Yes,Yes,Any (async),https://supabase.com/careers,ashby,supabase
+PostHog,High,Remote-first,Yes,Yes,Any (async),https://posthog.com/careers,ashby,posthog
+Grafana Labs,High,Remote-first,Yes (country list),Yes (hires in India),Any (some overlap),https://grafana.com/careers,greenhouse,grafanalabs
+Elastic,High,Remote-first,Yes (country list),Yes (India entity),Any (team overlap),https://www.elastic.co/careers,greenhouse,elastic
+HashiCorp,High,Remote-first,Yes (country list),Yes (India entity),Any (async),https://www.hashicorp.com/careers,,
+Kraken,Medium,Remote-first,Yes (country list),Partial,Any (some overlap),https://www.kraken.com/careers,,
+Turing,High,Remote-first,Yes,Yes,Any (US overlap for clients),https://www.turing.com/jobs,greenhouse,turing
+Toptal,High,Remote-first,Yes,Yes (freelance),Any,https://www.toptal.com/talent/apply,lever,toptal
+Andela,High,Remote-first,Yes,Yes,Any (client overlap),https://andela.com/careers/,ashby,andela
+Invisible Technologies,High,Remote-first,Yes,Yes,Any (follow-the-sun),https://www.invisible.co/careers,,
+Airalo,High,Remote-first,Yes,Yes (hires in India),Any (some overlap),https://www.airalo.com/careers,lever,airalo
+Superside,High,Remote-first,Yes,Yes (large India team),Any (client overlap),https://www.superside.com/careers,lever,superside
+Sporty Group,High,Remote-first,Yes (some roles geo-listed),Yes ('India Remote' roles),Any (some overlap),https://careers.sporty.com,greenhouse,sportygroup
+Springworks,High,Remote-first (all-remote),Yes,Yes,IST,https://www.springworks.in/careers/,,
+Amagi,High,Remote-first (hubs optional),Partial (hub-optional),Yes,IST mostly,https://amagi.com/careers,,
+BrowserStack,High,Remote-first,Partial (hub-optional),Yes,IST mostly,https://www.browserstack.com/careers,,
+Hasura,High,Remote-first,Yes,Yes,IST overlap,https://hasura.io/careers/,,
+ArmorCode,High,Remote-first,Yes,Yes,IST overlap,https://armorcode.com/careers/,greenhouse,armorcode
+Contentstack,Medium,Remote-first,Yes,Yes,IST overlap,https://www.contentstack.com/company/careers/,greenhouse,contentstack
+Airmeet,Medium,Remote-first,Yes,Yes,IST,https://www.airmeet.com/careers/,,
+Rocketlane,Medium,Remote-first (India-remote),Partial (India),Yes,IST,https://www.rocketlane.com/careers,,
+Polygon Labs,Medium,Remote-first,Yes,Yes,Any (async),https://polygon.technology/careers,ashby,polygon-labs
+OpenZeppelin,Medium,Remote-first,Yes,Yes,Any (some overlap),https://openzeppelin.com/careers,greenhouse,openzeppelin
+Chainlink Labs,Medium,Remote-first,Yes (country list),Yes (hires in India),Any (overlap),https://chainlinklabs.com/careers,,
+Tether,Medium,Remote-first,Yes,Yes (explicit global hiring),Any (24/7 teams),https://tether.recruitee.com,,
+Wikimedia Foundation,Medium,Remote-first,Yes (country list),Yes,Any (some overlap),https://wikimediafoundation.org/about/careers/,,
+Brave Software,Medium,Remote-first,Yes,Yes,Any (overlap),https://brave.com/careers/,,
+Tor Project,Low,Remote-first (all-remote),Yes,Yes (contractor-friendly),Any (async),https://www.torproject.org/about/jobs/,,
+Customer.io,Medium,Remote-first,Yes (country list),Partial,Any (overlap),https://customer.io/careers/,greenhouse,customerio
+Coinbase,Medium,Remote-first (hubs optional),Yes (country/TZ conditions),Yes (India entity),Americas mostly; India tech hub,https://www.coinbase.com/careers,greenhouse,coinbase
+CoinGecko,Medium,Remote-first,Yes,Yes (APAC-friendly),APAC overlap,https://www.coingecko.com/en/careers,lever,coingecko
+Crossover,Medium,Remote-first,Yes,Yes,Any (US overlap common),https://www.crossover.com/jobs,,
+X-Team,Medium,Remote-first,Yes,Yes,US overlap,https://x-team.com/developer-jobs/,,
+Arc.dev,Medium,Remote-first,Yes,Yes (India devs),Any,https://arc.dev,,
+Braintrust,Medium,Remote-first,Yes,Yes,Any,https://usebraintrust.com,ashby,braintrust
+Gun.io,Low,Remote-first,Yes,Partial (senior devs),US overlap,https://gun.io,,
+Contra,Medium,Remote-first,Yes,Yes (freelancers global),Any (overlap),https://contra.com/careers,ashby,contra
+Cambly,Low,Remote-first,Yes (tutors anywhere),Yes (tutors; low hourly),Any,https://www.cambly.com/en/careers,ashby,cambly
+Upwork,Medium,Remote-friendly (staff); global (freelance),Partial (staff: 35 US states),Yes (freelancer),US (staff); any (freelance),https://www.upwork.com/careers,greenhouse,upwork
+Binance,Medium,Remote-friendly (distributed),Partial (country/TZ pools),Partial,TZ pools,https://www.binance.com/en/careers,greenhouse,binance
+Kit (ex-ConvertKit),Medium,Remote-first,Yes (core 10am-2pm ET),Partial,Core 10-2 ET (IST evening),https://kit.com/careers,ashby,kit
+Float,Medium,Remote-first,Yes,Partial,Any (overlap),https://float.com/careers,ashby,float
+Chili Piper,Medium,Remote-first,Yes,Partial,Any (overlap),https://www.chilipiper.com/careers,ashby,chilipiper
+Constructor,Medium,Remote-first,Yes,Partial,Any (overlap),https://constructor.com/about/careers,ashby,constructor
+Appcues,Medium,Remote-first,Yes,Partial,Any (overlap),https://appcues.com/careers,ashby,appcues
+Ghost,Medium,Remote-first (all-async),Yes,Yes,Any (async),https://careers.ghost.org,greenhouse,ghost
+MailerLite,Medium,Remote-first,Yes,Yes,Any (async-ish),https://www.mailerlite.com/careers,,
+Liveblocks,Low,Remote-first,Yes,Partial,Any (overlap),https://join.team/liveblocks,,
+Pitch,Low,Remote-first,Yes (EMEA-heavy),Partial,EMEA,https://pitch.com/jobs,,
+Modash,Medium,Remote-first,Region (EMEA hours),Partial,EMEA hours (IST morning fits),https://modash.io/careers,,
+John Snow Labs,Medium,Remote-first,Yes,Yes (hires India/EMEA),Any (async),https://johnsnowlabs.com/careers/,,
+Zyte,Medium,Remote-first,Yes,Partial,Any (overlap),https://zyte.com/careers,,
+Whereby,Low,Remote-first,Region (Europe-heavy),No,CET +/- few hours,https://whereby.com/careers,,
+YNAB,Medium,Remote-first,Partial (US/UK employees; others contractor),Contractor-only for India,Any (async),https://www.ynab.com/careers,,
+TestGorilla,Medium,Remote-first,Yes,Partial,Any (overlap),https://www.testgorilla.com/careers/,ashby,testgorilla
+Storylane,Low,Remote-first,Yes,Partial,Any (US overlap),https://www.storylane.io/careers,,
+tl;dv,Low,Remote-first,Yes,Partial,Any (overlap),https://tldv.io/careers,,
+Time Doctor,Medium,Remote-first,Yes,Yes (hires Asia),Any (async),https://www.timedoctor.com/careers,,
+Hubstaff,Medium,Remote-first,Partial (role-specific),Yes (global hires),Any (overlap),https://hubstaff.com/careers,ashby,hubstaff
+Percona,Medium,Remote-first,Yes,Yes (hires globally),Any (async),https://www.percona.com/careers,ashby,percona
+Collabora,Low,Remote-first,Yes,Partial,Any (async),https://www.collabora.com/careers,lever,collabora
+Igalia,Low,Remote-first,Yes,Partial,Any (async),https://www.igalia.com/jobs/,,
+Docker,Medium,Remote-first,Yes (country list),Partial,Any (overlap),https://www.docker.com/careers,ashby,docker
+Sourcegraph,Medium,Remote-first,Yes (country list),Partial,Any (overlap),https://sourcegraph.com/jobs,,
+dbt Labs,Medium,Remote-first,Yes (country list),Partial,Any (overlap),https://www.getdbt.com/careers,,
+Airbyte,Low,Remote-first,Yes,Partial,Any (overlap),https://airbyte.com/careers,ashby,airbyte
+Temporal,Medium,Remote-first,Yes (country list),Partial,Any (overlap),https://temporal.io/careers,ashby,temporal
+Chainguard,Low,Remote-first,Yes,Partial,Any (overlap),https://www.chainguard.dev/careers,greenhouse,chainguard
+Netlify,Low,Remote-first,Yes (country list),Partial,Any (overlap),https://www.netlify.com/careers,greenhouse,netlify
+Render,Low,Remote-first,Yes (US-heavy),No,US overlap,https://render.com/careers,ashby,render
+GitBook,Low,Remote-first,Yes,Partial,Any (EU overlap),https://www.gitbook.com/careers,ashby,gitbook
+CodePen,Low,Remote-first (all-remote),Yes,Yes,Any (async),https://codepen.io/jobs,,
+37signals (Basecamp & HEY),Medium,Remote-first,Partial (mostly US/EU hires),Partial,Any (async),https://37signals.com/jobs,,
+Awesome Motive,Medium,Remote-first,Yes,Partial,Any (overlap),https://awesomemotive.com/careers/,,
+Groove,Low,Remote-first,Yes,Partial,Any (async),https://www.groovehq.com/about,,
+SimpleTexting,Low,Remote-first,Yes,Partial,US overlap,https://simpletexting.com/careers/,,
+Smile.io,Low,Remote-first,Yes,Partial,Americas overlap,https://smile.io/careers,,
+Shogun,Low,Remote-first,Yes,Partial,Any (overlap),https://getshogun.com/careers/,,
+Mailbird,Low,Remote-first,Yes,Partial,Any (async),https://www.getmailbird.com/careers,,
+MeetEdgar,Low,Remote-first,Yes,Partial,US overlap,https://meetedgar.com/careers/,,
+Omniscient Digital,Low,Remote-first,Yes,Partial,US overlap,https://www.beomniscient.com/careers,,
+ScaleMath,Low,Remote-first,Yes,Partial,Overlap,https://scalemath.com/careers,ashby,scalemath
+Scalerrs,Low,Remote-first,Yes,Partial,Overlap,https://scalerrs.com/careers,,
+The Shelf,Low,Remote-first,Yes,Partial,US overlap,https://theshelf.com/careers/,,
+Tortuga,Low,Remote-first,Yes,Partial,US overlap,https://www.tortugabackpacks.com/pages/careers,,
+Panopto,Low,Remote-first,Yes,Partial,US overlap,https://www.panopto.com/careers,lever,panopto
+Arkency,Low,Remote-first,Yes,Partial,Any (async),https://arkency.com/join-our-team/,,
+Help Scout,Low,Remote-first,Region (US + 12 countries),No,Country list (no India),https://www.helpscout.com/careers/,ashby,helpscout
+Aha!,Low,Remote-first (all-remote),Region (Americas/UK/IE/AU/ZA),No,Americas/UK/IE/AU/ZA,https://www.aha.io/careers,,
+Bending Spoons,Low,Remote-first,Region (Europe/Africa/ME TZ),No,Europe/Africa/ME,https://www.bendingspoons.com/careers,,
+Fleetio,Low,Remote-first,Region (US/CA/MX),No,Americas,https://www.fleetio.com/careers,greenhouse,fleetio
+10up,Medium,Remote-first,Partial (client-TZ roles),Partial,Any (client overlap),https://10up.com/careers/,,
+Sketch,Low,Remote-first,Region (EU/US),No,EU/US,https://www.sketch.com/about/jobs/,,
+Slite,Low,Remote-first,Region (EU TZ),No,EU,https://slite.com/careers,,
+Tidio,Low,Remote-first,Region (EU/US),No,EU/US,https://www.tidio.com/careers,,
+Vidyard,Low,Remote-first,Region (US/CA),No,US/CA,https://www.vidyard.com/careers/,,
+VEED,Low,Remote-first,Region (UK/NL/ES/US/PH),Partial (PH hub),Country list,https://www.veed.io/careers,,
+Uscreen,Low,Remote-first,Region (ET +/-4-8h),No,ET +/-4-8h,https://www.uscreen.tv/careers,,
+Descript,Low,Remote-friendly,Partial (SF travel expected),No,US overlap,https://www.descript.com/careers,greenhouse,descript
+Shopify,Medium,Remote-friendly (digital-by-design),Partial (country/TZ list),Yes (India remote roles),Country-based,https://www.shopify.com/careers,,
+Spotify,Low,Remote-friendly (Work From Anywhere),Partial (country entities),Partial (India entity),Country-based,https://www.lifeatspotify.com,lever,spotify
+Airbnb,Low,Remote-friendly (Live & Work Anywhere),Partial (country entities),Partial,Country-based,https://www.airbnb.com/careers,greenhouse,airbnb
+Atlassian,Medium,Remote-friendly (Team Anywhere),Partial (country entities),Yes (India remote),Country-based,https://www.atlassian.com/company/careers,,
+Mozilla,Low,Hybrid-remote ('distributed by design'),Partial (country list),Partial,Team overlap,https://www.mozilla.org/en-US/careers/,greenhouse,mozilla
+Proton,Low,Hybrid-remote,No (office/flexible mix),No,CET,https://proton.me/careers,greenhouse,proton
+1Password,Low,Remote-first,Partial (country list),No,Country list,https://1password.com/careers,ashby,1password
+Sprout Social,Low,Hybrid-remote,Partial (select countries/states),No,Country list,https://sproutsocial.com/careers/,greenhouse,sproutsocial
+Postman,Medium,Hybrid-remote,Partial (hub cities),Yes,IST + SF,https://www.postman.com/company/careers/,,
+Insight,High,Hybrid,4 weeks/year overseas (user-stated policy; verify),Partial,AU hours,https://apaccareers.insight.com/careers,eightfold,apaccareers.insight.com|insight.com

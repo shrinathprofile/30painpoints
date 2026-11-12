@@ -1,0 +1,674 @@
+{
+ "domain": "insight.com",
+ "user": "",
+ "isWillingToRelocate": false,
+ "isUserAuthenticated": false,
+ "isUserETXCandidate": false,
+ "isDomainETX": false,
+ "isDomainVeteran": false,
+ "signUpConfig": {},
+ "getHelpButton": {},
+ "isCareerPlannerEnabled": false,
+ "enableRememberMeOption": false,
+ "isMyApplicationsEnabled": false,
+ "showVeteranEmployerSignUp": false,
+ "enableUserPreferenceSelection": false,
+ "isUserPreferenceApplied": false,
+ "candidate": {
+  "enc_id": 0,
+  "fullname": "",
+  "firstname": "",
+  "lastname": "",
+  "skills": [],
+  "email": "",
+  "phone": "",
+  "location": "",
+  "location_detail": {},
+  "filename": null,
+  "starred_positions": [],
+  "resumeUrl": "",
+  "onboardingCompleted": false,
+  "isUserInPcsIjp": false,
+  "linkedinUrl": ""
+ },
+ "branding": {
+  "showJobId": 1,
+  "enableTalentNetwork": 1,
+  "max_applications_apply": 5,
+  "companyName": "Insight",
+  "homePageHeroBanner": {
+   "opacity": 0.95,
+   "useImage": 0,
+   "hideInMobileView": false,
+   "image": "https://static.vscdn.net/images/careers/demo/insight/1679943856::2023Banner_noText",
+   "background": "#ffffff",
+   "title": "Your Career Starts Here"
+  },
+  "hideSearchPanelHeader": true,
+  "navBar": {
+   "opacity": 1,
+   "color": "#ffffff",
+   "image": "https://static.vscdn.net/images/careers/demo/insight/1666823065::insightlogo.png",
+   "link": "https://au.insight.com/en_AU/about/careers.html",
+   "background": "#ffffff"
+  },
+  "privacy": {
+   "button": "Submit",
+   "title": "Data Privacy Policy (E1apac)",
+   "text": "Confirm that you agree to the <a href='https://uk.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+  },
+  "talentNetworkText": "\n",
+  "i18n_overrides_master": {
+   "talentNetworkText": {
+    "en-gb": {
+     "talent_network_text": "\n"
+    },
+    "en-us": {
+     "talent_network_text": "\n"
+    },
+    "en-ca": {
+     "talent_network_text": "\n"
+    },
+    "en": {
+     "talent_network_text": "\n"
+    },
+    "es": {
+     "talent_network_text": "\n"
+    },
+    "it": {
+     "talent_network_text": "\n"
+    },
+    "fr": {
+     "talent_network_text": "\n"
+    },
+    "de": {
+     "talent_network_text": "\n"
+    },
+    "nl": {
+     "talent_network_text": "\n"
+    },
+    "sv": {
+     "talent_network_text": "\n"
+    },
+    "zh-cn": {
+     "talent_network_text": "\n"
+    }
+   },
+   "privacy": {
+    "en-gb": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://uk.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "en-us": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://www.insight.com/en_US/help/privacy-policy.html' target=\"_blank\">Data Privacy Policy</a>"
+    },
+    "en-ca": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://ca.insight.com/en_CA/help/privacy-policy.html' target=\"_blank\">Data Privacy Policy</a>"
+    },
+    "en": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://uk.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "es": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://es.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "it": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://it.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "fr": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://fr.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "de": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://be.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "nl": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://nl.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "sv": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://se.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "se": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://se.insight.com/knowledge-base/policies/privacy-statement.html' target=\"_b…"
+    },
+    "zh-cn": {
+     "privacy_button": "Submit",
+     "privacy_title": "Data Privacy Policy",
+     "privacy_text": "Confirm that you agree to the <a href='https://cn.insight.com/en_CN/help/privacy-policy.html' target=\"_blank\">Data Privacy Policy</a>"
+    }
+   },
+   "navBar": {
+    "en-gb": {
+     "navbar_link": "https://uk.insight.com/en_GB/careers.html"
+    },
+    "en-us": {
+     "navbar_link": "https://www.insight.com/en_US/careers.html"
+    },
+    "en-ca": {
+     "navbar_link": "https://www.insight.com/en_US/careers.html"
+    },
+    "en": {
+     "navbar_link": "https://uk.insight.com/en_GB/careers.html"
+    },
+    "es": {
+     "navbar_link": "https://es.insight.com/es_ES/careers.html"
+    },
+    "it": {
+     "navbar_link": "https://it.insight.com/it_IT/careers.html"
+    },
+    "fr": {
+     "navbar_link": "https://fr.insight.com/fr_FR/careers.html"
+    },
+    "de": {
+     "navbar_link": "https://de.insight.com/de_DE/careers.html"
+    },
+    "nl": {
+     "navbar_link": "https://nl.insight.com/nl_NL/careers.html"
+    },
+    "sv": {
+     "navbar_link": "https://uk.insight.com/en_GB/careers.html"
+    },
+    "zh-cn": {
+     "navbar_link": "https://uk.insight.com/careers/emea-gateway.html?ulang=zh-cn"
+    },
+    "se": {
+     "navbar_link": "https://uk.insight.com/en_GB/careers.html"
+    }
+   },
+   "customContent": {
+    "en": {
+     "body_title": "Top Five Reasons",
+     "body_subtitle": "to work at Insight",
+     "body_slide1h": "Be Ahead of the Curve",
+     "body_slide1t": "It’s a competitive world out there and the fast-adapters are beating the slow-adopters. We’re in the fast camp – join us…",
+     "body_slide2h": "Great Teammates",
+     "body_slide2t": "Smart, helpful, supportive and trustworthy; the quality and reliability of our people creates confidence and reassurance – together we win.",
+     "body_slide3h": "Family First",
+     "body_slide3t": "We might be obsessed with technology, but we know you’re not robots – we aim to support work-life balance and when life …",
+     "body_slide4h": "Cutting-edge Technology",
+     "body_slide4t": "We get it, you love tech! We are a leading partner of Microsoft and are in the process of rolling out our own software s…",
+     "body_slide5h": "Stable, Successful And Dynamic",
+     "body_slide5t": "We’re 30 years old, a Fortune 500 company and our share price is at an all-time high...we’re growing globally and evolving at a fast-pace.",
+     "body_title1": "Who is Insight?",
+     "body_p1": "Insight is a Fortune 500 global company that continually transforms. It’s a place of tremendous opportunity. At Insight,…",
+     "body_p2": "We help organizations accelerate their digital journeys with our services and solutions across our six areas of expertis…",
+     "body_h2subtitle": "Why work at Insight?",
+     "body_subheading1": "Experience",
+     "body_subheading2": "Culture",
+     "body_subheading3": "Benefits",
+     "body_subtext1": "We’re a Fortune 500 and CRN Solution Provider 500 company with a 30-year history of growth and expansion.",
+     "body_subtext2": "As one of the 2023 Best Places to Work in all our APAC countries, our focus starts and ends with our teammates.",
+     "body_subtext3": "We offer a comprehensive benefits package, including parental leave, paid volunteer days and worklife balance days."
+    },
+    "es": {
+     "body_title": "El Top Five",
+     "body_subtitle": "de razones para trabajar en Insight test",
+     "body_slide1h": "Ve por Delante",
+     "body_slide1t": "Hay mucha competencia ahí fuera y quienes optan por una adopción más rápida están dejando atrás a los más lentos. Estamo…",
+     "body_slide2h": "Grandes compañeros",
+     "body_slide2t": "Preparados, serviciales, solidarios y confiables; la calidad y la fiabilidad de nuestra gente crean confianza y tranquil…",
+     "body_slide3h": "La familia, primero",
+     "body_slide3t": "Es cierto, nos apasiona la tecnología,  pero sabemos que no somos robots: nuestro objetivo es conseguir el equilibrio en…",
+     "body_slide4h": "Tecnología de vanguardia",
+     "body_slide4t": "¡Lo sabemos, te encanta la tecnología! Somos un socio líder de Microsoft y estamos desarrollando nuestras propias soluci…",
+     "body_slide5h": "Estables, dinámicos y ganadores",
+     "body_slide5t": "Tenemos 30 años, somos una compañía Fortune 500 y el valor de nuestras acciones está en su punto más alto... estamos cre…",
+     "body_title1": "¿Quién es Insight?",
+     "body_p1": "Insight es una empresa global Fortune 500 que se transforma continuamente. Es un lugar de tremenda oportunidad. En Insig…",
+     "body_p2": "Ayudamos a las organizaciones a acelerar sus viajes digitales con nuestros servicios y soluciones en nuestras seis áreas…",
+     "body_h2subtitle": "¿Por qué trabajar en Insight?",
+     "body_subheading1": "Experiencia",
+     "body_subheading2": "Cultura",
+     "body_subheading3": "Beneficios",
+     "body_subtext1": "Somos una empresa Fortune 500 y CRN Solution Provider 500 con un historial de crecimiento y expansión de 30 años.",
+     "body_subtext2": "Como uno de los mejores lugares para trabajar de 2023 en todos nuestros países APAC, nuestro enfoque comienza y termina …",
+     "body_subtext3": "Ofrecemos un paquete integral de beneficios, que incluye licencia por paternidad, días de voluntariado remunerado y días…"
+    },
+    "fr": {
+     "body_title": "Les 5 raisons principales ",
+     "body_subtitle": "de travailler chez Insight",
+     "body_slide1h": "Une longueur d’avance",
+     "body_slide1t": "Nous sommes dans un monde compétitif et iI y a ceux qui s’adaptent rapidement et ceux qui tardent à le faire. Nous somme…",
+     "body_slide2h": "Une collaboration passionante",
+     "body_slide2t": "Créatifs, solidaires, bienveillants et fiables , nos collaborateurs nous permettent de gagner ensemble dans un climat de confiance.",
+     "body_slide3h": "La famille d’abord",
+     "body_slide3t": "Nous avons une passion pour la technologie mais nous ne sommes pas des robots. Nous souhaitons et faisons en sorte que n…",
+     "body_slide4h": "Une technologie de pointe",
+     "body_slide4t": ">Vous l’avez compris, nous adorons la technologie ! En tant que partenaire de Microsoft, nous déployons nos propres solu…",
+     "body_slide5h": "Une entreprise pérenne, prospère et dynamique",
+     "body_slide5t": "Après 30 ans d’existence, nous sommes classée Entreprise au Fortune 500 et notre croissance n’a jamais été aussi élevée.…",
+     "body_title1": "Qui est Insight ?",
+     "body_p1": "Insight est une entreprise mondiale du Fortune 500 qui se transforme continuellement. C'est un lieu d'opportunités formi…",
+     "body_p2": "Nous aidons les organisations à accélérer leur parcours numérique grâce à nos services et solutions dans nos six domaine…",
+     "body_h2subtitle": "Pourquoi travailler chez Insight?",
+     "body_subheading1": "Expérience",
+     "body_subheading2": "Culture",
+     "body_subheading3": "Avantages",
+     "body_subtext1": "Nous sommes une entreprise Fortune 500 et CRN Solution Provider 500 avec une histoire de croissance et d'expansion de 30 ans.",
+     "body_subtext2": "En tant que l'un des meilleurs lieux de travail 2023 dans tous nos pays APAC, notre objectif commence et se termine avec nos coéquipiers.",
+     "body_subtext3": "Nous offrons un ensemble complet d'avantages sociaux, y compris un congé parental, des journées de bénévolat rémunérées …"
+    },
+    "it": {
+     "body_title": "I cinque principali motivi ",
+     "body_subtitle": "per lavorare in Insight",
+     "body_slide1h": "Un'azienda all'avanguardia",
+     "body_slide1t": "In un mondo competitivo molte organizzazioni si stanno adattando al cambiamento più velocemente rispetto ad altre. Unisc…",
+     "body_slide2h": "Colleghi fantastici",
+     "body_slide2t": "La qualità e l'affidabilità delle nostre persone crea rapporti di fiducia e garanzie: solo così vinciamo insieme.",
+     "body_slide3h": "La famiglia prima di tutto",
+     "body_slide3t": "Siamo ossessionati dalla tecnologia, ma il nostro obiettivo è perseguir uno stile di vita equilibrato fra lavoro e vita …",
+     "body_slide4h": "Tecnologia all'avanguardia",
+     "body_slide4t": "Abbiamo capito che ami la tecnologia! Siamo un partner leader di Microsoft e stiamo implementando le nostre soluzioni so…",
+     "body_slide5h": "Azienda solida, di successo e dinamica",
+     "body_slide5t": "Abbiamo 30 anni di esperienza alle spalle, siamo una società Fortune 500 e il valore delle nostre azioni è ai massimi st…",
+     "body_title1": "Chi è Insight?",
+     "body_p1": "Aiutiamo le organizzazioni ad accelerare i loro viaggi digitali con i nostri servizi e soluzioni nelle nostre sei aree d…",
+     "body_p2": "Insight è un'azienda globale Fortune 500 che si trasforma continuamente. È un luogo di enormi opportunità. In Insight, h…",
+     "body_h2subtitle": "Perché lavorare in Insight?",
+     "body_subheading1": "Esperienza",
+     "body_subheading2": "Cultura",
+     "body_subheading3": "Benefici",
+     "body_subtext1": "Siamo un'azienda Fortune 500 e CRN Solution Provider 500 con una storia di 30 anni di crescita ed espansione.",
+     "body_subtext2": "Essendo uno dei migliori posti di lavoro del 2023 in tutti i nostri paesi APAC, la nostra attenzione inizia e finisce co…",
+     "body_subtext3": "Offriamo un pacchetto completo di vantaggi, tra cui congedo parentale, giornate di volontariato retribuite e giornate di…"
+    },
+    "de": {
+     "body_title": "Die wichtigsten fünf Gründe ",
+     "body_subtitle": "um bei Insight zu Insight",
+     "body_slide1h": "An der Speerspitze",
+     "body_slide1t": "Nur Diejenigen, die sich schnell an die wandelnde IT-Landschaft anpassen, werden überleben und wir gehören dazu! Sei ein…",
+     "body_slide2h": "Großartige 'Teammates'",
+     "body_slide2t": "Smart, hilfsbereit, unterstützend und vertrauenswürdig; die Qualität und Zuverlässigkeit unserer Teams, schafft Vertraue…",
+     "body_slide3h": "Familie geht vor",
+     "body_slide3t": "Wir sind von Technologie begeistert, wissen aber sehr gut, dass unsere Teammates keine Roboter sind. Daher fördern wir d…",
+     "body_slide4h": "Cutting-edge Technologie",
+     "body_slide4t": "Wir wissen, dass Dein Herz für Technologie schlägt! Wir sind der führende Partner von Microsoft, entwickeln aktuell unse…",
+     "body_slide5h": "Stabil, erfolgreich und dynamisch",
+     "body_slide5t": "Wir sind 30 Jahre alt, ein Fortune 500-Unternehmen und unser Aktienkurs ist auf einem Allzeithoch. Wir wachsen weltweit …",
+     "body_title1": "Wer ist Insight?",
+     "body_p1": "Insight ist ein globales Fortune-500-Unternehmen, das sich kontinuierlich wandelt. Es ist ein Ort mit enormen Möglichkei…",
+     "body_p2": "Wir unterstützen Unternehmen dabei, ihre digitale Reise mit unseren Dienstleistungen und Lösungen in unseren sechs Fachg…",
+     "body_h2subtitle": "Warum bei Insight arbeiten?",
+     "body_subheading1": "Erfahrung",
+     "body_subheading2": "Kultur",
+     "body_subheading3": "Vorteile",
+     "body_subtext1": "Wir sind ein Fortune 500- und CRN Solution Provider 500-Unternehmen mit einer 30-jährigen Wachstums- und Expansionsgeschichte.",
+     "body_subtext2": "Als einer der besten Arbeitgeber 2023 in allen unseren APAC-Ländern liegt unser Fokus bei unseren Teamkollegen.",
+     "body_subtext3": "Wir bieten ein umfassendes Leistungspaket, einschließlich Elternurlaub, bezahlten Freiwilligentagen und Work-Life-Balance-Tagen."
+    },
+    "nl": {
+     "body_title": "Top Vijf",
+     "body_subtitle": "Redenen om te werken bij Insight",
+     "body_slide1h": "Be Ahead of the Curve",
+     "body_slide1t": "Het is een competitieve wereld waarin de ‘fast-adapters’ voorop lopen en de winnaars zijn. Wij lopen voorop qua technolo…",
+     "body_slide2h": "Geweldig Team",
+     "body_slide2t": "Slim, behulpzaam, ondersteunend en betrouwbaar zijn de kenmerken van onze mensen. De kwaliteit van ons team schept vertr…",
+     "body_slide3h": "Familie op de 1e plaats",
+     "body_slide3t": "We zijn dan wel enorm gedreven door onze passie voor technologie en de klanten, maar we streven naar een evenwicht tusse…",
+     "body_slide4h": "Geavanceerde Technologie",
+     "body_slide4t": "We snappen het, je houdt van tech! Wij zijn een toonaangevende partner van Microsoft en zijn bezig met het uitrollen van…",
+     "body_slide5h": "Stabiel, Succesvol en Dynamisch",
+     "body_slide5t": "Wij bestaan 30 jaar, zijn een Fortune 500-bedrijf en onze aandelenkoers is ongekend hoog ... wij groeien wereldwijd en evolueren razendsnel.",
+     "body_title1": "Wie is Insight?",
+     "body_p1": "Insight is een Fortune 500 wereldwijd bedrijf dat voortdurend transformeert. Het is een plek met enorme kansen. Bij Insi…",
+     "body_p2": "We helpen organisaties hun digitale reis te versnellen met onze diensten en oplossingen op onze zes expertisegebieden: c…",
+     "body_h2subtitle": "Waarom werken bij Insight?",
+     "body_subheading1": "Ervaring",
+     "body_subheading2": "Cultuur",
+     "body_subheading3": "Voordelen",
+     "body_subtext1": "We zijn een Fortune 500- en CRN Solution Provider 500-bedrijf met een 30-jarige geschiedenis van groei en expansie.",
+     "body_subtext2": "Als een van de 2023 Best Places to Work in al onze APAC-landen, begint en eindigt onze focus bij onze teamgenoten.",
+     "body_subtext3": "We bieden een uitgebreid secundaire arbeidsvoorwaardenpakket, inclusief ouderschapsverlof, betaalde vrijwilligersdagen e…"
+    },
+    "zh-cn": {
+     "body_title": "前五个原因",
+     "body_subtitle": "在 Insight 工作",
+     "body_slide1h": "走在曲线的前面",
+     "body_slide1t": "这是一个竞争激烈的世界，快速适应者正在击败慢速适应者。我们处于快速阵营 - 加入我们并获得回报。",
+     "body_slide2h": "伟大的队友",
+     "body_slide2t": "聪明、乐于助人、乐于助人且值得信赖；我们员工的素质和可靠性创造了信心和保证——我们一起赢了。",
+     "body_slide3h": "家庭第一",
+     "body_slide3t": "我们可能痴迷于技术，但我们知道你不是机器人——我们的目标是支持工作与生活的平衡，当生活抛出曲线球时，我们支持你照顾好自己和所爱的人。 健康和福祉是第一位的。",
+     "body_slide4h": "尖端技术",
+     "body_slide4t": "我们明白了，你喜欢科技！我们是微软的领先合作伙伴，正在推出我们自己的软件解决方案，让你有机会站在客户端解决方案的前沿，成为 有权有效地工作。",
+     "body_slide5h": "稳定、成功和动态",
+     "body_slide5t": "我们已经 30 岁了，是一家财富 500 强公司，我们的股价处于历史最高水平......我们正在全球范围内发展并快速发展。",
+     "body_title1": "谁是洞察力？",
+     "body_p1": "Insight 是一家不断转型的财富 500 强全球公司。 这是一个充满机遇的地方。 在 Insight，您有机会发展您的职业生涯，并在此过程中实现您自己和我们客户业务的转型。",
+     "body_p2": "我们通过跨越六个专业领域的服务和解决方案帮助组织加快数字化之旅：网络安全、数据和人工智能、智能边缘、现代应用程序、现代基础设施和现代工作场所。",
+     "body_h2subtitle": "为什么在 Insight 工作？",
+     "body_subheading1": "经验",
+     "body_subheading2": "文化",
+     "body_subheading3": "好处",
+     "body_subtext1": "我们是财富 500 强和 CRN 解决方案提供商 500 强公司，拥有 30 年的发展和扩张历史。",
+     "body_subtext2": "作为亚太地区所有国家/地区的 2023 年最佳工作场所之一，我们的重点从我们的队友开始和结束。",
+     "body_subtext3": "我们提供全面的福利待遇，包括育儿假、带薪志愿者日和工作生活平衡日。"
+    }
+   },
+   "custom_html": {
+    "en-gb": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://uk.insight.com/en_GB/knowledge-base/policies/p…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "en-us": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://www.insight.com/en_US/help/terms-and-policies.…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "en-ca": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://www.insight.com/en_US/help/terms-and-policies.…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "en": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://www.insight.com/en_US/help/terms-and-policies.…",
+     "footer_text3": "<a href='https://www.insight.com/en_US/help/privacy-policy.html' target='_blank'>Insight Privacy Policy</a>",
+     "header_text1": ""
+    },
+    "es": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href=' https://es.insight.com/es_ES/knowledge-base/policies/…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "it": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://it.insight.com/it_IT/knowledge-base/policies/p…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "fr": {
+     "footer_text1": "Nous sommes un employeur en faveur de l'égalité des chances.",
+     "footer_text2": "Nous utilisons des cookies pour améliorer votre expérience sur ce site. <a href='https://fr.insight.com/fr_FR/knowledge-…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "de": {
+     "footer_text3": "Wenn Sie Ihre Bewerbung auf dieser Plattform hochladen, wird Ihre Bewerbung, einschließlich aller darin enthaltenen pers…",
+     "footer_text1": "",
+     "footer_text2": "Wir verwenden Cookies, um Ihr Erlebnis auf dieser Website zu verbessern. <a href='https://de.insight.com/de_DE/knowledge…",
+     "header_text1": ""
+    },
+    "nl": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://nl.insight.com/nl_NL/knowledge-base/policies/p…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "sv": {
+     "footer_text1": "We are an equal opportunity employer",
+     "footer_text2": "We use cookies to improve your experience on this site.  <a href='https://se.insight.com/sv_SE/knowledge-base/policies/p…",
+     "footer_text3": "",
+     "header_text1": ""
+    },
+    "zh-cn": {
+     "footer_text1": "我们是一个机会均等的雇主",
+     "footer_text2": "我们使用 cookie 来改善您在此网站上的体验。<a href='https://www.insight.com/en_US/help/terms-and-policies.html' title=' Insight | 条款和 Poli…",
+     "footer_text3": "",
+     "header_text1": ""
+    }
+   }
+  },
+  "privacyLink": "https://www.insight.com/en_US/help/privacy-policy.html",
+  "custom_style": {
+   "css": "#EFSmartApplyContainer.copilot-open { margin: inherit; } @font-face {font-family: klinicslab; src: url('https://static.v…"
+  },
+  "page_image": "https://static.vscdn.net/images/careers/demo/insight/1666822984::Insight_Banner.png",
+  "page_title": "Careers at Insight",
+  "job_page_title": "Careers at Insight",
+  "page_description": "Careers at Insight",
+  "talentNetworkBranding": {
+   "custom_html": {
+    "header": "",
+    "footer": ""
+   }
+  },
+  "talentNetworkHeroBanner": {
+   "useImage": 1,
+   "opacity": 1,
+   "image": "https://static.vscdn.net/images/careers/demo/insight/1666823005::insightbanner.png",
+   "hideInMobileView": true
+  },
+  "custom_html": {
+   "footer": "<footer style='background: #222; !important; height:245px;'><div class='container' style='padding-bottom: 40px; max-widt…",
+   "header": ""
+  },
+  "custom_head_scripts": {
+   "HOME_PAGE_LOAD": "",
+   "SINGLE_POSITION_PAGE_LOAD": "",
+   "APPLY_FORM_PAGE_LOAD": "",
+   "SUCCESS_FORM_PAGE_LOAD": "",
+   "JOIN_TALENT_NETWORK_PAGE_LOAD": ""
+  },
+  "custom_events_scripts": {
+   "position_apply_scripts": [
+    "const address = applicationData[`${positionData.id}`]?.filter((q) => (q.question_id === 'q_address'))?.[0]; const countr…",
+    "const address = applicationData[`${positionData.id}`]?.filter((q) => (q.question_id === 'q_address'))?.[0];  const count…",
+    "const eeo_gender = applicationData[`${positionData.id}`]?.filter((q) => (q.question_id === 'q_appGender'))?.[0];  const …",
+    "const job_applicability_conf = applicationData[`${positionData.id}`]?.filter((q) => (q.question_id === 'q_custWorkAuthUS…",
+    "console.log('Digital_data_created')",
+    "console.log(JSON.stringify(window.digitalData))",
+    "_satellite.track('Postion_form_submitted', { Postion_form_submitted_key : 'Submission_completed' });",
+    "console.log('Position_Apply_script_ran')"
+   ],
+   "position_details_scripts": [
+    "console.log(JSON.stringify(positionDetailsData.ats_job_id))"
+   ]
+  },
+  "position_click_scripts": [
+   "window.ste_statistic = window.ste_statistic || [];",
+   "window.ste_statistic.push({action: \"job.view\",data: {job: {id: window.PCS_PARAMS.ATS_JOB_ID}}});"
+  ],
+  "defaultState": {
+   "pymww": true
+  },
+  "links": {
+   "videos": [
+    "https://www.youtube.com/embed/UookhgimKzI",
+    "https://www.youtube.com/watch?v=PQvpuMw6PHc",
+    "https://www.youtube.com/embed/2nJ4MxBb5h8"
+   ]
+  },
+  "customContent": {
+   "positionSections": [
+    {
+     "title": "",
+     "body": "<div class='container-fluid' style='max-width:900px;'><div class='col-sm-12'><table><tr><td width=\"45%\"></td><td><h2 sty…"
+    }
+   ]
+  },
+  "advancedSearchOptions": [
+   {
+    "key": "skills",
+    "name": "Your Relevant Skills",
+    "visible": false
+   },
+   {
+    "key": "seniority",
+    "name": "Experience Level",
+    "visible": true
+   },
+   {
+    "key": "Strategy",
+    "name": "Strategy",
+    "visible": false
+   },
+   {
+    "key": "apacfunction",
+    "name": "Department",
+    "visible": true
+   },
+   {
+    "key": "StrategyEMEA",
+    "name": "Department/Function",
+    "visible": false
+   },
+   {
+    "key": "division",
+    "name": "Division",
+    "visible": false
+   },
+   {
+    "key": "country",
+    "name": "Country",
+    "visible": true
+   }
+  ],
+  "hideFilters": false,
+  "hideJobCart": true,
+  "recaptcha_enabled": 1,
+  "showLoggedOutNotificationsPrivacyPolicy": true,
+  "hideEightfoldBranding": false,
+  "customJobDescEnhancedTableGate": false
+ },
+ "debug": {},
+ "count": 9,
+ "countFilterByMatchScore": null,
+ "location_user": "any",
+ "location_used": "",
+ "locationInsights": null,
+ "showWizard": 1,
+ "disableLocationSearchDropdown": false,
+ "pcsAutocompleteLocationEnabled": 0,
+ "recommended_star_threshold": 4.5,
+ "mocTitle": null,
+ "fuzzyResultsReturned": false,
+ "query": {
+  "query": null,
+  "location": "",
+  "department": [],
+  "skill": [],
+  "seniority": [],
+  "pid": "",
+  "skills": [],
+  "Strategy": [],
+  "StrategyEMEA": [],
+  "division": [],
+  "apacfunction": [],
+  "country": []
+ },
+ "userTitles": [],
+ "isThinProfile": false,
+ "veteranProgramDetails": [],
+ "enableTargetedResume": false,
+ "jobCardConfig": null,
+ "facetDisplaySort": {
+  "skills": "alpha_asc",
+  "Strategy": "alpha_asc",
+  "StrategyEMEA": "alpha_asc",
+  "seniority": "alpha_asc",
+  "division": "alpha_asc",
+  "apacfunction": "alpha_asc",
+  "country": "alpha_asc",
+  "locations": "count_desc"
+ },
+ "facets": {
+  "skills": {},
+  "Strategy": {},
+  "StrategyEMEA": {},
+  "seniority": {
+   "Director": 3,
+   "Mid/Senior": 6
+  },
+  "division": {
+   "anz sales": 1,
+   "apac services": 8
+  },
+  "apacfunction": {
+   "sales": 1,
+   "services": 8
+  },
+  "country": {},
+  "locations": {
+   "Remote": 999999,
+   "WA, Australia": 3,
+   "NSW, Australia": 3,
+   "SA, Australia": 1,
+   "Auckland, New Zealand": 1,
+   "QLD, Australia": 1
+  }
+ },
+ "locationRadiusConfig": {
+  "showLocationRadius": false,
+  "locationRadiusType": "km"
+ },
+ "isSubQuery": false,
+ "positions": [
+  {
+   "id": 171844046480,
+   "name": "Account Director (Services)",
+   "posting_name": "Account Director (Services)",
+   "location": "Perth,Australia",
+   "locations": [
+    "Perth,Australia"
+   ],
+   "hot": 0,
+   "department": "Services",
+   "business_unit": "APAC",
+   "t_update": 1794184346,
+   "t_create": 1793780446,
+   "ats_job_id": "106912",
+   "display_job_id": "106912",
+   "type": "ATS",
+   "id_locale": "106912-en_US",
+   "job_description": "",
+   "locale": "en_US",
+   "stars": 0.0,
+   "medallionProgram": null,
+   "location_flexibility": null,
+   "work_location_option": "onsite",
+   "canonicalPositionUrl": "https://insight.eightfold.ai/careers/job/171844046480",
+   "isPrivate": false
+  },
+  {
+   "id": 171844046479,
+   "name": "Account Director (Services)",
+   "posting_name": "Account Director (Services)",
+   "location": "Adelaide,Australia",
+   "locations": [
+    "Adelaide,Australia"
+   ],
+   "hot": 0,
+   "department": "Services",
+   "business_unit": "APAC",
+   "t_update": 1794184451,
+   "t_create": 1793780421,
+   "ats_job_id": "106911",
+   "display_job_id": "106911",
+   "type": "ATS",
+   "id_locale": "106911-en_US",
+   "job_description": "",
+   "locale": "en_US",
+   "stars": 0.0,
+   "medallionProgram": null,
+   "location_flexibility": null,
+   "work_location_option": "onsite",
+   "canonicalPositionUrl": "https://insight.eightfold.ai/careers/job/171844046479",
+   "isPrivate": false
+  }
+ ]
+}
